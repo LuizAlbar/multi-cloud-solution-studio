@@ -1,0 +1,1383 @@
+{
+  "catalogVersion": "1.0.0",
+  "totalServices": 153,
+  "services": [
+    {
+      "serviceId": "gcp-cloud-run",
+      "providerId": "gcp",
+      "category": "compute",
+      "displayName": "Cloud Run",
+      "shortDescription": "Ambiente serverless totalmente gerenciado para executar contêineres.",
+      "officialDocsUrl": "https://cloud.google.com/run/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-compute-engine",
+      "providerId": "gcp",
+      "category": "compute",
+      "displayName": "Compute Engine",
+      "shortDescription": "Máquinas virtuais escaláveis e configuráveis no Google Cloud.",
+      "officialDocsUrl": "https://cloud.google.com/compute/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-app-engine",
+      "providerId": "gcp",
+      "category": "compute",
+      "displayName": "App Engine",
+      "shortDescription": "Plataforma PaaS serverless para hospedar aplicativos web em escala.",
+      "officialDocsUrl": "https://cloud.google.com/appengine/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-functions",
+      "providerId": "gcp",
+      "category": "compute",
+      "displayName": "Cloud Functions",
+      "shortDescription": "Funções serverless orientadas a eventos para microsserviços rápidos.",
+      "officialDocsUrl": "https://cloud.google.com/functions/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-batch",
+      "providerId": "gcp",
+      "category": "compute",
+      "displayName": "Cloud Batch",
+      "shortDescription": "Serviço totalmente gerenciado para agendar e executar trabalhos em lote e HPC.",
+      "officialDocsUrl": "https://cloud.google.com/batch/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-gke",
+      "providerId": "gcp",
+      "category": "containers",
+      "displayName": "Google Kubernetes Engine (GKE)",
+      "shortDescription": "Serviço gerenciado líder de orquestração de contêineres Kubernetes.",
+      "officialDocsUrl": "https://cloud.google.com/kubernetes-engine/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-artifact-registry",
+      "providerId": "gcp",
+      "category": "containers",
+      "displayName": "Artifact Registry",
+      "shortDescription": "Gerenciamento universal e seguro de contêineres e pacotes de software.",
+      "officialDocsUrl": "https://cloud.google.com/artifact-registry/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-build",
+      "providerId": "gcp",
+      "category": "dev-tools",
+      "displayName": "Cloud Build",
+      "shortDescription": "Serviço serverless de integração contínua e entrega contínua (CI/CD).",
+      "officialDocsUrl": "https://cloud.google.com/build/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-storage",
+      "providerId": "gcp",
+      "category": "storage",
+      "displayName": "Cloud Storage",
+      "shortDescription": "Armazenamento de objetos seguro, altamente durável e escalável globalmente.",
+      "officialDocsUrl": "https://cloud.google.com/storage/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-filestore",
+      "providerId": "gcp",
+      "category": "storage",
+      "displayName": "Filestore",
+      "shortDescription": "Armazenamento de arquivos NFS totalmente gerenciado para GKE e Compute Engine.",
+      "officialDocsUrl": "https://cloud.google.com/filestore/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-persistent-disk",
+      "providerId": "gcp",
+      "category": "storage",
+      "displayName": "Persistent Disk",
+      "shortDescription": "Armazenamento em bloco confiável e de alto desempenho para VMs do Google Cloud.",
+      "officialDocsUrl": "https://cloud.google.com/compute/docs/disks",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-sql",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "Cloud SQL",
+      "shortDescription": "Serviço gerenciado de banco de dados relacional (PostgreSQL, MySQL, SQL Server).",
+      "officialDocsUrl": "https://cloud.google.com/sql/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-spanner",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "Cloud Spanner",
+      "shortDescription": "Banco de dados relacional distribuído globalmente com consistência estrita e SLA de 99,999%.",
+      "officialDocsUrl": "https://cloud.google.com/spanner/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-firestore",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "Firestore",
+      "shortDescription": "Banco de dados de documentos NoSQL serverless com sincronização em tempo real.",
+      "officialDocsUrl": "https://cloud.google.com/firestore/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-bigtable",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "Cloud Bigtable",
+      "shortDescription": "Banco de dados NoSQL de baixa latência em escala de petabytes para cargas analíticas e IoT.",
+      "officialDocsUrl": "https://cloud.google.com/bigtable/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-memorystore",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "Memorystore (Redis & Valkey)",
+      "shortDescription": "Serviço de armazenamento em cache na memória totalmente gerenciado para Redis.",
+      "officialDocsUrl": "https://cloud.google.com/memorystore/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-alloydb",
+      "providerId": "gcp",
+      "category": "databases",
+      "displayName": "AlloyDB for PostgreSQL",
+      "shortDescription": "Banco de dados relacional compatível com PostgreSQL moderno para cargas transacionais e analíticas.",
+      "officialDocsUrl": "https://cloud.google.com/alloydb/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-load-balancing",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Cloud Load Balancing",
+      "shortDescription": "Balanceamento de carga escalável e de alto desempenho no Google Cloud.",
+      "officialDocsUrl": "https://cloud.google.com/load-balancing/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-dns",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Cloud DNS",
+      "shortDescription": "Serviço DNS autoritativo e confiável com alta disponibilidade.",
+      "officialDocsUrl": "https://cloud.google.com/dns/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-cdn",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Cloud CDN",
+      "shortDescription": "Rede de entrega de conteúdo global de baixa latência usando a rede do Google.",
+      "officialDocsUrl": "https://cloud.google.com/cdn/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-armor",
+      "providerId": "gcp",
+      "category": "security",
+      "displayName": "Cloud Armor",
+      "shortDescription": "Defesa contra negação de serviço distribuída (DDoS) e firewall de aplicativos Web (WAF).",
+      "officialDocsUrl": "https://cloud.google.com/armor/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-vpc",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Virtual Private Cloud (VPC)",
+      "shortDescription": "Rede virtual privada global e gerenciada para recursos do Google Cloud.",
+      "officialDocsUrl": "https://cloud.google.com/vpc/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-nat",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Cloud NAT",
+      "shortDescription": "Conectividade de saída de Internet para instâncias sem endereço IP público.",
+      "officialDocsUrl": "https://cloud.google.com/nat/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-interconnect",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Cloud Interconnect",
+      "shortDescription": "Conexões diretas e privadas entre a infraestrutura local e o Google Cloud.",
+      "officialDocsUrl": "https://cloud.google.com/network-connectivity/docs/interconnect",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-private-service-connect",
+      "providerId": "gcp",
+      "category": "networking",
+      "displayName": "Private Service Connect",
+      "shortDescription": "Acesso privado a serviços gerenciados e APIs do Google via endereços IP internos.",
+      "officialDocsUrl": "https://cloud.google.com/vpc/docs/private-service-connect",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-bigquery",
+      "providerId": "gcp",
+      "category": "analytics",
+      "displayName": "BigQuery",
+      "shortDescription": "Data warehouse corporativo serverless para análise rápida de petabytes.",
+      "officialDocsUrl": "https://cloud.google.com/bigquery/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-pubsub",
+      "providerId": "gcp",
+      "category": "integration",
+      "displayName": "Pub/Sub",
+      "shortDescription": "Serviço global de mensageria assíncrona escalável e orientado a eventos.",
+      "officialDocsUrl": "https://cloud.google.com/pubsub/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-dataflow",
+      "providerId": "gcp",
+      "category": "analytics",
+      "displayName": "Dataflow",
+      "shortDescription": "Processamento de dados em streaming e batch totalmente gerenciado baseado em Apache Beam.",
+      "officialDocsUrl": "https://cloud.google.com/dataflow/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-dataproc",
+      "providerId": "gcp",
+      "category": "analytics",
+      "displayName": "Dataproc",
+      "shortDescription": "Serviço gerenciado de Apache Spark e Hadoop para análise de dados em larga escala.",
+      "officialDocsUrl": "https://cloud.google.com/dataproc/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-datastream",
+      "providerId": "gcp",
+      "category": "analytics",
+      "displayName": "Datastream",
+      "shortDescription": "Captura e replicação de dados de alteração (CDC) serverless para BigQuery e Cloud Storage.",
+      "officialDocsUrl": "https://cloud.google.com/datastream/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-looker",
+      "providerId": "gcp",
+      "category": "analytics",
+      "displayName": "Looker",
+      "shortDescription": "Plataforma empresarial de business intelligence e visualização de dados.",
+      "officialDocsUrl": "https://cloud.google.com/looker/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-vertex-ai",
+      "providerId": "gcp",
+      "category": "ai-ml",
+      "displayName": "Vertex AI",
+      "shortDescription": "Plataforma unificada de inteligência artificial e modelos generativos (Gemini).",
+      "officialDocsUrl": "https://cloud.google.com/vertex-ai/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-document-ai",
+      "providerId": "gcp",
+      "category": "ai-ml",
+      "displayName": "Document AI",
+      "shortDescription": "Extração estruturada de dados de documentos não estruturados com modelos de IA.",
+      "officialDocsUrl": "https://cloud.google.com/document-ai/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-iam",
+      "providerId": "gcp",
+      "category": "security",
+      "displayName": "Cloud IAM",
+      "shortDescription": "Controle granular de acesso e gerenciamento de identidades para recursos cloud.",
+      "officialDocsUrl": "https://cloud.google.com/iam/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-secret-manager",
+      "providerId": "gcp",
+      "category": "security",
+      "displayName": "Secret Manager",
+      "shortDescription": "Armazenamento seguro e centralizado de chaves de API, senhas e certificados.",
+      "officialDocsUrl": "https://cloud.google.com/secret-manager/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-kms",
+      "providerId": "gcp",
+      "category": "security",
+      "displayName": "Cloud KMS",
+      "shortDescription": "Serviço gerenciado de gerenciamento e custódia de chaves de criptografia.",
+      "officialDocsUrl": "https://cloud.google.com/kms/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-logging",
+      "providerId": "gcp",
+      "category": "observability",
+      "displayName": "Cloud Logging",
+      "shortDescription": "Gerenciamento e análise de registros de log em tempo real e em grande escala.",
+      "officialDocsUrl": "https://cloud.google.com/logging/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "gcp-cloud-monitoring",
+      "providerId": "gcp",
+      "category": "observability",
+      "displayName": "Cloud Monitoring",
+      "shortDescription": "Coleta e visualização de métricas e alertas sobre a integridade da infraestrutura.",
+      "officialDocsUrl": "https://cloud.google.com/monitoring/docs",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-ec2",
+      "providerId": "aws",
+      "category": "compute",
+      "displayName": "Amazon EC2",
+      "shortDescription": "Capacidade de computação redimensionável e segura na nuvem AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/ec2/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-lambda",
+      "providerId": "aws",
+      "category": "compute",
+      "displayName": "AWS Lambda",
+      "shortDescription": "Execução de código orientada a eventos sem provisionar servidores.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/lambda/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-lightsail",
+      "providerId": "aws",
+      "category": "compute",
+      "displayName": "Amazon Lightsail",
+      "shortDescription": "Servidores virtuais simplificados para projetos rápidos e sites gerenciados.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/lightsail/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-elastic-beanstalk",
+      "providerId": "aws",
+      "category": "compute",
+      "displayName": "AWS Elastic Beanstalk",
+      "shortDescription": "Serviço PaaS para implantação e escalabilidade automática de aplicações web.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/elasticbeanstalk/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-ecs",
+      "providerId": "aws",
+      "category": "containers",
+      "displayName": "Amazon ECS",
+      "shortDescription": "Serviço totalmente gerenciado de orquestração de contêineres.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/ecs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-eks",
+      "providerId": "aws",
+      "category": "containers",
+      "displayName": "Amazon EKS",
+      "shortDescription": "Serviço gerenciado de orquestração de contêineres Kubernetes na AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/eks/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-fargate",
+      "providerId": "aws",
+      "category": "containers",
+      "displayName": "AWS Fargate",
+      "shortDescription": "Mecanismo de computação serverless para ECS e EKS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/AmazonECS/latest/userguide/what-is-fargate.html",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-ecr",
+      "providerId": "aws",
+      "category": "containers",
+      "displayName": "Amazon ECR",
+      "shortDescription": "Registro de imagens de contêiner gerenciado de alto desempenho e segurança.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/ecr/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-s3",
+      "providerId": "aws",
+      "category": "storage",
+      "displayName": "Amazon S3",
+      "shortDescription": "Armazenamento de objetos líder do setor com alta durabilidade e escalabilidade.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/s3/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-ebs",
+      "providerId": "aws",
+      "category": "storage",
+      "displayName": "Amazon EBS",
+      "shortDescription": "Volumes de armazenamento em bloco de alta performance projetados para instâncias EC2.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/ebs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-efs",
+      "providerId": "aws",
+      "category": "storage",
+      "displayName": "Amazon EFS",
+      "shortDescription": "Sistema de arquivos elástico e sem servidor para EC2 e contêineres.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/efs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-rds",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon RDS",
+      "shortDescription": "Serviço gerenciado de banco de dados relacional para MySQL, PostgreSQL e MariaDB.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/rds/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-aurora",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon Aurora",
+      "shortDescription": "Banco de dados relacional de alto desempenho compatível com MySQL e PostgreSQL.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-dynamodb",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon DynamoDB",
+      "shortDescription": "Banco de dados NoSQL serverless de chave-valor com latência consistente de milissegundo.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/dynamodb/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-elasticache",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon ElastiCache",
+      "shortDescription": "Armazenamento em cache na memória totalmente gerenciado para Redis e Memcached.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/elasticache/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-opensearch",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "Amazon OpenSearch Service",
+      "shortDescription": "Serviço gerenciado de busca e análise interativa de dados e logs.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/opensearch-service/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-vpc",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "Amazon VPC",
+      "shortDescription": "Rede virtual isolada para provisionamento e segurança de recursos AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/vpc/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-route53",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "Amazon Route 53",
+      "shortDescription": "Serviço da Web de DNS autoritativo e gerenciamento de tráfego na nuvem.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/route53/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-cloudfront",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "Amazon CloudFront",
+      "shortDescription": "Rede de entrega de conteúdo (CDN) global e segura para entrega rápida de dados.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/cloudfront/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-api-gateway",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "Amazon API Gateway",
+      "shortDescription": "Crie, publique, mantenha, monitore e proteja APIs em qualquer escala.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/apigateway/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-elb",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "Elastic Load Balancing (ALB/NLB)",
+      "shortDescription": "Distribuição automatizada de tráfego de entrada em múltiplos destinos e zonas.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/elasticloadbalancing/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-direct-connect",
+      "providerId": "aws",
+      "category": "networking",
+      "displayName": "AWS Direct Connect",
+      "shortDescription": "Link de rede dedicado privado entre seu datacenter local e a AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/directconnect/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-athena",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "Amazon Athena",
+      "shortDescription": "Serviço de consulta interativa serverless para analisar dados no S3 usando SQL.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/athena/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-redshift",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "Amazon Redshift",
+      "shortDescription": "Data warehouse corporativo em nuvem rápido, escalável e de baixo custo.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/redshift/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-kinesis",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "Amazon Kinesis",
+      "shortDescription": "Coleta e processamento de dados de streaming em tempo real em larga escala.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/kinesis/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-glue",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "AWS Glue",
+      "shortDescription": "Serviço de integração de dados serverless que facilita descoberta e preparação ETL.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/glue/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-bedrock",
+      "providerId": "aws",
+      "category": "ai-ml",
+      "displayName": "Amazon Bedrock",
+      "shortDescription": "Serviço gerenciado que disponibiliza FMs dos principais provedores via API.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/bedrock/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-sagemaker",
+      "providerId": "aws",
+      "category": "ai-ml",
+      "displayName": "Amazon SageMaker",
+      "shortDescription": "Plataforma completa para construir, treinar e implantar modelos de Machine Learning.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/sagemaker/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-iam",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "AWS IAM",
+      "shortDescription": "Gerenciamento seguro de identidades e controle de acesso a serviços e recursos da AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/iam/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-kms",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "AWS KMS",
+      "shortDescription": "Criação e controle de chaves criptográficas usadas para criptografar dados.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/kms/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-secrets-manager",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "AWS Secrets Manager",
+      "shortDescription": "Geração, rotação e recuperação de credenciais de banco de dados e chaves de API.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/secretsmanager/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-cognito",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "Amazon Cognito",
+      "shortDescription": "Autenticação simples e segura de usuários com suporte a login federado.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/cognito/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-waf",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "AWS WAF",
+      "shortDescription": "Proteção de aplicações web contra explorações da web comuns que afetam a disponibilidade.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/waf/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-cloudwatch",
+      "providerId": "aws",
+      "category": "observability",
+      "displayName": "Amazon CloudWatch",
+      "shortDescription": "Monitoramento e observabilidade de recursos e aplicações da AWS em tempo real.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/cloudwatch/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-cloudtrail",
+      "providerId": "aws",
+      "category": "observability",
+      "displayName": "AWS CloudTrail",
+      "shortDescription": "Rastreamento de atividades de usuários e chamadas de API em toda a infraestrutura da AWS.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/cloudtrail/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-sqs",
+      "providerId": "aws",
+      "category": "integration",
+      "displayName": "Amazon SQS",
+      "shortDescription": "Serviço de filas de mensagens totalmente gerenciado para desacoplar microsserviços.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/sqs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-sns",
+      "providerId": "aws",
+      "category": "integration",
+      "displayName": "Amazon SNS",
+      "shortDescription": "Serviço pub/sub totalmente gerenciado para mensagens de muitos para muitos.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/sns/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-eventbridge",
+      "providerId": "aws",
+      "category": "integration",
+      "displayName": "Amazon EventBridge",
+      "shortDescription": "Barramento de eventos serverless que conecta aplicações usando dados em tempo real.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/eventbridge/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-step-functions",
+      "providerId": "aws",
+      "category": "integration",
+      "displayName": "AWS Step Functions",
+      "shortDescription": "Orquestrador visual serverless para fluxos de trabalho e microsserviços.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/step-functions/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-app-runner",
+      "providerId": "aws",
+      "category": "compute",
+      "displayName": "AWS App Runner",
+      "shortDescription": "Serviço totalmente gerenciado que facilita a implantação de aplicações web e APIs em contêineres.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/apprunner/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-documentdb",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon DocumentDB",
+      "shortDescription": "Serviço de banco de dados NoSQL de documentos gerenciado e compatível com MongoDB.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/documentdb/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-neptune",
+      "providerId": "aws",
+      "category": "databases",
+      "displayName": "Amazon Neptune",
+      "shortDescription": "Serviço gerenciado de banco de dados de grafo rápido e confiável para aplicações com dados altamente conectados.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/neptune/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-msk",
+      "providerId": "aws",
+      "category": "integration",
+      "displayName": "Amazon MSK (Managed Kafka)",
+      "shortDescription": "Serviço totalmente gerenciado do Apache Kafka para ingestão e streaming contínuo de eventos.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/msk/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-quicksight",
+      "providerId": "aws",
+      "category": "analytics",
+      "displayName": "Amazon QuickSight",
+      "shortDescription": "Serviço de Business Intelligence na nuvem com machine learning e relatórios visuais integrados.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/quicksight/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-guardduty",
+      "providerId": "aws",
+      "category": "security",
+      "displayName": "Amazon GuardDuty",
+      "shortDescription": "Serviço de detecção inteligente de ameaças que monitora continuamente comportamentos maliciosos.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/guardduty/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "aws-xray",
+      "providerId": "aws",
+      "category": "observability",
+      "displayName": "AWS X-Ray",
+      "shortDescription": "Análise e depuração de aplicações distribuídas e microsserviços em produção.",
+      "officialDocsUrl": "https://docs.aws.amazon.com/xray/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-virtual-machines",
+      "providerId": "azure",
+      "category": "compute",
+      "displayName": "Azure Virtual Machines",
+      "shortDescription": "Capacidade de computação sob demanda para cargas de trabalho Windows e Linux.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/virtual-machines/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-functions",
+      "providerId": "azure",
+      "category": "compute",
+      "displayName": "Azure Functions",
+      "shortDescription": "Solução de computação serverless controlada por eventos.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/azure-functions/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-app-service",
+      "providerId": "azure",
+      "category": "compute",
+      "displayName": "Azure App Service",
+      "shortDescription": "Hospedagem PaaS totalmente gerenciada para aplicativos Web, APIs e backends móveis.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/app-service/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-aks",
+      "providerId": "azure",
+      "category": "containers",
+      "displayName": "Azure Kubernetes Service (AKS)",
+      "shortDescription": "Gerencie e dimensione clusters Kubernetes gerenciados no Azure.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/aks/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-container-apps",
+      "providerId": "azure",
+      "category": "containers",
+      "displayName": "Azure Container Apps",
+      "shortDescription": "Execute microsserviços e contêineres serverless em uma plataforma Kubernetes sem servidor.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/container-apps/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-container-registry",
+      "providerId": "azure",
+      "category": "containers",
+      "displayName": "Azure Container Registry (ACR)",
+      "shortDescription": "Registro privado do Docker gerenciado para armazenar imagens de contêiner OCI.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/container-registry/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-blob-storage",
+      "providerId": "azure",
+      "category": "storage",
+      "displayName": "Azure Blob Storage",
+      "shortDescription": "Armazenamento de objetos massivamente escalável para dados não estruturados.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/storage/blobs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-files",
+      "providerId": "azure",
+      "category": "storage",
+      "displayName": "Azure Files",
+      "shortDescription": "Compartilhamento de arquivos em nuvem totalmente gerenciado e acessível via SMB/NFS.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/storage/files/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-sql-database",
+      "providerId": "azure",
+      "category": "databases",
+      "displayName": "Azure SQL Database",
+      "shortDescription": "Serviço de banco de dados relacional gerenciado e inteligente com tecnologia SQL Server.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/azure-sql/database/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-cosmos-db",
+      "providerId": "azure",
+      "category": "databases",
+      "displayName": "Azure Cosmos DB",
+      "shortDescription": "Banco de dados distribuído globalmente com replicação multirregião e baixa latência.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/cosmos-db/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-postgres",
+      "providerId": "azure",
+      "category": "databases",
+      "displayName": "Azure Database for PostgreSQL",
+      "shortDescription": "Banco de dados relacional PostgreSQL totalmente gerenciado no Azure.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/postgresql/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-redis",
+      "providerId": "azure",
+      "category": "databases",
+      "displayName": "Azure Cache for Redis",
+      "shortDescription": "Cache na memória de alto rendimento e baixa latência baseado no software Redis.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-vnet",
+      "providerId": "azure",
+      "category": "networking",
+      "displayName": "Azure Virtual Network (VNet)",
+      "shortDescription": "Rede privada fundamental para recursos em nuvem no Microsoft Azure.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/virtual-network/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-front-door",
+      "providerId": "azure",
+      "category": "networking",
+      "displayName": "Azure Front Door",
+      "shortDescription": "Rede de entrega de conteúdo moderna e nuvem segura de borda.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/frontdoor/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-application-gateway",
+      "providerId": "azure",
+      "category": "networking",
+      "displayName": "Azure Application Gateway",
+      "shortDescription": "Balanceador de carga de tráfego web de camada 7 com WAF integrado.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/application-gateway/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-load-balancer",
+      "providerId": "azure",
+      "category": "networking",
+      "displayName": "Azure Load Balancer",
+      "shortDescription": "Balanceamento de carga de camada 4 de latência ultrabaixa para conexões TCP/UDP.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/load-balancer/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-synapse",
+      "providerId": "azure",
+      "category": "analytics",
+      "displayName": "Azure Synapse Analytics",
+      "shortDescription": "Serviço corporativo de análise que reúne integração de dados, big data e data warehousing.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/synapse-analytics/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-data-factory",
+      "providerId": "azure",
+      "category": "analytics",
+      "displayName": "Azure Data Factory (ADF)",
+      "shortDescription": "Serviço de integração de dados em nuvem para orquestrar fluxos de trabalho ETL/ELT.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/data-factory/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-event-hubs",
+      "providerId": "azure",
+      "category": "integration",
+      "displayName": "Azure Event Hubs",
+      "shortDescription": "Plataforma de streaming de eventos de Big Data totalmente compatível com Apache Kafka.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/event-hubs/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-openai",
+      "providerId": "azure",
+      "category": "ai-ml",
+      "displayName": "Azure OpenAI Service",
+      "shortDescription": "Acesso a modelos avançados de IA da OpenAI (GPT-4o) com segurança e conformidade do Azure.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/ai-services/openai/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-ai-search",
+      "providerId": "azure",
+      "category": "ai-ml",
+      "displayName": "Azure AI Search",
+      "shortDescription": "Recuperação de informações e busca vetorial de ponta para aplicações RAG e GenAI.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/search/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-entra-id",
+      "providerId": "azure",
+      "category": "security",
+      "displayName": "Microsoft Entra ID (Azure AD)",
+      "shortDescription": "Serviço de gerenciamento de identidade e acesso baseado em nuvem (anteriormente Azure AD).",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/entra/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-key-vault",
+      "providerId": "azure",
+      "category": "security",
+      "displayName": "Azure Key Vault",
+      "shortDescription": "Armazenamento e gerenciamento seguro de chaves criptográficas, senhas e certificados.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/key-vault/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-monitor",
+      "providerId": "azure",
+      "category": "observability",
+      "displayName": "Azure Monitor & App Insights",
+      "shortDescription": "Solução completa de observabilidade para coletar, analisar e agir com base na telemetria.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/azure-monitor/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-container-instances",
+      "providerId": "azure",
+      "category": "containers",
+      "displayName": "Azure Container Instances (ACI)",
+      "shortDescription": "Execute contêineres sob demanda em um ambiente serverless gerenciado e sem provisionar VMs.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/container-instances/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-mysql",
+      "providerId": "azure",
+      "category": "databases",
+      "displayName": "Azure Database for MySQL",
+      "shortDescription": "Banco de dados relacional MySQL totalmente gerenciado com alta disponibilidade integrada.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/mysql/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "azure-defender",
+      "providerId": "azure",
+      "category": "security",
+      "displayName": "Microsoft Defender for Cloud",
+      "shortDescription": "Gerenciamento de postura de segurança na nuvem (CSPM) e proteção contra ameaças.",
+      "officialDocsUrl": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-compute",
+      "providerId": "oci",
+      "category": "compute",
+      "displayName": "OCI Compute",
+      "shortDescription": "Instâncias bare metal e máquinas virtuais de alto desempenho.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Compute/Concepts/computeoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-container-registry",
+      "providerId": "oci",
+      "category": "containers",
+      "displayName": "OCI Container Registry (OCIR)",
+      "shortDescription": "Serviço gerenciado de registro de imagens de contêineres compatíveis com Docker e OCI.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Registry/Concepts/registryoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-file-storage",
+      "providerId": "oci",
+      "category": "storage",
+      "displayName": "OCI File Storage (FSS)",
+      "shortDescription": "Sistema de arquivos corporativo resiliente e expansível compatível com NFSv3.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/File/Concepts/filestorageoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-vault",
+      "providerId": "oci",
+      "category": "security",
+      "displayName": "OCI Vault",
+      "shortDescription": "Gerenciamento seguro de chaves de criptografia e credenciais secretas corporativas.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/KeyManagement/Concepts/keyoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-functions",
+      "providerId": "oci",
+      "category": "compute",
+      "displayName": "OCI Functions",
+      "shortDescription": "Plataforma serverless orientada a eventos e baseada em contêineres.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Functions/Concepts/functionsoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-oke",
+      "providerId": "oci",
+      "category": "containers",
+      "displayName": "Oracle Container Engine for Kubernetes (OKE)",
+      "shortDescription": "Serviço gerenciado de orquestração de contêineres corporativo baseado em Kubernetes.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-object-storage",
+      "providerId": "oci",
+      "category": "storage",
+      "displayName": "OCI Object Storage",
+      "shortDescription": "Plataforma de armazenamento de objetos durável e econômica.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-block-volumes",
+      "providerId": "oci",
+      "category": "storage",
+      "displayName": "OCI Block Volumes",
+      "shortDescription": "Armazenamento em bloco de alto desempenho com até 300.000 IOPS por volume.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Block/Concepts/overview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-autonomous-database",
+      "providerId": "oci",
+      "category": "databases",
+      "displayName": "Oracle Autonomous Database",
+      "shortDescription": "Banco de dados em nuvem autônomo com autoajuste, criptografia e escalabilidade.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/autonomous-database-serverless/doc/autonomous-database-serverless-overview.html",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-mysql-heatwave",
+      "providerId": "oci",
+      "category": "databases",
+      "displayName": "MySQL HeatWave",
+      "shortDescription": "Serviço totalmente gerenciado que combina processamento de transações e análise em memória no MySQL.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/mysql-database/index.html",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-postgres",
+      "providerId": "oci",
+      "category": "databases",
+      "displayName": "OCI Database with PostgreSQL",
+      "shortDescription": "Serviço de PostgreSQL gerenciado de alto desempenho com otimização autônoma de armazenamento.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/postgresql/overview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-vcn",
+      "providerId": "oci",
+      "category": "networking",
+      "displayName": "OCI Virtual Cloud Network (VCN)",
+      "shortDescription": "Rede privada virtual definida por software no Oracle Cloud.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-load-balancer",
+      "providerId": "oci",
+      "category": "networking",
+      "displayName": "OCI Load Balancer",
+      "shortDescription": "Distribuição automatizada de tráfego entre múltiplos destinos computacionais.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Balance/Concepts/balanceoverview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-fastconnect",
+      "providerId": "oci",
+      "category": "networking",
+      "displayName": "OCI FastConnect",
+      "shortDescription": "Conexão de rede privada de alta velocidade dedicada entre instalações locais e o OCI.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/fastconnect.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-generative-ai",
+      "providerId": "oci",
+      "category": "ai-ml",
+      "displayName": "OCI Generative AI",
+      "shortDescription": "Modelos de linguagem fundamentais personalizáveis integrados na nuvem da Oracle.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/generative-ai/overview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "oci-iam",
+      "providerId": "oci",
+      "category": "security",
+      "displayName": "OCI Identity and Access Management (IAM)",
+      "shortDescription": "Gerenciamento seguro de acesso a recursos e compartimentos no OCI.",
+      "officialDocsUrl": "https://docs.oracle.com/en-us/iaas/Content/Identity/Concepts/overview.htm",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-workers",
+      "providerId": "cloudflare",
+      "category": "compute",
+      "displayName": "Cloudflare Workers",
+      "shortDescription": "Plataforma serverless de execução na borda global com latência ultrabaixa.",
+      "officialDocsUrl": "https://developers.cloudflare.com/workers/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-pages",
+      "providerId": "cloudflare",
+      "category": "compute",
+      "displayName": "Cloudflare Pages",
+      "shortDescription": "Hospedagem de front-ends jamstack rápida, segura e escalável.",
+      "officialDocsUrl": "https://developers.cloudflare.com/pages/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-durable-objects",
+      "providerId": "cloudflare",
+      "category": "compute",
+      "displayName": "Durable Objects",
+      "shortDescription": "Armazenamento com estado e coordenação consistente fortemente na borda.",
+      "officialDocsUrl": "https://developers.cloudflare.com/durable-objects/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-r2",
+      "providerId": "cloudflare",
+      "category": "storage",
+      "displayName": "Cloudflare R2",
+      "shortDescription": "Armazenamento de objetos compatível com S3 sem taxas de saída de dados (zero egress).",
+      "officialDocsUrl": "https://developers.cloudflare.com/r2/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-kv",
+      "providerId": "cloudflare",
+      "category": "storage",
+      "displayName": "Workers KV",
+      "shortDescription": "Armazenamento de chave-valor distribuído globalmente para leituras de alta frequência.",
+      "officialDocsUrl": "https://developers.cloudflare.com/kv/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-d1",
+      "providerId": "cloudflare",
+      "category": "databases",
+      "displayName": "Cloudflare D1",
+      "shortDescription": "Primeiro banco de dados relacional SQL serverless nativo da borda da Cloudflare.",
+      "officialDocsUrl": "https://developers.cloudflare.com/d1/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-vectorize",
+      "providerId": "cloudflare",
+      "category": "ai-ml",
+      "displayName": "Cloudflare Vectorize",
+      "shortDescription": "Banco de dados vetorial global para busca semântica e aplicações de IA na borda.",
+      "officialDocsUrl": "https://developers.cloudflare.com/vectorize/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-cdn",
+      "providerId": "cloudflare",
+      "category": "networking",
+      "displayName": "Cloudflare CDN",
+      "shortDescription": "Rede global de entrega de conteúdo que acelera sites e aplicativos.",
+      "officialDocsUrl": "https://developers.cloudflare.com/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-dns",
+      "providerId": "cloudflare",
+      "category": "networking",
+      "displayName": "Cloudflare DNS",
+      "shortDescription": "Serviço de DNS autoritativo corporativo e mais rápido do mundo.",
+      "officialDocsUrl": "https://developers.cloudflare.com/dns/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-waf",
+      "providerId": "cloudflare",
+      "category": "security",
+      "displayName": "Cloudflare WAF",
+      "shortDescription": "Firewall de aplicativos Web e proteção avançada contra ataques DDoS.",
+      "officialDocsUrl": "https://developers.cloudflare.com/waf/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-zero-trust",
+      "providerId": "cloudflare",
+      "category": "security",
+      "displayName": "Cloudflare Zero Trust (Access)",
+      "shortDescription": "Segurança de borda Zero Trust para proteger redes, dados e aplicações corporativas.",
+      "officialDocsUrl": "https://developers.cloudflare.com/cloudflare-one/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "cloudflare-queues",
+      "providerId": "cloudflare",
+      "category": "integration",
+      "displayName": "Cloudflare Queues",
+      "shortDescription": "Mensageria e filas serverless para processamento assíncrono com Workers.",
+      "officialDocsUrl": "https://developers.cloudflare.com/queues/",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-vps",
+      "providerId": "hostinger",
+      "category": "compute",
+      "displayName": "Hostinger VPS",
+      "shortDescription": "Servidores virtuais privados de alto desempenho com acesso root completo.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials/vps",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-web-hosting",
+      "providerId": "hostinger",
+      "category": "compute",
+      "displayName": "Hostinger Web Hosting",
+      "shortDescription": "Hospedagem de sites gerenciada, otimizada para PHP e tráfego web.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-cloud-hosting",
+      "providerId": "hostinger",
+      "category": "compute",
+      "displayName": "Hostinger Cloud Hosting",
+      "shortDescription": "Potência de servidor dedicado com a facilidade do painel gerenciado de hospedagem.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials/cloud-hosting",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-wordpress-hosting",
+      "providerId": "hostinger",
+      "category": "compute",
+      "displayName": "Hostinger WordPress Hosting",
+      "shortDescription": "Ambiente de hospedagem de WordPress otimizado com LiteSpeed e CDN integrada.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials/wordpress",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-woocommerce",
+      "providerId": "hostinger",
+      "category": "compute",
+      "displayName": "Hostinger WooCommerce Hosting",
+      "shortDescription": "Hospedagem especializada para comércio eletrônico com alto desempenho de catálogo.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials/woocommerce",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "hostinger-business-email",
+      "providerId": "hostinger",
+      "category": "integration",
+      "displayName": "Hostinger Business Email",
+      "shortDescription": "Serviço profissional de e-mail corporativo com domínio próprio e proteção anti-spam.",
+      "officialDocsUrl": "https://www.hostinger.com/tutorials/email",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-postgres",
+      "providerId": "supabase",
+      "category": "databases",
+      "displayName": "Supabase Postgres",
+      "shortDescription": "Banco de dados relacional PostgreSQL completo com extensões (pgvector, PostGIS) e RLS.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/database",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-auth",
+      "providerId": "supabase",
+      "category": "security",
+      "displayName": "Supabase Auth",
+      "shortDescription": "Sistema de autenticação e gerenciamento de usuários com suporte a OAuth e Magic Links.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/auth",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-storage",
+      "providerId": "supabase",
+      "category": "storage",
+      "displayName": "Supabase Storage",
+      "shortDescription": "Armazenamento e gerenciamento de arquivos grandes com controle de acesso integrado.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/storage",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-edge-functions",
+      "providerId": "supabase",
+      "category": "compute",
+      "displayName": "Supabase Edge Functions",
+      "shortDescription": "Funções Typescript serverless executadas globalmente perto dos usuários via Deno.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/functions",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-realtime",
+      "providerId": "supabase",
+      "category": "integration",
+      "displayName": "Supabase Realtime",
+      "shortDescription": "Transmissão de alterações de banco de dados e eventos em tempo real via WebSockets.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/realtime",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-vector",
+      "providerId": "supabase",
+      "category": "ai-ml",
+      "displayName": "Supabase Vector (pgvector)",
+      "shortDescription": "Busca vetorial e suporte a embeddings nativos usando a extensão pgvector.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/ai",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-graphql",
+      "providerId": "supabase",
+      "category": "integration",
+      "displayName": "Supabase GraphQL (pg_graphql)",
+      "shortDescription": "API GraphQL nativa e de alto desempenho refletida automaticamente do schema do Postgres.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/api/graphql",
+      "lastReviewedAt": "2026-11-14"
+    },
+    {
+      "serviceId": "supabase-vault",
+      "providerId": "supabase",
+      "category": "security",
+      "displayName": "Supabase Vault",
+      "shortDescription": "Extensão do Postgres para gerenciar segredos e chaves de criptografia transparentemente.",
+      "officialDocsUrl": "https://supabase.com/docs/guides/database/vault",
+      "lastReviewedAt": "2026-11-14"
+    }
+  ]
+}

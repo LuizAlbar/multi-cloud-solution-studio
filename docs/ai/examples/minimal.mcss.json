@@ -1,0 +1,50 @@
+{
+  "format": "mcss.diagram",
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "title": "Diagrama Mínimo",
+    "description": "Exemplo minimalista com nós genéricos",
+    "origin": "ai"
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "client",
+        "kind": "generic",
+        "label": "Usuário Web",
+        "position": {
+          "x": 100,
+          "y": 150
+        },
+        "properties": {}
+      },
+      {
+        "id": "server",
+        "kind": "generic",
+        "label": "Servidor de Aplicação",
+        "position": {
+          "x": 450,
+          "y": 150
+        },
+        "properties": {}
+      }
+    ],
+    "edges": [
+      {
+        "id": "e1",
+        "sourceId": "client",
+        "targetId": "server",
+        "direction": "forward",
+        "flowType": "http",
+        "label": "HTTPS"
+      }
+    ],
+    "drawings": [],
+    "scenes": [],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}

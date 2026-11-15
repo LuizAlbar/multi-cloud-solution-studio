@@ -19,6 +19,7 @@ import {
   MoreVertical,
   X,
   Sparkles,
+  Upload,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,6 +29,9 @@ import { ServiceIcon } from '@/features/catalog/components/service-icons';
 import { BrandLogo } from '@/components/brand/brand-logo';
 import { projectRepository, type ProjectSummary } from '@/lib/storage/project-repository';
 import { getCatalogServiceById } from '@/features/catalog/catalog-service';
+import { ImportModal } from '@/features/diagram-format/components/import-modal';
+import { deserializeFromMCSS } from '@/features/diagram-format/serialization/serializer';
+import type { MCSSDiagramDocument } from '@/features/diagram-format/domain/diagram-format';
 import type { ProviderId } from '@/lib/schemas';
 import { cn } from '@/lib/utils';
 
@@ -49,6 +53,15 @@ export default function ProjectsPage() {
 
   // Delete modal state
   const [deletingProject, setDeletingProject] = useState<ProjectSummary | null>(null);
+
+  // Import modal state
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const handleConfirmImport = async (doc: MCSSDiagramDocument) => {
+    const p = deserializeFromMCSS(doc, { titlePrefix: 'Importado' });
+    await projectRepository.saveProject(p);
+    router.push(`/editor?project=${p.id}`);
+  };
 
   const fetchProjects = async () => {
     setIsLoading(true);
@@ -206,6 +219,17 @@ export default function ProjectsPage() {
               <span>Playground</span>
             </Button>
           </Link>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsImportModalOpen(true)}
+            className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs"
+            title="Importar diagrama gerado por IA ou arquivo .mcss.json"
+          >
+            <Upload size={14} className="text-slate-600" />
+            <span>Importar</span>
+          </Button>
 
           <Button
             variant="default"
@@ -652,6 +676,13 @@ export default function ProjectsPage() {
           </div>
         </div>
       )}
+
+      {/* Import Assisted Modal */}
+      <ImportModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        onConfirmImport={handleConfirmImport}
+      />
     </div>
   );
 }

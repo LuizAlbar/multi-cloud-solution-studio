@@ -1,0 +1,100 @@
+{
+  "format": "mcss.diagram",
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "title": "Arquitetura Multicloud Serverless & Analytics",
+    "description": "Exemplo com serviços reais dos 7 provedores",
+    "origin": "ai"
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "cf-edge",
+        "kind": "service",
+        "serviceId": "cloudflare-workers",
+        "label": "Edge Worker & WAF",
+        "position": {
+          "x": 100,
+          "y": 200
+        },
+        "properties": {
+          "region": "Global Anycast"
+        }
+      },
+      {
+        "id": "gcp-api",
+        "kind": "service",
+        "serviceId": "gcp-cloud-run",
+        "label": "API Serverless",
+        "position": {
+          "x": 420,
+          "y": 200
+        },
+        "properties": {
+          "environment": "production",
+          "capacity": "Auto-scaling"
+        }
+      },
+      {
+        "id": "aws-store",
+        "kind": "service",
+        "serviceId": "aws-s3",
+        "label": "Data Lake S3",
+        "position": {
+          "x": 740,
+          "y": 120
+        },
+        "properties": {
+          "region": "us-east-1"
+        }
+      },
+      {
+        "id": "sb-auth-db",
+        "kind": "service",
+        "serviceId": "supabase-postgres",
+        "label": "PostgreSQL Gerenciado",
+        "position": {
+          "x": 740,
+          "y": 280
+        },
+        "properties": {
+          "pooling": "enabled"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-edge-to-api",
+        "sourceId": "cf-edge",
+        "targetId": "gcp-api",
+        "direction": "forward",
+        "flowType": "http",
+        "label": "HTTPS / JSON",
+        "animated": true
+      },
+      {
+        "id": "e-api-to-store",
+        "sourceId": "gcp-api",
+        "targetId": "aws-store",
+        "direction": "forward",
+        "flowType": "data",
+        "label": "S3 API / Blobs"
+      },
+      {
+        "id": "e-api-to-db",
+        "sourceId": "gcp-api",
+        "targetId": "sb-auth-db",
+        "direction": "bidirectional",
+        "flowType": "data",
+        "label": "JDBC / SQL"
+      }
+    ],
+    "drawings": [],
+    "scenes": [],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}

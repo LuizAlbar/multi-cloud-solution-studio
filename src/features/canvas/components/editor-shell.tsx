@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { ReactFlowProvider } from '@xyflow/react';
 import { Canvas } from './canvas';
 import { Topbar } from './topbar';
@@ -10,36 +10,39 @@ import { Inspector } from './inspector';
 import { SceneDrawer } from '@/features/presentation/components/scene-drawer';
 import { PresentationView } from '@/features/presentation/components/presentation-view';
 import { ExportDialog } from '@/features/import-export/components/export-dialog';
+import { ImportModal } from '@/features/diagram-format/components/import-modal';
 import { useEditorStore } from '../store/editor-store';
+import { deserializeFromMCSS } from '@/features/diagram-format/serialization/serializer';
+import { projectRepository } from '@/lib/storage/project-repository';
 import type { CatalogService } from '@/lib/schemas';
+import type { MCSSDiagramDocument } from '@/features/diagram-format/domain/diagram-format';
 
 interface EditorShellProps {
+  projectId?: string;
   isPlayground?: boolean;
 }
 
-export function EditorShell({ isPlayground = false }: EditorShellProps) {
+export function EditorShell({ projectId, isPlayground = false }: EditorShellProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const projectId = searchParams.get('project');
+  const [isCatalogOpen, setIsCatalogOpen] = useState(true);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
+  const [isSceneDrawerOpen, setIsSceneDrawerOpen] = useState(false);
+  const [isPresentation, setIsPresentation] = useState(false);
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {
-    project,
-    nodes,
-    edges,
     loadProject,
     initNewProject,
     initPlayground,
     convertPlaygroundToProject,
     addServiceNode,
+    nodes,
+    edges,
   } = useEditorStore();
 
-  const [isCatalogOpen, setIsCatalogOpen] = useState(true);
-  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
-  const [isSceneDrawerOpen, setIsSceneDrawerOpen] = useState(false);
-  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
-  const [isPresentation, setIsPresentation] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
+  // Load project or initialize playground on mount
   useEffect(() => {
     let isMounted = true;
 
@@ -48,14 +51,13 @@ export function EditorShell({ isPlayground = false }: EditorShellProps) {
       if (isPlayground) {
         initPlayground();
       } else if (projectId) {
-        const loaded = await loadProject(projectId);
-        if (!loaded && isMounted) {
-          await initNewProject();
-        }
-      } else if (!project) {
+        await loadProject(projectId);
+      } else {
         await initNewProject();
       }
-      if (isMounted) setIsLoading(false);
+      if (isMounted) {
+        setIsLoading(false);
+      }
     }
 
     setup();
@@ -63,7 +65,7 @@ export function EditorShell({ isPlayground = false }: EditorShellProps) {
     return () => {
       isMounted = false;
     };
-  }, [projectId, isPlayground]);
+  }, [projectId, isPlayground, loadProject, initPlayground]);
 
   // Warning before unload if playground has work
   useEffect(() => {
@@ -121,6 +123,46 @@ export function EditorShell({ isPlayground = false }: EditorShellProps) {
     }
   };
 
+  const handleConfirmImport = async (doc: MCSSDiagramDocument) => {
+    if (isPlayground) {
+      const p = deserializeFromMCSS(doc);
+      const flowNodes = p.nodes.map((n) => ({
+        id: n.id,
+        type: n.kind === 'service' ? 'service' : n.kind === 'group' ? 'group' : 'generic',
+        position: n.position,
+        data: {
+          label: n.label,
+          serviceId: n.serviceId,
+          properties: n.properties,
+          notes: n.notes,
+        },
+      }));
+      const flowEdges = p.edges.map((e) => ({
+        id: e.id,
+        source: e.sourceId,
+        target: e.targetId,
+        label: e.label,
+        type: 'labeled',
+        data: {
+          direction: e.direction,
+          flowType: e.flowType,
+        },
+      }));
+
+      useEditorStore.setState({
+        nodes: flowNodes,
+        edges: flowEdges,
+        saveStatus: 'saved',
+        selectedNodeId: null,
+        selectedEdgeId: null,
+      });
+    } else {
+      const p = deserializeFromMCSS(doc, { titlePrefix: 'Importado' });
+      await projectRepository.saveProject(p);
+      router.push(`/editor?project=${p.id}`);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-studio-bg text-studio-secondary">
@@ -143,6 +185,7 @@ export function EditorShell({ isPlayground = false }: EditorShellProps) {
           onToggleSceneDrawer={() => setIsSceneDrawerOpen((prev) => !prev)}
           isPresentation={isPresentation}
           onOpenExportDialog={() => setIsExportDialogOpen(true)}
+          onOpenImportDialog={() => setIsImportModalOpen(true)}
           isPlayground={isPlayground}
           onSaveAsProject={handleSaveAsProject}
         />
@@ -157,10 +200,18 @@ export function EditorShell({ isPlayground = false }: EditorShellProps) {
           }}
         />
 
-        {/* Export / Import Modal */}
+        {/* Export Modal */}
         <ExportDialog
           isOpen={isExportDialogOpen}
           onClose={() => setIsExportDialogOpen(false)}
+        />
+
+        {/* Import Assisted Modal */}
+        <ImportModal
+          isOpen={isImportModalOpen}
+          onClose={() => setIsImportModalOpen(false)}
+          onConfirmImport={handleConfirmImport}
+          isPlayground={isPlayground}
         />
 
         {/* Presentation Overlay if active */}

@@ -206,6 +206,75 @@ O **PRD 4** consolida o estúdio de arquitetura com o nível visual e funcional 
 
 ---
 
+## 🤖 PRD 5 — MCSS Diagram Format, Importação Assistida e Kit para IA
+
+O **PRD 5** estabelece o contrato canônico aberto e os recursos de interoperabilidade com Inteligência Artificial:
+
+1. **MCSS Diagram Format v1.0.0 (`format: "mcss.diagram"`):**
+   - Contrato JSON público versionado (`schemaVersion: "1.0.0"` e `catalogVersion: "1.0.0"`).
+   - Serialização bidirecional de nós (`service`, `generic`, `group`, `shape`, `note`, `text`), arestas direcionais com fluxos semânticos (`http`, `data`, `events`, `network`, `auth`, `generic`, `logical`), zonas, desenhos livres e cenas de apresentação com `speakerNotes`.
+   - Compatibilidade retroativa garantida com projetos legados gerados em versões anteriores.
+2. **Validação em Duas Camadas e Diagnósticos:**
+   - Validador estrutural e semântico em `src/features/diagram-format/validation/validator.ts`.
+   - Diagnósticos detalhados com caminho JSON Pointer (`path`), código (`code`) e sugestão prática (`hint`).
+   - Fallback gracioso para serviços ausentes (`UNKNOWN_SERVICE_ID`): aviso transparente e exibição como componente genérico sem perda de `serviceId` ou metadados.
+   - Limites de segurança rigorosos (tamanho máximo de 3 MiB, limite de nós/arestas, sanitização de cercas Markdown ````json ... ````).
+3. **Modal de Importação Assistida com Prévia Isolada:**
+   - Suporte a `Colar JSON` e `Selecionar arquivo` com drag & drop de arquivos `.mcss.json` ou `.json`.
+   - Pré-visualização isolada da arquitetura antes da confirmação.
+   - Suporte a criação de novos projetos atômicos ou abertura em memória (stateless) no Modo Playground.
+4. **Kit para IA e Pipeline de Sincronização Contínua:**
+   - Download client-side do Kit em ZIP (`multicloud-studio-ai-kit-v1.0.0.zip`) via `fflate`.
+   - Contém `README.md`, `AI_GUIDE.md`, `PROMPT_TEMPLATE.md`, `mcss-diagram.schema.json` (JSON Schema Draft 2020-12 autossuficiente), `service-catalog.json` (153 serviços reais), `FORMAT_CHANGELOG.md` e 3 exemplos válidos.
+   - Scripts determinísticos de automação:
+     - `pnpm docs:ai:generate`: gera artefatos a partir do código
+     - `pnpm docs:ai:check`: verifica se há divergência (drift)
+     - `pnpm test:diagram-contract`: executa testes de contrato e round-trip
+   - Regra mandatória de manutenção de contrato documentada no `AGENTS.md`.
+
+### Matriz de Aceite do PRD 5 (CA5-01 a CA5-36)
+
+| ID | Critério | Status | Evidência de Implementação |
+|---|---|:---:|---|
+| **CA5-01** | Contrato público `mcss.diagram` versionado em `.mcss.json` | ✅ OK | `diagram-format.ts`, `docs/ai/mcss-diagram.schema.json` |
+| **CA5-02** | Schema Draft 2020-12 público valida offline | ✅ OK | `docs/ai/mcss-diagram.schema.json` |
+| **CA5-03** | Fonte canônica do contrato única sem divergência | ✅ OK | `scripts/check-ai-docs.mjs` passando |
+| **CA5-04** | Export preserva nós e serviços | ✅ OK | `serializer.ts`, round-trip tests |
+| **CA5-05** | Export preserva edges, direção e labels | ✅ OK | Mapeamento `toMCSSDirection` / `toStudioDirection` |
+| **CA5-06** | Export preserva desenhos, grupos/zonas e geometria | ✅ OK | Preservação total de coordenadas e layers |
+| **CA5-07** | Export preserva cenas/viewport e notas de cenas | ✅ OK | `speakerNotes` preservado nas cenas |
+| **CA5-08** | Nenhuma seleção, hover ou menu serializado no estado persistível | ✅ OK | Filtro de estado transitório |
+| **CA5-09** | Import aceita JSON colado | ✅ OK | Aba "Colar JSON" em `ImportModal.tsx` |
+| **CA5-10** | Import aceita arquivo `.mcss.json` / `.json` | ✅ OK | Upload e Drag & Drop em `ImportModal.tsx` |
+| **CA5-11** | JSON inválido apresenta erro e mantém conteúdo digitado | ✅ OK | Diagnóstico `INVALID_JSON` sem limpar textarea |
+| **CA5-12** | Erros semânticos trazem caminho, mensagem e dica contextual | ✅ OK | JSON Pointer em `ValidationIssue` |
+| **CA5-13** | Erros bloqueiam confirmação sem tocar no storage | ✅ OK | Botão desabilitado se `!report.isValid` |
+| **CA5-14** | Avisos são distinguíveis de erros | ✅ OK | Warnings âmbar não bloqueiam importação |
+| **CA5-15** | Prévia usa renderização fiel e não persiste conteúdo | ✅ OK | `DiagramPreview.tsx` em modo read-only |
+| **CA5-16** | Importação pela Home cria novo projeto sem substituir outro | ✅ OK | Atribuição de novo ID e persistência atômica |
+| **CA5-17** | Importação pelo Playground é efêmera | ✅ OK | Carregamento em memória sem chamada ao IndexedDB |
+| **CA5-18** | Importação com falha não cria registro parcial | ✅ OK | Transação atômica no repositório |
+| **CA5-19** | IDs de nós/arestas e referências permanecem íntegros | ✅ OK | Validação de unicidade e integridade referencial |
+| **CA5-20** | Serviço ausente é visualizado como fallback sem apagar `serviceId` | ✅ OK | `UNKNOWN_SERVICE_ID`, fallback `generic` com preservação |
+| **CA5-21** | Serviços reais resolvidos por IDs exatos do manifesto | ✅ OK | Resolução via `getCatalogServiceById` |
+| **CA5-22** | Catálogo exportado tem contagem e IDs iguais aos da UI (153) | ✅ OK | `docs/ai/service-catalog.json` gerado da fonte da verdade |
+| **CA5-23** | Ação Exportar Kit para IA baixa ZIP completo | ✅ OK | `downloadAiKitZip()` via `fflate` |
+| **CA5-24** | Kit contém guia, prompt, schema, manifesto e exemplos válidos | ✅ OK | 9 arquivos embutidos no ZIP |
+| **CA5-25** | Todos os exemplos publicados são realmente importáveis | ✅ OK | Testes de carga dos exemplos em `diagram-format.test.ts` |
+| **CA5-26** | `AGENTS.md` contém regra obrigatória de manutenção do contrato | ✅ OK | Seção 9 em `AGENTS.md` |
+| **CA5-27** | `docs:ai:generate` é determinístico | ✅ OK | Execuções consecutivas idênticas |
+| **CA5-28** | `docs:ai:check` falha em caso de docs defasados | ✅ OK | Verificação de integridade e saída de erro |
+| **CA5-29** | Mudanças de schema/catalogVersion seguem política documentada | ✅ OK | `FORMAT_CHANGELOG.md` |
+| **CA5-30** | Exports legados conhecidos ainda podem ser importados | ✅ OK | `adaptLegacyProjectToMCSS` |
+| **CA5-31** | Entradas maliciosas/volumosas são contidas com segurança | ✅ OK | Limite de 3 MiB e sanitização de cercas Markdown |
+| **CA5-32** | O fluxo funciona offline, sem backend nem login | ✅ OK | 100% client-side |
+| **CA5-33** | Import/Export não quebra Home, editor, cenas, PNG nem Playground | ✅ OK | Regressão zero validada |
+| **CA5-34** | Não existe campo "Notas do apresentador" nos nós | ✅ OK | Roteiro exclusivo de cenas |
+| **CA5-35** | UI é acessível e consistente com PRDs 3/4 | ✅ OK | Componentes padrão shadcn/Tailwind |
+| **CA5-36** | Scripts de lint, typecheck, test e build passam via pnpm | ✅ OK | `pnpm typecheck`, `pnpm test`, `pnpm build` |
+
+---
+
 ## 🔒 Licença e Isenção de Responsabilidade
 
 Os nomes, marcas e logotipos de provedores de nuvem (Google Cloud, AWS, Microsoft Azure, OCI, Cloudflare, Hostinger, Supabase) pertencem aos seus respectivos proprietários e são utilizados para fins estritamente ilustrativos de arquitetura e compatibilidade técnica.

@@ -838,6 +838,93 @@
 - `README.md`
 **Estimated scope:** Small (1 file)
 
+---
+
+# PRD 5 — MCSS Diagram Format, Importação Assistida e Kit para IA
+
+## Phase 22: Fatia A & B — Contrato Público MCSS v1, Validação Semântica e Serialização (CA5-01 a CA5-08, CA5-12 a CA5-14, CA5-19 a CA5-21, CA5-29 a CA5-31)
+### Task 22.1: Schema Zod, serialização, deserialização e adaptação de legados
+**Description:** Implementar o MCSS Diagram Format v1.0.0 com identificador format "mcss.diagram", serializers/deserializers atômicos, adaptador de legados e validador de duas camadas (estrutural e semântica com diagnósticos JSON Pointer e fallbacks seguros).
+**Acceptance criteria:**
+- [x] Schema Zod formal com versionamento semântico
+- [x] Serializer e deserializer com round-trip comprovado
+- [x] Validação semântica de IDs, edges órfãs, parentIds e fallback de serviço desconhecido
+- [x] Suporte a arquivos legados sem quebra de compatibilidade
+- [x] Limites de segurança (3MB, max nós/arestas, sanitização de strings)
+**Verification:**
+- [x] `pnpm test src/features/diagram-format/`
+**Dependencies:** None
+**Files likely touched:**
+- `src/features/diagram-format/domain/diagram-format.ts`
+- `src/features/diagram-format/serialization/`
+- `src/features/diagram-format/validation/`
+**Estimated scope:** Medium (4-5 files)
+
+---
+
+## Phase 23: Fatia C — Interface de Importação Assistida e Pré-Visualização (CA5-09 a CA5-11, CA5-15 a CA5-18, CA5-32 a CA5-35)
+### Task 23.1: Modal de importação assistida com Colar JSON, Upload, Diagnósticos e Prévia
+**Description:** Desenvolver o modal de importação assistida com suporte a colar JSON (com limpeza de cercas Markdown), upload de arquivo, relatório de diagnósticos, pré-visualização isolada do diagrama e ações contextuais ("Criar novo projeto" ou "Abrir no Playground").
+**Acceptance criteria:**
+- [x] Modal intuitivo com abas Colar JSON e Selecionar arquivo
+- [x] Limpeza automática de blocos ```json ... ```
+- [x] Lista navegável de diagnósticos (erros bloqueantes vs avisos de fallback)
+- [x] Pré-visualização isolada do canvas com fit view
+- [x] Destino atômico: cria novo projeto no storage ou abre em memória no Playground
+**Verification:**
+- [x] `pnpm build && pnpm test`
+**Dependencies:** Task 22.1
+**Files likely touched:**
+- `src/features/diagram-format/components/import-modal.tsx`
+- `src/features/diagram-format/components/diagram-preview.tsx`
+- `src/features/canvas/components/topbar.tsx`
+- `src/app/page.tsx`
+- `src/app/projects/page.tsx`
+**Estimated scope:** Medium (4 files)
+
+---
+
+## Phase 24: Fatia D — Kit para IA e Pipeline de Sincronização Contínua (CA5-22 a CA5-28)
+### Task 24.1: Gerador do Kit para IA (.zip), scripts de sincronização e regra AGENTS.md
+**Description:** Implementar a geração client-side do Kit para IA em ZIP (com README, AI_GUIDE, PROMPT_TEMPLATE, JSON Schema Draft 2020-12, service-catalog com 153 serviços reais e exemplos válidos), scripts pnpm docs:ai:generate e docs:ai:check, e regra mandatória no AGENTS.md.
+**Acceptance criteria:**
+- [x] Geração client-side do ZIP com fflate
+- [x] Manifesto de catálogo gerado diretamente da fonte da verdade
+- [x] Schema Draft 2020-12 válido offline
+- [x] Scripts docs:ai:generate e docs:ai:check determinísticos
+- [x] Regra obrigatória adicionada ao AGENTS.md
+**Verification:**
+- [x] `pnpm docs:ai:generate && pnpm docs:ai:check && pnpm test:diagram-contract`
+**Dependencies:** Task 23.1
+**Files likely touched:**
+- `src/features/diagram-format/kit/`
+- `scripts/generate-ai-docs.ts`
+- `scripts/check-ai-docs.ts`
+- `docs/ai/`
+- `AGENTS.md`
+- `package.json`
+**Estimated scope:** Medium (6 files)
+
+---
+
+## Phase 25: Fatia E — QA Visual em Navegador Real, Testes e Fechamento (CA5-32 a CA5-36)
+### Task 25.1: Testes E2E com agent-browser, regressão de rotas e matriz CA5
+**Description:** Validar o fluxo completo de ponta a ponta (importação de JSON gerado por IA, preview, criação de projeto, modo playground efêmero, download do kit para IA), executar suíte de testes e atualizar README.md com a matriz de critérios CA5.
+**Acceptance criteria:**
+- [x] E2E paste -> preview -> novo projeto funcionando
+- [x] E2E import no Playground sem escrita persistente
+- [x] 100% dos testes unitários e de integração passando
+- [x] Typecheck e build Next.js sem erros
+- [x] Matriz CA5-01 a CA5-36 documentada no README.md
+**Verification:**
+- [x] `pnpm build && pnpm test && pnpm typecheck && pnpm docs:ai:check`
+**Dependencies:** All PRD 5 tasks
+**Files likely touched:**
+- `README.md`
+- `tasks/todo.md`
+**Estimated scope:** Small (2 files)
+
+
 
 
 

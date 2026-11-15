@@ -1,22 +1,11 @@
+import { type Project } from '@/lib/schemas';
 import {
-  ProjectSchema,
-  ExportedProjectFileSchema,
-  CURRENT_SCHEMA_VERSION,
-  type Project,
-  type ExportedProjectFile,
-} from '@/lib/schemas';
+  serializeToMCSS,
+} from '@/features/diagram-format/serialization/serializer';
+import type { MCSSDiagramDocument } from '@/features/diagram-format/domain/diagram-format';
 
-export function createExportPayload(project: Project): ExportedProjectFile {
-  const validatedProject = ProjectSchema.parse(project);
-
-  const payload: ExportedProjectFile = {
-    schemaVersion: CURRENT_SCHEMA_VERSION,
-    appVersion: '1.0.0',
-    exportedAt: new Date().toISOString(),
-    project: validatedProject,
-  };
-
-  return ExportedProjectFileSchema.parse(payload);
+export function createExportPayload(project: Project): MCSSDiagramDocument {
+  return serializeToMCSS(project, 'export');
 }
 
 export function exportProjectToJson(project: Project): void {
@@ -29,9 +18,9 @@ export function exportProjectToJson(project: Project): void {
     .replace(/(^-|-$)/g, '');
 
   const dateStr = new Date().toISOString().split('T')[0];
-  const fileName = `${sanitizedTitle || 'projeto'}-${dateStr}.mcss.json`;
+  const fileName = `${sanitizedTitle || 'diagrama'}-${dateStr}.mcss.json`;
 
-  const blob = new Blob([jsonString], { type: 'application/json' });
+  const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8' });
   const url = URL.createObjectURL(blob);
 
   const link = document.createElement('a');

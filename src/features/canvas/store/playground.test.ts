@@ -87,8 +87,9 @@ describe('Playground Mode (RF2-01)', () => {
       })),
     });
 
-    expect(payload.schemaVersion).toBe(1);
-    expect(payload.project.nodes.length).toBe(2);
+    expect(payload.format).toBe('mcss.diagram');
+    expect(payload.schemaVersion).toBe('1.0.0');
+    expect(payload.diagram.nodes.length).toBe(2);
   });
 
   it('converts playground into a real persisted project only upon explicit user opt-in', async () => {

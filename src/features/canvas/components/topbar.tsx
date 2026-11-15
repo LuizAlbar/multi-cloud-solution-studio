@@ -9,18 +9,22 @@ import {
   Loader2,
   AlertCircle,
   Download,
+  Upload,
   BookmarkPlus,
   Sparkles,
+  Bot,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BrandLogo } from '@/components/brand/brand-logo';
 import { useEditorStore } from '../store/editor-store';
+import { downloadAiKitZip } from '@/features/diagram-format/kit/generate-kit-zip';
 
 interface TopbarProps {
   onTogglePresentation: () => void;
   onToggleSceneDrawer: () => void;
   isPresentation: boolean;
   onOpenExportDialog: () => void;
+  onOpenImportDialog?: () => void;
   isPlayground?: boolean;
   onSaveAsProject?: () => void;
 }
@@ -30,6 +34,7 @@ export function Topbar({
   onToggleSceneDrawer,
   isPresentation,
   onOpenExportDialog,
+  onOpenImportDialog,
   isPlayground = false,
   onSaveAsProject,
 }: TopbarProps) {
@@ -154,6 +159,32 @@ export function Topbar({
           </Button>
         )}
 
+        {/* Import Diagram Button */}
+        {onOpenImportDialog && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onOpenImportDialog}
+            className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs"
+            title="Importar diagrama gerado por IA ou arquivo .mcss.json"
+          >
+            <Upload size={14} className="text-slate-600" />
+            <span className="hidden md:inline">Importar</span>
+          </Button>
+        )}
+
+        {/* AI Kit Export Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => downloadAiKitZip()}
+          className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs text-slate-700 hover:text-indigo-600"
+          title="Baixar Kit para IA (.zip) com documentação e catálogo"
+        >
+          <Bot size={14} className="text-indigo-600" />
+          <span className="hidden lg:inline">Kit para IA</span>
+        </Button>
+
         {/* Scene Script Button */}
         <Button
           variant="outline"
@@ -165,7 +196,7 @@ export function Topbar({
           <span className="hidden sm:inline">Cenas ({project?.scenes?.length || 0})</span>
         </Button>
 
-        {/* Export / Share Button */}
+        {/* Export Button */}
         <Button
           variant="outline"
           size="sm"

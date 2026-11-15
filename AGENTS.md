@@ -197,6 +197,10 @@ A ordem de entrega do PRD é:
 
 **Regra de produto:** estabilidade do editor, confiabilidade dos dados e clareza da apresentação têm prioridade sobre quantidade de efeitos, complexidade de animação ou expansão precoce do catálogo.
 
+## 9. Contrato JSON e documentação para IA — Manutenção obrigatória (PRD 5)
+
+> **Contrato JSON e documentação para IA — manutenção obrigatória:** ao criar, remover, renomear ou alterar um serviço, provedor, categoria, propriedade pública, tipo de nó, conexão, zona, cena, extensão, enum, regra de validação, migração ou interface de importação/exportação, o assistente de código **DEVE** atualizar a fonte canônica correspondente, regenerar o JSON Schema, o manifesto e a documentação para IA (`pnpm docs:ai:generate`), atualizar exemplos, testes e changelog quando houver mudança de contrato e executar o comando de verificação de sincronismo (`pnpm docs:ai:check`). Não concluir a tarefa se a documentação exportável divergir do comportamento real do aplicativo. Usar exclusivamente `pnpm`, seguir as skills pertinentes e reportar explicitamente eventuais bloqueios.
+
 ---
 
 **Resumo operacional para o agente:** leia o PRD, descubra e aplique as skills relevantes, **use sempre pnpm**, implemente em incrementos verificáveis, valide visualmente num navegador real e nunca confunda arquitetura ilustrativa com infraestrutura validada em produção.

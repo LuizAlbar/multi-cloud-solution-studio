@@ -40,13 +40,12 @@ describe('Import & Export (.mcss.json) (CA-08, CA-09)', () => {
     },
   };
 
-  it('exports project with schemaVersion and required envelope (CA-08)', () => {
+  it('exports project with schemaVersion and required envelope (CA-08, CA5-01)', () => {
     const payload = createExportPayload(sampleProject);
-    expect(payload.schemaVersion).toBe(1);
-    expect(payload.appVersion).toBe('1.0.0');
-    expect(payload.exportedAt).toBeTruthy();
-    expect(payload.project.title).toBe('E-commerce Multicloud');
-    expect(payload.project.nodes.length).toBe(1);
+    expect(payload.format).toBe('mcss.diagram');
+    expect(payload.schemaVersion).toBe('1.0.0');
+    expect(payload.metadata.title).toBe('E-commerce Multicloud');
+    expect(payload.diagram.nodes.length).toBe(1);
   });
 
   it('imports valid exported project JSON and creates independent project in Dexie', async () => {

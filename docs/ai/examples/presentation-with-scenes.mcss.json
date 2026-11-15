@@ -1,0 +1,68 @@
+{
+  "format": "mcss.diagram",
+  "schemaVersion": "1.0.0",
+  "metadata": {
+    "title": "Apresentação Executiva de Arquitetura",
+    "description": "Diagrama com roteiro e cenas configuradas",
+    "origin": "ai"
+  },
+  "diagram": {
+    "nodes": [
+      {
+        "id": "n-front",
+        "kind": "generic",
+        "label": "Frontend SPA",
+        "position": {
+          "x": 100,
+          "y": 150
+        }
+      },
+      {
+        "id": "n-backend",
+        "kind": "service",
+        "serviceId": "gcp-cloud-run",
+        "label": "Backend Microservices",
+        "position": {
+          "x": 450,
+          "y": 150
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "e-front-back",
+        "sourceId": "n-front",
+        "targetId": "n-backend",
+        "direction": "forward",
+        "flowType": "http",
+        "label": "HTTPS / REST"
+      }
+    ],
+    "drawings": [],
+    "scenes": [
+      {
+        "id": "scene-intro",
+        "order": 0,
+        "title": "Cena 1: Recepção do Tráfego",
+        "description": "Apresentação do ponto de entrada da solução.",
+        "speakerNotes": "Explicar aos diretores de TI como o tráfego do usuário atinge a borda.",
+        "viewport": {
+          "x": 0,
+          "y": 0,
+          "zoom": 1
+        },
+        "nodeHighlights": [
+          "n-front"
+        ],
+        "edgeHighlights": [
+          "e-front-back"
+        ]
+      }
+    ],
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  }
+}
