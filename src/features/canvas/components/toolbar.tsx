@@ -18,19 +18,18 @@ import {
 import { useReactFlow } from '@xyflow/react';
 import { Button } from '@/components/ui/button';
 import { useEditorStore } from '../store/editor-store';
-import { cn } from '@/lib/utils';
+import type { ProviderId } from '@/lib/schemas';
 
 export function Toolbar() {
-  const { activeTool, setActiveTool, nodes, project } = useEditorStore();
+  const { activeTool, setActiveTool, nodes } = useEditorStore();
   const { zoomIn, zoomOut, fitView, screenToFlowPosition } = useReactFlow();
 
   const handleAddGeneric = (
-    kind: 'shape' | 'note' | 'text' | 'group',
+    kind: 'shape' | 'note' | 'text',
     shapeType?: string,
     label?: string
   ) => {
     const id = `node-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
-    // Center of screen approximation
     const center = screenToFlowPosition({
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
@@ -44,7 +43,7 @@ export function Toolbar() {
         y: center.y - 40 + Math.random() * 40,
       },
       data: {
-        label: label || (kind === 'group' ? 'Nova Zona' : 'Componente'),
+        label: label || 'Componente',
         shapeType,
         notes: '',
         properties: {},
@@ -53,6 +52,35 @@ export function Toolbar() {
 
     useEditorStore.setState({
       nodes: [...nodes, newNode],
+      selectedNodeId: id,
+      saveStatus: 'unsaved',
+    });
+  };
+
+  const handleAddZone = (providerId: ProviderId = 'aws', label = 'Zona AWS - us-east-1', region = 'us-east-1') => {
+    const id = `node-zone-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const center = screenToFlowPosition({
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    });
+
+    const newZone = {
+      id,
+      type: 'group',
+      position: {
+        x: center.x - 180 + Math.random() * 30,
+        y: center.y - 120 + Math.random() * 30,
+      },
+      data: {
+        label,
+        providerId,
+        region,
+      },
+    };
+
+    // Zones render behind child nodes
+    useEditorStore.setState({
+      nodes: [newZone, ...nodes],
       selectedNodeId: id,
       saveStatus: 'unsaved',
     });
@@ -71,6 +99,7 @@ export function Toolbar() {
         onClick={() => setActiveTool('select')}
         title="Seleção (V / Esc)"
         aria-label="Seleção"
+        className={activeTool === 'select' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
       >
         <MousePointer size={15} />
       </Button>
@@ -81,6 +110,7 @@ export function Toolbar() {
         onClick={() => setActiveTool('pan')}
         title="Pan / Navegar (H / Space)"
         aria-label="Pan"
+        className={activeTool === 'pan' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
       >
         <Hand size={15} />
       </Button>
@@ -94,6 +124,7 @@ export function Toolbar() {
         onClick={() => setActiveTool(activeTool === 'pen' ? 'select' : 'pen')}
         title="Caneta livre"
         aria-label="Caneta"
+        className={activeTool === 'pen' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
       >
         <Pen size={15} />
       </Button>
@@ -104,6 +135,7 @@ export function Toolbar() {
         onClick={() => setActiveTool(activeTool === 'eraser' ? 'select' : 'eraser')}
         title="Borracha de traços"
         aria-label="Borracha"
+        className={activeTool === 'eraser' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
       >
         <Eraser size={15} />
       </Button>
@@ -117,6 +149,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'rectangle', 'Retângulo')}
         title="Adicionar Retângulo"
         aria-label="Retângulo"
+        className="text-slate-600"
       >
         <Square size={15} />
       </Button>
@@ -127,6 +160,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'circle', 'Círculo')}
         title="Adicionar Círculo"
         aria-label="Círculo"
+        className="text-slate-600"
       >
         <Circle size={15} />
       </Button>
@@ -137,6 +171,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('note', undefined, 'Nota explicativa')}
         title="Adicionar Post-it"
         aria-label="Nota"
+        className="text-slate-600"
       >
         <StickyNote size={15} />
       </Button>
@@ -147,18 +182,9 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('text', undefined, 'Texto da Arquitetura')}
         title="Adicionar Texto"
         aria-label="Texto"
+        className="text-slate-600"
       >
         <Type size={15} />
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="iconSm"
-        onClick={() => handleAddGeneric('shape', 'legacy-system', 'Sistema Legado / On-Prem')}
-        title="Sistema Legado / On-Premises"
-        aria-label="Sistema Legado"
-      >
-        <Server size={15} />
       </Button>
 
       <Button
@@ -167,6 +193,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'generic-db', 'Banco de Dados')}
         title="Banco de Dados"
         aria-label="Banco de Dados"
+        className="text-slate-600"
       >
         <Database size={15} />
       </Button>
@@ -174,9 +201,10 @@ export function Toolbar() {
       <Button
         variant="ghost"
         size="iconSm"
-        onClick={() => handleAddGeneric('group', undefined, 'Zona / Ambiente')}
-        title="Adicionar Zona / Grupo"
-        aria-label="Grupo"
+        onClick={() => handleAddZone('aws', 'Zona AWS - us-east-1', 'us-east-1')}
+        title="Adicionar Zona / Região"
+        aria-label="Adicionar Zona"
+        className="text-slate-600"
       >
         <Layers size={15} />
       </Button>
@@ -190,6 +218,7 @@ export function Toolbar() {
         onClick={() => fitView({ duration: 300, padding: 0.2 })}
         title="Ajustar tela (F)"
         aria-label="Ajustar tela"
+        className="text-slate-600"
       >
         <Maximize2 size={15} />
       </Button>
@@ -200,6 +229,7 @@ export function Toolbar() {
         onClick={() => zoomIn({ duration: 200 })}
         title="Aproximar (+)"
         aria-label="Aproximar"
+        className="text-slate-600"
       >
         <ZoomIn size={15} />
       </Button>
@@ -210,6 +240,7 @@ export function Toolbar() {
         onClick={() => zoomOut({ duration: 200 })}
         title="Afastar (-)"
         aria-label="Afastar"
+        className="text-slate-600"
       >
         <ZoomOut size={15} />
       </Button>

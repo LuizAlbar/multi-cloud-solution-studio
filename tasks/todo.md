@@ -744,5 +744,101 @@
 - `README.md`
 **Estimated scope:** Small (1 file)
 
+---
+
+# PRD 4 — Redesign de Alta Fidelidade do Editor de Diagramas
+
+## Phase 17: Fatia A — Shell e Header do Editor (CA4-01 a CA4-05)
+### Task 17.1: Header compacto, proporções de colunas e scroll independente
+**Description:** Refatorar o shell e header do editor para a composição da imagem-alvo: altura 64px, logo oficial ampliada, contexto claro de Playground ou Projeto persistente, status de salvamento real, botões de ação e colunas com larguras de ~350px com scrolls independentes.
+**Acceptance criteria:**
+- [x] Header com proporção alinhada à imagem-alvo e logo nítida
+- [x] Contexto de Playground ou Nome do projeto evidente
+- [x] Colunas de catálogo (~355px) e inspector (~355px) com scroll independente sem duplo scroll
+**Verification:**
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** None
+**Files likely touched:**
+- `src/features/canvas/components/topbar.tsx`
+- `src/features/canvas/components/editor-shell.tsx`
+**Estimated scope:** Small (2 files)
+
+---
+
+## Phase 18: Fatia B — Catálogo Multicloud por Categorias Expansíveis (CA4-06 a CA4-11)
+### Task 18.1: Navegação por categorias expansíveis e filtros combináveis
+**Description:** Transformar o catálogo de lista plana para seções de categorias expansíveis (Computação, Contêineres, Armazenamento, Bancos de Dados, Redes, Segurança, Analytics, IA, Integração, Observabilidade, Dev Tools), com contagens reais por categoria, busca integrada com atalho Ctrl+K, chips dos 7 provedores e ServiceIcon específico por serviço.
+**Acceptance criteria:**
+- [x] Categorias expansíveis com contagem dinâmica real
+- [x] Filtro por provedor e busca funcionam conjuntamente
+- [x] Ícones específicos em SVG para cada serviço
+- [x] Drag-and-drop e clique para adicionar posicionam nós nas coordenadas corretas
+**Verification:**
+- [x] Tests pass: `pnpm test src/features/catalog/`
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 17.1
+**Files likely touched:**
+- `src/features/catalog/components/catalog-sidebar.tsx`
+- `src/features/catalog/catalog-service.ts`
+**Estimated scope:** Medium (3 files)
+
+---
+
+## Phase 19: Fatia C — Canvas, Zonas Visuais e Arestas Direcionadas (CA4-12 a CA4-17)
+### Task 19.1: Zonas de provedor e região, arestas dirigidas e nós refinados
+**Description:** Aprimorar o visual do canvas com grade pontilhada discreta, nós de serviço com hierarquia semântica premium, arestas com setas de direção nítidas e rótulos compactos, e implementação de Zonas Visuais de provedor e região com cabeçalho, cores suaves e suporte a movimentação de nós filhos.
+**Acceptance criteria:**
+- [x] Zonas com borda tracejada, tonalidade de provedor, cabeçalho e região
+- [x] Mover zona desloca nós filhos mantendo posições e conexões
+- [x] Arestas com direção nítida e rótulos compactos legíveis
+- [x] Diagramas legíveis e elegantes a 100% de zoom
+**Verification:**
+- [x] Tests pass: `pnpm test src/features/canvas/`
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 18.1
+**Files likely touched:**
+- `src/features/canvas/nodes/group-node.tsx`
+- `src/features/canvas/nodes/service-node.tsx`
+- `src/features/canvas/edges/labeled-connection-edge.tsx`
+**Estimated scope:** Medium (3-4 files)
+
+---
+
+## Phase 20: Fatia D — Inspector Contextual e Toolbar Flutuante (CA4-18 a CA4-22)
+### Task 20.1: Inspector tipado por entidade e toolbar centrada no canvas
+**Description:** Construir o inspector contextual completo com formulários dedicados para Nó de Serviço (parâmetros, ambiente, região, notas técnicas, link oficial), Conexão/Edge (origem, destino, protocolo/tipo, direção, rótulo), Zona (provedor, região, label), Formas e Estado sem seleção compacto; e toolbar flutuante agrupada e perfeitamente centrada no canvas.
+**Acceptance criteria:**
+- [x] Inspector tipado alterna com precisão entre Nó, Conexão, Zona, Forma e Sem Seleção
+- [x] Sem grandes vazios na ausência de seleção (recolhível e compacto)
+- [x] Zero campos de "Notas do apresentador" nos elementos
+- [x] Toolbar flutuante centrada no canvas com agrupamento funcional
+**Verification:**
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 19.1
+**Files likely touched:**
+- `src/features/canvas/components/inspector.tsx`
+- `src/features/canvas/components/toolbar.tsx`
+**Estimated scope:** Medium (3 files)
+
+---
+
+## Phase 21: Fatia E — QA Visual em Navegador Real e Regressão (CA4-23 a CA4-32)
+### Task 21.1: Validação visual em 1672x941 com agent-browser e testes automatizados
+**Description:** Executar duas rodadas completas de captura e comparação visual com agent-browser em 1672x941 e resoluções secundárias, garantindo ausência de colisões, persistência correta de projetos, funcionamento do Playground e zero regressões.
+**Acceptance criteria:**
+- [x] Screenshots de QA documentados em docs/references/
+- [x] Todos os testes unitários passando (31+ testes)
+- [x] Build e typecheck estrito sem erros
+- [x] README.md atualizado com matriz de critérios CA4
+**Verification:**
+- [x] `pnpm build && pnpm test && pnpm typecheck`
+**Dependencies:** All PRD 4 tasks
+**Files likely touched:**
+- `docs/references/`
+- `README.md`
+**Estimated scope:** Small (1 file)
+
+
+
 
 

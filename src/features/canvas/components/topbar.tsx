@@ -48,34 +48,35 @@ export function Topbar({
   if (isPresentation) return null;
 
   return (
-    <header className="flex h-14 w-full items-center justify-between border-b border-studio-border bg-white px-4 z-20 select-none">
-      {/* Left: Brand & Title */}
-      <div className="flex items-center gap-3">
+    <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-5 sm:px-6 z-20 select-none">
+      {/* Left: Brand & Context */}
+      <div className="flex items-center gap-4">
         <Link
           href="/"
-          className="flex items-center gap-2 hover:opacity-90 transition-opacity"
-          title="Voltar para o Dashboard de Projetos"
+          className="flex items-center gap-2 hover:opacity-95 transition-opacity"
+          title="Voltar para o Início"
         >
-          <BrandLogo />
+          <BrandLogo size="lg" />
         </Link>
 
-        <div className="h-4 w-px bg-studio-border mx-1" />
+        <div className="h-5 w-px bg-studio-border" />
 
         {/* Project Title Input (or Playground label) */}
         {isPlayground ? (
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1.5">
-              <Sparkles size={12} className="text-amber-600" />
-              <span>Playground · Não salvo</span>
+          <div className="flex items-center gap-2.5">
+            <span className="text-xs font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-900 border border-amber-300 flex items-center gap-1.5 shadow-2xs">
+              <Sparkles size={13} className="text-amber-600" />
+              <span>Playground</span>
+              <span className="text-[10px] text-amber-700 font-medium">· Temporário</span>
             </span>
           </div>
         ) : (
-          <>
+          <div className="flex items-center gap-3">
             <input
               value={project?.title || ''}
               onChange={(e) => updateProjectTitle(e.target.value)}
               placeholder="Título do Projeto"
-              className="h-8 max-w-[200px] sm:max-w-[280px] rounded-btn border border-transparent px-2 text-sm font-semibold text-studio-text hover:border-studio-border focus:border-studio-accent focus:bg-white focus:outline-none transition-all truncate"
+              className="h-8 max-w-[220px] sm:max-w-[320px] rounded-btn border border-transparent px-2 text-sm font-semibold text-studio-text hover:border-studio-border focus:border-studio-accent focus:bg-white focus:outline-none transition-all truncate"
             />
 
             {/* Save Status Indicator */}
@@ -87,20 +88,20 @@ export function Topbar({
                 </span>
               )}
               {saveStatus === 'saved' && (
-                <span className="flex items-center gap-1 text-emerald-600">
+                <span className="flex items-center gap-1 text-emerald-600 font-medium">
                   <CheckCircle2 size={13} />
                   <span className="hidden md:inline">Salvo</span>
                 </span>
               )}
               {saveStatus === 'unsaved' && (
-                <span className="text-[11px] text-amber-600">
+                <span className="text-[11px] text-amber-600 font-medium">
                   ● <span className="hidden md:inline">Alterações pendentes</span>
                 </span>
               )}
               {saveStatus === 'error' && (
                 <button
                   onClick={() => saveProjectNow()}
-                  className="flex items-center gap-1 text-red-600 hover:underline"
+                  className="flex items-center gap-1 text-red-600 hover:underline font-medium"
                   title={saveErrorMessage || 'Clique para tentar salvar novamente'}
                 >
                   <AlertCircle size={13} />
@@ -108,7 +109,7 @@ export function Topbar({
                 </button>
               )}
             </div>
-          </>
+          </div>
         )}
       </div>
 
@@ -123,7 +124,7 @@ export function Topbar({
             disabled={!canUndo()}
             title="Desfazer (Ctrl+Z)"
             aria-label="Desfazer"
-            className="rounded-none border-r border-studio-border"
+            className="rounded-none border-r border-studio-border h-8 w-8 text-slate-600 hover:text-slate-900"
           >
             <Undo2 size={14} />
           </Button>
@@ -134,7 +135,7 @@ export function Topbar({
             disabled={!canRedo()}
             title="Refazer (Ctrl+Shift+Z)"
             aria-label="Refazer"
-            className="rounded-none"
+            className="rounded-none h-8 w-8 text-slate-600 hover:text-slate-900"
           >
             <Redo2 size={14} />
           </Button>
@@ -146,9 +147,9 @@ export function Topbar({
             variant="outline"
             size="sm"
             onClick={onSaveAsProject}
-            className="gap-1.5 text-xs font-medium border-studio-accent/40 text-studio-accent hover:bg-studio-highlight"
+            className="gap-1.5 text-xs font-semibold h-8 border-indigo-300 text-indigo-900 bg-indigo-50/50 hover:bg-indigo-100/60 shadow-2xs"
           >
-            <BookmarkPlus size={14} />
+            <BookmarkPlus size={14} className="text-indigo-600" />
             <span className="hidden sm:inline">Salvar como Projeto</span>
           </Button>
         )}
@@ -158,9 +159,9 @@ export function Topbar({
           variant="outline"
           size="sm"
           onClick={onToggleSceneDrawer}
-          className="gap-1.5 text-xs font-medium"
+          className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs"
         >
-          <Film size={14} />
+          <Film size={14} className="text-slate-600" />
           <span className="hidden sm:inline">Cenas ({project?.scenes?.length || 0})</span>
         </Button>
 
@@ -169,9 +170,9 @@ export function Topbar({
           variant="outline"
           size="sm"
           onClick={onOpenExportDialog}
-          className="gap-1.5 text-xs font-medium"
+          className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs"
         >
-          <Download size={14} />
+          <Download size={14} className="text-slate-600" />
           <span className="hidden sm:inline">Exportar</span>
         </Button>
 
@@ -180,9 +181,9 @@ export function Topbar({
           variant="accentSubtle"
           size="sm"
           onClick={onTogglePresentation}
-          className="gap-1.5 font-medium"
+          className="gap-1.5 text-xs font-semibold h-8 border-indigo-200 bg-indigo-50 text-indigo-900 hover:bg-indigo-100 shadow-2xs"
         >
-          <Play size={14} className="fill-studio-accent" />
+          <Play size={13} className="fill-indigo-600 text-indigo-600" />
           <span>Apresentar (P)</span>
         </Button>
       </div>

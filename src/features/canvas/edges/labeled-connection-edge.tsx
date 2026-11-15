@@ -14,7 +14,7 @@ export interface LabeledEdgeData {
 }
 
 const FLOW_TYPE_COLORS: Record<EdgeFlowType, string> = {
-  http: '#2563EB', // Blue
+  http: '#6366F1', // Indigo (accent)
   data: '#059669', // Emerald
   events: '#D97706', // Amber
   network: '#7C3AED', // Purple
@@ -32,7 +32,6 @@ export const LabeledConnectionEdge = memo(function LabeledConnectionEdge({
   targetPosition,
   label,
   selected,
-  animated,
   data,
   style = {},
 }: EdgeProps) {
@@ -47,17 +46,44 @@ export const LabeledConnectionEdge = memo(function LabeledConnectionEdge({
 
   const edgeData = data as unknown as LabeledEdgeData;
   const flowType = edgeData?.flowType || 'http';
-  const flowColor = FLOW_TYPE_COLORS[flowType] || '#64748B';
+  const direction = edgeData?.direction || 'sourceToTarget';
+  const flowColor = selected ? '#4F46E5' : FLOW_TYPE_COLORS[flowType] || '#6366F1';
+
+  const markerId = `arrow-${id}`;
 
   return (
     <>
+      <defs>
+        <marker
+          id={markerId}
+          viewBox="0 0 10 10"
+          refX="6"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto-start-reverse"
+        >
+          <path d="M 0 1 L 10 5 L 0 9 z" fill={flowColor} />
+        </marker>
+      </defs>
+
       <BaseEdge
         id={id}
         path={edgePath}
+        markerEnd={
+          direction === 'sourceToTarget' || direction === 'bidirectional'
+            ? `url(#${markerId})`
+            : undefined
+        }
+        markerStart={
+          direction === 'targetToSource' || direction === 'bidirectional'
+            ? `url(#${markerId})`
+            : undefined
+        }
         style={{
           ...style,
-          stroke: selected ? '#2563EB' : flowColor,
-          strokeWidth: selected ? 3 : 2,
+          stroke: flowColor,
+          strokeWidth: selected ? 2.5 : 2,
         }}
       />
 
@@ -70,10 +96,10 @@ export const LabeledConnectionEdge = memo(function LabeledConnectionEdge({
               pointerEvents: 'all',
             }}
             className={cn(
-              'rounded-full border px-2 py-0.5 text-[11px] font-medium shadow-xs select-none transition-all',
+              'rounded-full border px-2 py-0.5 text-[11px] font-semibold shadow-2xs select-none transition-all cursor-pointer',
               selected
-                ? 'border-studio-accent bg-studio-highlight text-studio-accent ring-1 ring-studio-accent font-semibold'
-                : 'border-studio-border bg-white text-studio-text hover:bg-slate-50'
+                ? 'border-indigo-600 bg-indigo-50 text-indigo-900 ring-2 ring-indigo-500/20'
+                : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300'
             )}
           >
             {label}
