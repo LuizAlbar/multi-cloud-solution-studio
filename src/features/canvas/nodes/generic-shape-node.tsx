@@ -28,56 +28,91 @@ export const GenericShapeNode = memo(function GenericShapeNode({
       role="button"
       aria-label={`Elemento ${label}`}
       className={cn(
-        'group relative flex flex-col items-center justify-center p-3 text-center transition-all select-none border bg-white shadow-xs',
+        'group relative flex flex-col items-center justify-center p-3 text-center transition-all select-none border bg-white shadow-2xs',
         isCircle ? 'w-28 h-28 rounded-full' : 'w-44 min-h-[72px] rounded-card',
         selected
-          ? 'border-studio-accent ring-2 ring-studio-accent/20 shadow-md'
-          : 'border-studio-border hover:border-slate-300'
+          ? 'border-studio-accent ring-2 ring-studio-accent/25 shadow-sm'
+          : 'border-studio-border hover:border-slate-300 hover:shadow-xs'
       )}
     >
-      {/* 4 Handles */}
+      {/* Top handles */}
       <Handle
         type="target"
         position={Position.Top}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="top-target"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
       <Handle
         type="source"
         position={Position.Top}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="top-source"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
 
+      {/* Right handles */}
       <Handle
         type="target"
         position={Position.Right}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="right-target"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
       <Handle
         type="source"
         position={Position.Right}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="right-source"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
 
+      {/* Bottom handles */}
       <Handle
         type="target"
         position={Position.Bottom}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="bottom-target"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
       <Handle
         type="source"
         position={Position.Bottom}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="bottom-source"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
 
+      {/* Left handles */}
       <Handle
         type="target"
         position={Position.Left}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="left-target"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
       <Handle
         type="source"
         position={Position.Left}
-        className="!w-2.5 !h-2.5 !bg-studio-accent !border-2 !border-white transition-opacity opacity-0 group-hover:opacity-100"
+        id="left-source"
+        className={cn(
+          '!w-3 !h-3 !bg-studio-accent !border-2 !border-white !z-30 transition-opacity',
+          selected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        )}
       />
 
       {/* Icon if legacy system or generic DB */}

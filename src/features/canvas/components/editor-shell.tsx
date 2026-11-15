@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ReactFlowProvider } from '@xyflow/react';
 import { Canvas } from './canvas';
 import { Topbar } from './topbar';
@@ -13,14 +13,23 @@ import { ExportDialog } from '@/features/import-export/components/export-dialog'
 import { useEditorStore } from '../store/editor-store';
 import type { CatalogService } from '@/lib/schemas';
 
-export function EditorShell() {
+interface EditorShellProps {
+  isPlayground?: boolean;
+}
+
+export function EditorShell({ isPlayground = false }: EditorShellProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const projectId = searchParams.get('project');
 
   const {
     project,
+    nodes,
+    edges,
     loadProject,
     initNewProject,
+    initPlayground,
+    convertPlaygroundToProject,
     addServiceNode,
   } = useEditorStore();
 
@@ -36,7 +45,9 @@ export function EditorShell() {
 
     async function setup() {
       setIsLoading(true);
-      if (projectId) {
+      if (isPlayground) {
+        initPlayground();
+      } else if (projectId) {
         const loaded = await loadProject(projectId);
         if (!loaded && isMounted) {
           await initNewProject();
@@ -52,7 +63,22 @@ export function EditorShell() {
     return () => {
       isMounted = false;
     };
-  }, [projectId]);
+  }, [projectId, isPlayground]);
+
+  // Warning before unload if playground has work
+  useEffect(() => {
+    if (!isPlayground) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (nodes.length > 0 || edges.length > 0) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isPlayground, nodes.length, edges.length]);
 
   // Global 'P' shortcut for presentation mode
   useEffect(() => {
@@ -86,12 +112,23 @@ export function EditorShell() {
     [addServiceNode]
   );
 
+  const handleSaveAsProject = async () => {
+    try {
+      const converted = await convertPlaygroundToProject();
+      router.push(`/editor?project=${converted.id}`);
+    } catch (err) {
+      console.error('Falha ao converter playground para projeto:', err);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center bg-studio-bg text-studio-secondary">
         <div className="text-center space-y-2">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-studio-accent border-t-transparent mx-auto" />
-          <p className="text-xs font-medium">Carregando estúdio...</p>
+          <p className="text-xs font-medium">
+            {isPlayground ? 'Iniciando Playground...' : 'Carregando estúdio...'}
+          </p>
         </div>
       </div>
     );
@@ -106,6 +143,8 @@ export function EditorShell() {
           onToggleSceneDrawer={() => setIsSceneDrawerOpen((prev) => !prev)}
           isPresentation={isPresentation}
           onOpenExportDialog={() => setIsExportDialogOpen(true)}
+          isPlayground={isPlayground}
+          onSaveAsProject={handleSaveAsProject}
         />
 
         {/* Scene Drawer */}

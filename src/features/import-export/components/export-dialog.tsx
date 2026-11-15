@@ -93,19 +93,14 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
           {/* Export JSON */}
           <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-btn bg-blue-50 text-blue-600">
-                <FileCode size={20} />
+              <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-blue-50 text-blue-600">
+                <FileCode size={18} />
               </div>
-              <div>
-                <div className="text-xs font-semibold text-studio-text">
-                  Arquivo do Projeto (.mcss.json)
-                </div>
-                <div className="text-[11px] text-studio-secondary">
-                  Salva o diagrama completo para backup ou compartilhamento.
-                </div>
+              <div className="text-xs font-semibold text-studio-text">
+                Arquivo do Projeto (.mcss.json)
               </div>
             </div>
-            <Button size="sm" variant="default" onClick={handleExportJson} className="text-xs">
+            <Button size="sm" variant="default" onClick={handleExportJson} className="text-xs h-7">
               Baixar JSON
             </Button>
           </div>
@@ -113,44 +108,32 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
           {/* Export PNG */}
           <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-btn bg-emerald-50 text-emerald-600">
-                <ImageIcon size={20} />
+              <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-emerald-50 text-emerald-600">
+                <ImageIcon size={18} />
               </div>
-              <div>
-                <div className="text-xs font-semibold text-studio-text">
-                  Imagem PNG em Alta Resolução
-                </div>
-                <div className="text-[11px] text-studio-secondary">
-                  Exporta imagem nítida com fundo claro para apresentações.
-                </div>
+              <div className="text-xs font-semibold text-studio-text">
+                Imagem PNG (2x)
               </div>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Button
-                size="sm"
-                variant="outline"
-                disabled={isExportingPng}
-                onClick={() => handleExportPng(2)}
-                className="text-xs"
-              >
-                {isExportingPng ? 'Gerando...' : 'PNG (2x)'}
-              </Button>
-            </div>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={isExportingPng}
+              onClick={() => handleExportPng(2)}
+              className="text-xs h-7"
+            >
+              {isExportingPng ? 'Gerando...' : 'Exportar PNG'}
+            </Button>
           </div>
 
           {/* Import JSON */}
           <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-btn bg-amber-50 text-amber-600">
-                <Upload size={20} />
+              <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-amber-50 text-amber-600">
+                <Upload size={18} />
               </div>
-              <div>
-                <div className="text-xs font-semibold text-studio-text">
-                  Importar Arquivo (.mcss.json)
-                </div>
-                <div className="text-[11px] text-studio-secondary">
-                  Carrega um projeto como nova cópia independente.
-                </div>
+              <div className="text-xs font-semibold text-studio-text">
+                Importar Arquivo (.mcss.json)
               </div>
             </div>
             <div>
@@ -166,9 +149,9 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
                 size="sm"
                 variant="outline"
                 onClick={() => fileInputRef.current?.click()}
-                className="text-xs"
+                className="text-xs h-7"
               >
-                Selecionar Arquivo
+                Selecionar
               </Button>
             </div>
           </div>

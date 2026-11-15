@@ -8,7 +8,6 @@ import {
   Info,
   Sliders,
   FileText,
-  Presentation,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -32,7 +31,6 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
     updateNodeLabel,
     updateNodeProperties,
     updateNodeNotes,
-    updateNodeSpeakerNotes,
     deleteSelected,
     duplicateSelected,
   } = useEditorStore();
@@ -183,21 +181,6 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                   />
                 </div>
 
-                {/* Speaker Notes */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-studio-text">
-                    <Presentation size={14} className="text-studio-secondary" />
-                    <span>Notas do Apresentador (Meet)</span>
-                  </div>
-                  <textarea
-                    rows={2}
-                    value={(nodeData?.speakerNotes as string) || ''}
-                    onChange={(e) => updateNodeSpeakerNotes(selectedNode.id, e.target.value)}
-                    placeholder="Pontos para falar ao cliente nesta etapa..."
-                    className="w-full rounded-btn border border-studio-border bg-amber-50/40 p-2 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-offset-1 resize-y"
-                  />
-                </div>
-
                 {/* Actions */}
                 <div className="pt-2 border-t border-studio-border flex items-center justify-between">
                   <Button
@@ -261,23 +244,8 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
             )}
 
             {!selectedNode && !selectedEdge && (
-              <div className="space-y-4">
-                <div className="rounded-btn border border-studio-border bg-slate-50/60 p-3 space-y-2">
-                  <div className="flex items-center gap-1.5 text-xs font-semibold text-studio-text">
-                    <Info size={14} className="text-studio-accent" />
-                    <span>Dicas de Demonstração</span>
-                  </div>
-                  <ul className="text-xs text-studio-secondary space-y-1 list-disc pl-4">
-                    <li>Arraste componentes do catálogo para o canvas.</li>
-                    <li>Conecte nós puxando dos círculos nas bordas.</li>
-                    <li>
-                      Pressione <kbd className="px-1 rounded bg-white border border-slate-200">Space</kbd> + arrastar para navegar livremente.
-                    </li>
-                    <li>
-                      Atalho <kbd className="px-1 rounded bg-white border border-slate-200">P</kbd> para alternar para o modo apresentação.
-                    </li>
-                  </ul>
-                </div>
+              <div className="py-12 text-center text-xs text-studio-secondary">
+                Selecione um elemento no canvas para editar suas propriedades.
               </div>
             )}
           </div>

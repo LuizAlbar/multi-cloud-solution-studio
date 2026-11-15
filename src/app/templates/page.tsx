@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ProviderIcon } from '@/features/catalog/components/provider-icons';
+import { BrandLogo } from '@/components/brand/brand-logo';
 import {
   getTemplates,
   getTemplateById,
@@ -56,18 +57,13 @@ export default function TemplatesPage() {
   return (
     <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col">
       {/* Top Header */}
-      <header className="flex h-14 w-full items-center justify-between border-b border-studio-border bg-white px-6">
+      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6">
         <div className="flex items-center gap-4">
           <Link
             href="/"
-            className="flex items-center gap-2 text-studio-text hover:text-studio-accent transition-colors"
+            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-studio-accent text-white shadow-xs">
-              <Layers size={18} />
-            </div>
-            <span className="font-semibold text-sm tracking-tight">
-              MultiCloud Solution Studio
-            </span>
+            <BrandLogo size="lg" />
           </Link>
 
           <div className="h-4 w-px bg-studio-border mx-1" />
@@ -89,19 +85,11 @@ export default function TemplatesPage() {
       </header>
 
       {/* Hero Banner */}
-      <div className="border-b border-studio-border bg-white py-8 px-6 sm:px-12">
+      <div className="border-b border-studio-border bg-white py-6 px-6 sm:px-12">
         <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-studio-highlight px-3 py-1 text-xs font-medium text-studio-accent mb-3">
-            <Sparkles size={14} />
-            <span>5 Cenários Ilustrativos de Referência</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-studio-text">
-            Galeria de Cenários e Templates
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-studio-text">
+            Templates de Arquitetura
           </h1>
-          <p className="mt-2 text-sm text-studio-secondary leading-relaxed">
-            Inicie reuniões com clientes a partir de arquiteturas multicloud pré-montadas.
-            Cada template abre como uma cópia 100% independente e editável no seu navegador.
-          </p>
         </div>
       </div>
 
@@ -151,11 +139,6 @@ export default function TemplatesPage() {
                       </span>
                     ))}
                   </div>
-                </div>
-
-                <div className="rounded-btn bg-amber-50/60 border border-amber-200 p-2 text-[10px] text-amber-800 flex items-start gap-1.5">
-                  <Info size={12} className="shrink-0 mt-0.5" />
-                  <span>Arquitetura ilustrativa para pré-vendas e reuniões.</span>
                 </div>
               </CardContent>
 

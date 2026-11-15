@@ -4,9 +4,14 @@
 
 ---
 
-## 🚀 Visão Geral
+## 🚀 Novidades do PRD 2 (Evolução Visual e Funcional)
 
-O **MultiCloud Solution Studio** foi projetado para substituir o atrito de diagramas estáticos por uma experiência fluida, profissional e confiavelmente persistida no navegador. Ele cobre **7 provedores de nuvem** (Google Cloud, AWS, Microsoft Azure, Oracle Cloud Infrastructure, Cloudflare, Hostinger e Supabase) além de elementos on-premises, genéricos e anotações livres.
+- **Modo Playground Anônimo e Efêmero (`/playground`):** Experimentação instantânea sem criar ou salvar projeto no IndexedDB. Rascunho 100% em memória, com exportação manual e conversão opt-in para projeto permanente.
+- **Catálogo Expandido (153 Serviços Reais):** Cobertura massiva dos 7 provedores (Google Cloud, AWS, Azure, OCI, Cloudflare, Hostinger e Supabase), com taxonomia completa e metadados oficiais.
+- **Ícones Oficiais Específicos por Serviço:** Renderização de ícones distintos e reconhecíveis para cada serviço (Cloud Run, BigQuery, S3, EC2, Lambda, Azure Functions, Workers, Supabase Auth etc.), sem chamadas de rede externas e sem repetir a logo genérica do provedor.
+- **Branding Oficial Integrado:** Aplicação da logo oficial (`assets/logo.png`) e favicon (`assets/favicon.png`) no cabeçalho do Dashboard, Editor e metadados da aplicação, com paleta e acento visual roxo/índigo alinhados à marca.
+- **Redesign Compacto e Minimalista:** Densidade útil aprimorada, margens equilibradas e eliminação de caixas vazias ou decorações sem função.
+- **Remoção de "Notas do Apresentador" dos Elementos:** Foco limpo no inspector de nós (apenas notas técnicas de arquitetura), preservando as notas do apresentador exclusivamente no roteiro de cenas da apresentação.
 
 ---
 
@@ -52,20 +57,20 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ---
 
-## ☁️ Catálogo Multicloud (44 Serviços Iniciais)
+## ☁️ Cobertura do Catálogo (153 Serviços Verificados)
 
 O catálogo declarativo (`src/data/service-catalog.json`) inclui metadados completos, categorias da taxonomia oficial e links para documentações oficiais verificadas:
 
 | Provedor | Qtd | Serviços Principais |
 |---|:---:|---|
-| **Google Cloud (GCP)** | 8 | Cloud Run, Compute Engine, GKE, Cloud Storage, Cloud SQL, BigQuery, Vertex AI, Cloud Load Balancing |
-| **Amazon Web Services (AWS)** | 9 | EC2, Lambda, ECS, Fargate, S3, RDS, Athena, Bedrock, API Gateway |
-| **Microsoft Azure** | 7 | Virtual Machines, Functions, App Service, AKS, Blob Storage, Azure SQL Database, Azure Front Door |
-| **Oracle Cloud (OCI)** | 6 | OCI Compute, VCN, OKE, Object Storage, Autonomous Database, Load Balancer |
-| **Cloudflare** | 6 | Workers, R2, CDN, WAF, DNS, D1 |
-| **Hostinger** | 3 | VPS, Web Hosting, Cloud Hosting |
-| **Supabase** | 5 | Postgres, Auth, Storage, Edge Functions, Realtime |
-| **Total Inicial** | **44** | **100% categorizados e validados com links oficiais** |
+| **Google Cloud (GCP)** | 38 | Cloud Run, Compute Engine, GKE, Cloud Storage, Cloud SQL, BigQuery, Vertex AI, Cloud Load Balancing, Spanner, Firestore, Pub/Sub, Dataflow, AlloyDB, Cloud Armor, IAM, Secret Manager... |
+| **Amazon Web Services (AWS)** | 46 | EC2, Lambda, ECS, EKS, Fargate, S3, EBS, RDS, Aurora, DynamoDB, Athena, Bedrock, API Gateway, SQS, SNS, EventBridge, SageMaker, CloudWatch, OpenSearch, Step Functions... |
+| **Microsoft Azure** | 27 | Virtual Machines, Functions, App Service, AKS, Container Apps, Blob Storage, Azure SQL Database, Cosmos DB, Azure Front Door, Synapse, OpenAI Service, Entra ID, Key Vault, Monitor... |
+| **Oracle Cloud (OCI)** | 16 | OCI Compute, VCN, OKE, Object Storage, Block Volumes, Autonomous Database, MySQL HeatWave, Load Balancer, FastConnect, Generative AI, IAM, Vault... |
+| **Cloudflare** | 12 | Workers, Pages, Durable Objects, R2, D1, KV, Vectorize, CDN, WAF, DNS, Zero Trust, Queues |
+| **Hostinger** | 6 | VPS, Web Hosting, Cloud Hosting, WordPress Hosting, WooCommerce Hosting, Business Email |
+| **Supabase** | 8 | Postgres, Auth, Storage, Edge Functions, Realtime, Vector (pgvector), GraphQL API, Vault |
+| **Total** | **153** | **100% categorizados e validados com links oficiais** |
 
 ---
 
@@ -94,28 +99,15 @@ Pressione **P** ou clique no botão **Apresentar** para entrar no modo limpo par
 
 ---
 
-## 📋 Matriz de Verificação dos Critérios de Aceite (CA-01 a CA-18)
+## 📋 Matriz de Verificação dos Requisitos do PRD 2
 
-| Critério | Descrição do PRD | Status | Evidência de Implementação |
+| Requisito | Descrição | Status | Evidência de Implementação |
 |---|---|:---:|---|
-| **CA-01** | Dashboard com listagem, busca e exclusão com confirmação | ✅ Concluído | `src/app/page.tsx`, modal de confirmação, busca reativa |
-| **CA-02** | Catálogo dos 7 provedores com 44 serviços e metadados | ✅ Concluído | `src/data/service-catalog.json`, `src/features/catalog/catalog.test.ts` (44 itens validados) |
-| **CA-03** | Adicionar nó, editar label e exibir badge do provedor | ✅ Concluído | `ServiceNode.tsx`, `Inspector.tsx`, `editor-store.test.ts` |
-| **CA-04** | Formas genéricas, post-it, texto e caneta sincronizada com zoom/pan | ✅ Concluído | `GenericShapeNode.tsx`, `StickyNoteNode.tsx`, `TextNode.tsx`, `DrawingOverlay.tsx` |
-| **CA-05** | Mover agrupamento desloca nós internos preservando posições | ✅ Concluído | `GroupNode.tsx`, suporte a nós filhos no `@xyflow/react` |
-| **CA-06** | Histórico de ao menos 20 operações sem arestas órfãs | ✅ Concluído | `src/lib/history/history.test.ts` (teste de 22 operações consecutivas) |
-| **CA-07** | Persistência local no IndexedDB com autosave de 1s e reload íntegro | ✅ Concluído | `ProjectRepository.ts`, `storage.test.ts`, `editor-store.test.ts` |
-| **CA-08** | Exportar e importar `.mcss.json` preservando metadados | ✅ Concluído | `export-project.ts`, `import-project.ts`, `import-export.test.ts` |
-| **CA-09** | Rejeição graciosa de `.mcss.json` malformado sem corromper estado | ✅ Concluído | `import-project.ts` com validação Zod e teste de erro |
-| **CA-10** | Exportar imagem PNG em alta resolução com legibilidade de texto | ✅ Concluído | `export-png.ts`, canvas 2x com grid e bounding box de nós |
-| **CA-11** | 5 templates disponíveis que abrem como cópias editáveis | ✅ Concluído | `src/data/templates/index.ts`, `templates.test.ts` |
-| **CA-12** | Criar cena com enquadramento e spotlight suave | ✅ Concluído | `SceneDrawer.tsx`, `PresentationView.tsx` |
-| **CA-13** | Animação em arestas com aviso de fluxo ilustrativo | ✅ Concluído | `PresentationView.tsx`, rodapé/banner obrigatório |
-| **CA-14** | Modo apresentação 16:9 limpo sem controles de edição | ✅ Concluído | `PresentationView.tsx`, atalho `P` e Fullscreen API |
-| **CA-15** | Links de documentação oficial abrem nova aba com alvo seguro | ✅ Concluído | `Inspector.tsx` com `rel="noopener noreferrer"` |
-| **CA-16** | Cenário de estresse com 80 nós e 120 conexões fluido | ✅ Concluído | `src/test/benchmark-scene.test.ts` (gerador e teste de carga) |
-| **CA-17** | Foco visível, navegação por teclado e `prefers-reduced-motion` | ✅ Concluído | `globals.css`, `button.tsx`, `canvas.tsx` |
-| **CA-18** | Alerta visual explícito em falha de storage com download de emergência | ✅ Concluído | `topbar.tsx`, `ProjectRepository.ts` |
+| **RF2-01** | Modo Playground anônimo e efêmero (*stateless*) | ✅ Concluído | Rota `/playground`, isolamento de storage no `editor-store.ts`, botão no dashboard, `playground.test.ts` |
+| **RF2-02** | Redesign minimalista, compacto e profissional | ✅ Concluído | Dashboard compacto, proporções e alinhamento do editor, espaçamentos em escala 4/8/12/16px |
+| **RF2-03** | Expansão para 150+ serviços e ícones específicos | ✅ Concluído | 153 serviços reais em `service-catalog.json`, `ServiceIcon.tsx` com SVGs específicos, `catalog.test.ts` |
+| **RF2-04** | Integração da logo e favicon existentes em `/assets` | ✅ Concluído | `BrandLogo.tsx`, `layout.tsx`, `public/logo.png`, `public/favicon.png` |
+| **RF2-05** | Remoção de "Notas do Apresentador" dos nós/elementos | ✅ Concluído | `Inspector.tsx` e `editor-store.ts` atualizados, notas exclusivas do roteiro de cenas |
 
 ---
 

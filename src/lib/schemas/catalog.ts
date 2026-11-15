@@ -14,6 +14,7 @@ export type ProviderId = z.infer<typeof ProviderIdSchema>;
 
 export const ServiceCategorySchema = z.enum([
   'compute',
+  'containers',
   'storage',
   'databases',
   'networking',
@@ -21,6 +22,8 @@ export const ServiceCategorySchema = z.enum([
   'ai-ml',
   'security',
   'integration',
+  'observability',
+  'dev-tools',
   'custom',
 ]);
 export type ServiceCategory = z.infer<typeof ServiceCategorySchema>;

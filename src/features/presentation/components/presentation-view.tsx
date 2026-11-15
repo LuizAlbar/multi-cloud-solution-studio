@@ -245,12 +245,7 @@ export function PresentationView({ onExit }: PresentationViewProps) {
           </div>
 
           <p className="text-xs leading-relaxed whitespace-pre-wrap">
-            {activeScene?.speakerNotes ||
-              'Nenhuma nota gravada para esta cena. Adicione notas no editor para orientar sua fala em reuniões.'}
-          </p>
-
-          <p className="text-[10px] text-amber-700 italic pt-1 border-t border-amber-200/60">
-            Dica: Posicione esta janela na sua segunda tela se for compartilhar apenas o Meet.
+            {activeScene?.speakerNotes || 'Sem notas gravadas para esta cena.'}
           </p>
         </div>
       )}

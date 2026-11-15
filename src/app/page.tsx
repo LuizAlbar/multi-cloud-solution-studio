@@ -4,24 +4,23 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  Layers,
   Plus,
   Search,
   LayoutTemplate,
   Trash2,
   Copy,
-  ExternalLink,
   Edit2,
-  Upload,
   Calendar,
   Check,
   AlertTriangle,
+  Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ProviderIcon } from '@/features/catalog/components/provider-icons';
+import { BrandLogo } from '@/components/brand/brand-logo';
 import { projectRepository, type ProjectSummary } from '@/lib/storage/project-repository';
 import type { ProviderId } from '@/lib/schemas';
 
@@ -59,10 +58,6 @@ export default function DashboardPage() {
     const q = searchQuery.toLowerCase();
     return projects.filter((p) => p.title.toLowerCase().includes(q));
   }, [projects, searchQuery]);
-
-  const handleCreateNew = () => {
-    router.push('/editor');
-  };
 
   const handleDuplicate = async (p: ProjectSummary) => {
     try {
@@ -102,22 +97,30 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col">
+    <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col font-sans">
       {/* Top Header */}
-      <header className="flex h-14 w-full items-center justify-between border-b border-studio-border bg-white px-6">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-studio-accent text-white shadow-xs">
-            <Layers size={18} />
-          </div>
-          <span className="font-semibold text-sm tracking-tight text-studio-text">
-            MultiCloud Solution Studio
-          </span>
-        </div>
+      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6 z-10 select-none">
+        <Link href="/" className="hover:opacity-90 transition-opacity">
+          <BrandLogo size="lg" />
+        </Link>
 
-        <div className="flex items-center gap-2.5">
+        {/* Quick Action Navigation */}
+        <div className="flex items-center gap-2">
+          <Link href="/playground">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs font-medium border-amber-300 bg-amber-50/60 text-amber-900 hover:bg-amber-100/80"
+              title="Abrir editor rápido em memória sem salvar"
+            >
+              <Sparkles size={13} className="text-amber-600" />
+              <span>Playground</span>
+            </Button>
+          </Link>
+
           <Link href="/templates">
             <Button variant="outline" size="sm" className="gap-1.5 text-xs">
-              <LayoutTemplate size={14} />
+              <LayoutTemplate size={13} />
               <span>Templates</span>
             </Button>
           </Link>
@@ -125,8 +128,8 @@ export default function DashboardPage() {
           <Button
             variant="default"
             size="sm"
-            onClick={handleCreateNew}
-            className="gap-1.5 text-xs"
+            onClick={() => router.push('/editor')}
+            className="gap-1.5 text-xs font-medium"
           >
             <Plus size={14} />
             <span>Novo Projeto</span>
@@ -135,45 +138,49 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Body */}
-      <main className="flex-1 p-6 sm:p-10 max-w-7xl mx-auto w-full space-y-6">
-        {/* Search & Stats Bar */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-          <div className="relative max-w-md w-full">
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-studio-secondary pointer-events-none" />
+      <main className="flex-1 p-6 sm:p-10 max-w-5xl mx-auto w-full space-y-6">
+        {/* Header Title & Actions Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-studio-border pb-4">
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-studio-text">
+              Projetos
+            </h1>
+          </div>
+
+          {/* Search Input */}
+          <div className="relative w-full sm:w-72">
+            <Search className="absolute left-3 top-2.5 h-3.5 w-3.5 text-studio-secondary pointer-events-none" />
             <Input
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar projetos pelo nome..."
-              className="pl-9 text-xs h-9 bg-white"
+              placeholder="Buscar projetos..."
+              className="pl-8 text-xs h-8 bg-white"
             />
           </div>
-
-          <span className="text-xs text-studio-secondary self-end sm:self-center">
-            {projects.length} {projects.length === 1 ? 'projeto local' : 'projetos locais'}
-          </span>
         </div>
 
         {/* Empty State */}
         {!isLoading && projects.length === 0 && (
-          <div className="rounded-card border border-dashed border-studio-border bg-white p-12 text-center space-y-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-studio-highlight text-studio-accent mx-auto">
-              <Layers size={24} />
-            </div>
-            <div className="space-y-1">
-              <h3 className="text-base font-semibold text-studio-text">
-                Nenhum projeto local encontrado
-              </h3>
-              <p className="text-xs text-studio-secondary max-w-sm mx-auto">
-                Crie um novo projeto vazio ou escolha um dos 5 templates corporativos prontos para começar.
-              </p>
-            </div>
-            <div className="flex items-center justify-center gap-3 pt-2">
-              <Link href="/templates">
-                <Button variant="outline" size="sm" className="text-xs">
-                  Explorar Templates
+          <div className="rounded-card border border-dashed border-studio-border bg-white p-10 text-center space-y-3">
+            <h3 className="text-sm font-semibold text-studio-text">
+              Nenhum projeto salvo
+            </h3>
+            <div className="flex items-center justify-center gap-2 pt-1">
+              <Link href="/playground">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs border-amber-300 text-amber-900 bg-amber-50"
+                >
+                  Abrir Playground
                 </Button>
               </Link>
-              <Button size="sm" variant="default" onClick={handleCreateNew} className="text-xs">
+              <Button
+                size="sm"
+                variant="default"
+                onClick={() => router.push('/editor')}
+                className="text-xs"
+              >
                 Criar Projeto
               </Button>
             </div>
@@ -181,16 +188,16 @@ export default function DashboardPage() {
         )}
 
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredProjects.map((p) => (
             <Card
               key={p.id}
-              className="flex flex-col justify-between hover:shadow-md transition-all border-studio-border bg-white"
+              className="flex flex-col justify-between hover:shadow-sm transition-all border-studio-border bg-white"
             >
               <CardHeader className="p-4 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   {renamingId === p.id ? (
-                    <div className="flex items-center gap-1.5 w-full">
+                    <div className="flex items-center gap-1 w-full">
                       <Input
                         value={renamingTitle}
                         onChange={(e) => setRenamingTitle(e.target.value)}
@@ -215,7 +222,7 @@ export default function DashboardPage() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-1.5 pt-1">
+                <div className="flex items-center gap-1.5 pt-0.5">
                   {p.providers.length > 0 ? (
                     p.providers.map((prov) => (
                       <span key={prov} title={prov} className="inline-flex">
@@ -238,8 +245,8 @@ export default function DashboardPage() {
                 </div>
               </CardContent>
 
-              <CardFooter className="p-3 bg-slate-50/70 border-t border-studio-border flex items-center justify-between">
-                <div className="flex items-center gap-1">
+              <CardFooter className="p-2.5 bg-slate-50/70 border-t border-studio-border flex items-center justify-between">
+                <div className="flex items-center gap-0.5">
                   <Button
                     variant="ghost"
                     size="iconSm"
@@ -284,7 +291,7 @@ export default function DashboardPage() {
         </div>
       </main>
 
-      {/* Delete Confirmation Modal (RF-01) */}
+      {/* Delete Confirmation Modal */}
       {deletingProject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
           <div className="w-full max-w-sm rounded-card border border-studio-border bg-white p-5 shadow-xl space-y-4">
@@ -294,9 +301,8 @@ export default function DashboardPage() {
             </div>
 
             <p className="text-xs text-studio-secondary leading-relaxed">
-              Tem certeza que deseja excluir o projeto{' '}
+              Tem certeza que deseja excluir{' '}
               <strong className="text-studio-text">&quot;{deletingProject.title}&quot;</strong>?
-              Esta ação removerá os dados salvos localmente no navegador.
             </p>
 
             <div className="flex justify-end gap-2 pt-2 border-t border-studio-border">

@@ -164,9 +164,9 @@ export function Toolbar() {
       <Button
         variant="ghost"
         size="iconSm"
-        onClick={() => handleAddGeneric('shape', 'generic-db', 'Banco de Dados Genérico')}
-        title="Banco Genérico"
-        aria-label="Banco Genérico"
+        onClick={() => handleAddGeneric('shape', 'generic-db', 'Banco de Dados')}
+        title="Banco de Dados"
+        aria-label="Banco de Dados"
       >
         <Database size={15} />
       </Button>

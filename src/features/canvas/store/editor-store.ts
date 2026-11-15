@@ -41,6 +41,7 @@ export interface EditorState {
   activeTool: ToolMode;
   saveStatus: SaveStatus;
   saveErrorMessage: string | null;
+  isPlayground: boolean;
   history: {
     past: { nodes: FlowNode[]; edges: FlowEdge[] }[];
     future: { nodes: FlowNode[]; edges: FlowEdge[] }[];
@@ -49,6 +50,8 @@ export interface EditorState {
   // Actions
   setProject: (project: Project) => void;
   initNewProject: (title?: string) => Promise<Project>;
+  initPlayground: () => void;
+  convertPlaygroundToProject: (title?: string) => Promise<Project>;
   loadProject: (id: string) => Promise<boolean>;
   updateProjectTitle: (title: string) => void;
   setActiveTool: (tool: ToolMode) => void;
@@ -71,7 +74,6 @@ export interface EditorState {
     properties: Record<string, unknown>
   ) => void;
   updateNodeNotes: (id: string, notes: string) => void;
-  updateNodeSpeakerNotes: (id: string, speakerNotes: string) => void;
   deleteSelected: () => void;
   duplicateSelected: () => void;
 
@@ -165,6 +167,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   activeTool: 'select',
   saveStatus: 'saved',
   saveErrorMessage: null,
+  isPlayground: false,
   history: {
     past: [],
     future: [],
@@ -180,6 +183,7 @@ export const useEditorStore = create<EditorState>((set, get) => ({
       selectedNodeId: null,
       selectedEdgeId: null,
       saveStatus: 'saved',
+      isPlayground: false,
       history: { past: [], future: [] },
     });
   },
@@ -207,6 +211,69 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     await projectRepository.saveProject(newProj);
     get().setProject(newProj);
     return newProj;
+  },
+
+  initPlayground: () => {
+    const ephemeralProject: Project = {
+      id: 'playground',
+      title: 'Playground',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      schemaVersion: 1,
+      catalogVersion: '1.0.0',
+      viewport: { x: 0, y: 0, zoom: 1 },
+      nodes: [],
+      edges: [],
+      drawings: [],
+      scenes: [],
+      settings: {
+        snapToGrid: false,
+        showGrid: true,
+        reduceMotion: false,
+      },
+    };
+
+    set({
+      isPlayground: true,
+      project: ephemeralProject,
+      nodes: [],
+      edges: [],
+      selectedNodeId: null,
+      selectedEdgeId: null,
+      saveStatus: 'unsaved',
+      history: { past: [], future: [] },
+    });
+  },
+
+  convertPlaygroundToProject: async (title = 'Projeto do Playground') => {
+    const { project, nodes, edges } = get();
+    const newId = `proj-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+    const now = new Date().toISOString();
+
+    const realProject: Project = {
+      ...(project || {
+        schemaVersion: 1,
+        catalogVersion: '1.0.0',
+        viewport: { x: 0, y: 0, zoom: 1 },
+        drawings: [],
+        scenes: [],
+        settings: { snapToGrid: false, showGrid: true, reduceMotion: false },
+      }),
+      id: newId,
+      title,
+      createdAt: now,
+      updatedAt: now,
+      nodes: nodes.map(flowNodeToStudioNode),
+      edges: edges.map(flowEdgeToStudioEdge),
+    };
+
+    await projectRepository.saveProject(realProject);
+    set({
+      isPlayground: false,
+      project: realProject,
+      saveStatus: 'saved',
+    });
+    return realProject;
   },
 
   loadProject: async (id: string) => {
@@ -355,24 +422,6 @@ export const useEditorStore = create<EditorState>((set, get) => ({
     scheduleAutoSave(get);
   },
 
-  updateNodeSpeakerNotes: (id: string, speakerNotes: string) => {
-    const nextNodes = get().nodes.map((node) => {
-      if (node.id === id) {
-        return {
-          ...node,
-          data: {
-            ...node.data,
-            speakerNotes,
-          },
-        };
-      }
-      return node;
-    });
-
-    set({ nodes: nextNodes, saveStatus: 'unsaved' });
-    scheduleAutoSave(get);
-  },
-
   deleteSelected: () => {
     const { selectedNodeId, selectedEdgeId, nodes, edges } = get();
     if (!selectedNodeId && !selectedEdgeId) return;
@@ -477,8 +526,9 @@ export const useEditorStore = create<EditorState>((set, get) => ({
   canRedo: () => get().history.future.length > 0,
 
   saveProjectNow: async () => {
-    const { project, nodes, edges } = get();
-    if (!project) return;
+    const { project, nodes, edges, isPlayground } = get();
+    // Do not save to storage if in playground mode or no project (RF2-01)
+    if (!project || isPlayground) return;
 
     set({ saveStatus: 'saving', saveErrorMessage: null });
 
@@ -517,6 +567,11 @@ function pushHistoryState(
 }
 
 function scheduleAutoSave(get: () => EditorState) {
+  // Never schedule autosave in playground mode (RF2-01)
+  if (get().isPlayground) {
+    return;
+  }
+
   if (debounceTimer) {
     clearTimeout(debounceTimer);
   }

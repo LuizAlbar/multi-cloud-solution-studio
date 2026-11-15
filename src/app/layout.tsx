@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: 'Estúdio visual multicloud para construir, explicar e apresentar arquiteturas tecnológicas ao vivo.',
   icons: {
     icon: '/favicon.png',
+    shortcut: '/favicon.png',
+    apple: '/favicon.png',
   },
 };
 

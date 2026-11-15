@@ -21,14 +21,17 @@ export const PROVIDERS: { id: ProviderId; name: string }[] = [
 ];
 
 export const CATEGORIES: { id: ServiceCategory; name: string }[] = [
-  { id: 'compute', name: 'Compute / Containers' },
+  { id: 'compute', name: 'Compute / Serverless' },
+  { id: 'containers', name: 'Containers / Kubernetes' },
   { id: 'storage', name: 'Storage' },
-  { id: 'databases', name: 'Databases' },
-  { id: 'networking', name: 'Networking / Edge' },
+  { id: 'databases', name: 'Databases / Caches' },
+  { id: 'networking', name: 'Networking / CDN' },
   { id: 'analytics', name: 'Data / Analytics' },
-  { id: 'ai-ml', name: 'AI / ML' },
+  { id: 'ai-ml', name: 'AI / Machine Learning' },
   { id: 'security', name: 'Identity / Security' },
-  { id: 'integration', name: 'Integration / Messaging' },
+  { id: 'integration', name: 'Integration / Queues' },
+  { id: 'observability', name: 'Observability / Logs' },
+  { id: 'dev-tools', name: 'Developer Tools / CI/CD' },
   { id: 'custom', name: 'Custom / Legacy' },
 ];
 

@@ -8,12 +8,12 @@
   --studio-bg: #F8FAFC;
   --studio-canvas: #FFFFFF;
   --studio-surface: #FFFFFF;
-  --studio-text: #111827;
+  --studio-text: #0F172A;
   --studio-secondary: #64748B;
-  --studio-border: #E5E7EB;
-  --studio-accent: #2563EB;
-  --studio-highlight: #EFF6FF;
-  --studio-grid: #E9EDF3;
+  --studio-border: #E2E8F0;
+  --studio-accent: #6366F1;
+  --studio-highlight: #EEF2FF;
+  --studio-grid: #E2E8F0;
 }
 
 body {

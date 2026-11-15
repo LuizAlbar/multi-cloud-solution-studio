@@ -131,12 +131,9 @@ export function SceneDrawer({
       {/* Scenes List */}
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {scenes.length === 0 ? (
-          <div className="p-6 text-center space-y-2">
+          <div className="p-6 text-center">
             <p className="text-xs text-studio-secondary">
-              Nenhuma cena criada ainda.
-            </p>
-            <p className="text-[11px] text-slate-400">
-              Posicione o canvas e clique em &quot;Capturar Cena Atual&quot; para criar etapas da apresentação.
+              Nenhuma cena criada.
             </p>
           </div>
         ) : (

@@ -554,3 +554,138 @@
 **Files likely touched:**
 - `README.md`
 **Estimated scope:** Small (1 file)
+
+---
+
+# PRD 2 — Evolução Visual e Funcional
+
+## Phase 9: Fatia A — Identidade, Logo, Favicon e Tokens Visuais
+### Task 9.1: Integração de logo.png e favicon.png e tokens visuais roxo/índigo
+**Description:** Integrar a logo e favicon reais fornecidos em `assets/` e `public/` nos headers do Dashboard e Editor e nos metadados do Next.js. Ajustar tokens de acento para roxo/índigo alinhado com a nova marca.
+**Acceptance criteria:**
+- [x] Logo oficial visível no header do Dashboard e Editor com proporção e alinhamento corretos
+- [x] Favicon oficial configurado e carregando na aba do navegador
+- [x] Acento de cor alinhado à identidade roxo/índigo da marca
+**Verification:**
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** None
+**Files likely touched:**
+- `src/app/layout.tsx`
+- `src/app/globals.css`
+- `tailwind.config.ts`
+- `src/features/canvas/components/topbar.tsx`
+- `src/app/page.tsx`
+- `src/app/templates/page.tsx`
+**Estimated scope:** Medium (3-5 files)
+
+---
+
+## Phase 10: Fatia B — Modo Playground Anônimo e Efêmero (RF2-01)
+### Task 10.1: Criação da rota `/playground` e isolamento de estado em memória
+**Description:** Criar rota `/playground` e modo de execução 100% efêmero (stateless). O playground nunca salva em IndexedDB/localStorage, inicia sempre vazio após refresh e não altera contadores ou lista de projetos.
+**Acceptance criteria:**
+- [x] Botão "Playground" de destaque no Dashboard ao lado de "Novo Projeto"
+- [x] Rota `/playground` abre canvas vazio com indicador "Playground · Não salvo"
+- [x] Nenhuma persistência automática ocorre no Dexie/storage durante o playground
+- [x] Atualizar página volta ao canvas vazio
+- [x] Ações manuais de exportar PNG e exportar JSON funcionam normalmente
+- [x] Opção opt-in "Salvar como projeto" converte o rascunho em projeto salvo somente se o usuário desejar
+**Verification:**
+- [x] Tests pass: `pnpm test`
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 9.1
+**Files likely touched:**
+- `src/app/playground/page.tsx`
+- `src/features/canvas/components/editor-shell.tsx`
+- `src/features/canvas/components/topbar.tsx`
+- `src/features/canvas/store/editor-store.ts`
+- `src/app/page.tsx`
+**Estimated scope:** Medium (4-5 files)
+
+---
+
+## Phase 11: Fatia C — Redesign Compacto e Remoção de Notas do Apresentador nos Nós (RF2-02, RF2-05)
+### Task 11.1: Remoção de "Notas do Apresentador" do inspector de elementos e formulários de nós
+**Description:** Remover o campo "Notas do apresentador" do inspector de nós/formas e formulários de elementos. Preservar apenas as notas técnicas de arquitetura no nó e manter `speakerNotes` exclusivamente no roteiro de cenas da apresentação.
+**Acceptance criteria:**
+- [x] Inspector de nós não exibe mais "Notas do Apresentador"
+- [x] Projetos antigos abrem sem erros preservando outros campos
+- [x] Notas privadas das cenas de apresentação continuam intactas
+**Verification:**
+- [x] Tests pass: `pnpm test`
+**Dependencies:** None
+**Files likely touched:**
+- `src/features/canvas/components/inspector.tsx`
+- `src/features/canvas/nodes/service-node.tsx`
+- `src/features/canvas/store/editor-store.ts`
+**Estimated scope:** Small (2-3 files)
+
+### Task 11.2: Redesign minimalista, compacto e aumento da densidade útil no Dashboard e Editor
+**Description:** Refinar o layout do Dashboard (grid limpo e centralizado, sem vazio exagerado, exibindo apenas os projetos reais) e do Editor (espaçamentos mais compactos de 4/8/12/16px, nós com altura proporcional, inspector limpo e sem grupos vazios).
+**Acceptance criteria:**
+- [x] Dashboard com layout equilibrado e compacto para 0, 1, 2 ou muitos projetos
+- [x] Editor com preenchimentos compactos e área útil otimizada para 1366x768 e 1920x1080
+- [x] Sem componentes decorativos vazios ou botões sem ação real
+**Verification:**
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 11.1
+**Files likely touched:**
+- `src/app/page.tsx`
+- `src/features/canvas/components/inspector.tsx`
+- `src/features/catalog/components/catalog-sidebar.tsx`
+- `src/features/canvas/nodes/service-node.tsx`
+**Estimated scope:** Medium (4 files)
+
+---
+
+## Phase 12: Fatia D — Expansão do Catálogo para 150+ Serviços com Ícones Específicos (RF2-03)
+### Task 12.1: Expansão do manifesto declarativo com 150+ serviços oficiais dos 7 provedores
+**Description:** Expandir o catálogo para mais de 150 serviços reais cobrindo todas as categorias essenciais nos 7 provedores (GCP, AWS, Azure, OCI, Cloudflare, Hostinger, Supabase), preservando os 44 IDs existentes.
+**Acceptance criteria:**
+- [x] Mais de 150 serviços reais catalogados com documentação oficial (153 serviços)
+- [x] Cobertura de todas as categorias da taxonomia oficial
+- [x] Compatibilidade retroativa total com os 44 serviços do MVP
+**Verification:**
+- [x] Tests pass: `pnpm test src/features/catalog/`
+**Dependencies:** None
+**Files likely touched:**
+- `src/data/service-catalog.json`
+- `src/features/catalog/catalog-service.ts`
+- `src/features/catalog/catalog.test.ts`
+**Estimated scope:** Medium (3 files)
+
+### Task 12.2: Implementação de ícones específicos e diferenciados por serviço
+**Description:** Implementar renderização de ícones oficiais específicos para cada serviço (ex: Cloud Run, BigQuery, S3, EC2, Lambda, Azure Functions, Workers, Supabase Auth), sem chamadas de rede externas e sem repetir a logo genérica do provedor para todos os serviços.
+**Acceptance criteria:**
+- [x] Serviços possuem ícones distintos e reconhecíveis da sua oferta
+- [x] Ícones renderizados localmente via SVG/componentes sem dependência de internet
+- [x] Busca filtra por nome, alias, provedor e categoria com contadores reais
+**Verification:**
+- [x] Tests pass: `pnpm test`
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 12.1
+**Files likely touched:**
+- `src/features/catalog/components/service-icons.tsx`
+- `src/features/catalog/components/provider-icons.tsx`
+- `src/features/canvas/nodes/service-node.tsx`
+- `src/features/catalog/components/catalog-sidebar.tsx`
+**Estimated scope:** Medium (4 files)
+
+---
+
+## Phase 13: Fatia E — QA, Regressão e Validação da DoD do PRD 2
+### Task 13.1: Bateria completa de testes, regressão e validação dos critérios de aceite do PRD 2
+**Description:** Executar validação de ponta a ponta: Playground efêmero, compatibilidade de projetos salvos, exportação PNG/JSON, expansão do catálogo, branding com logo/favicon e ausência de notas de apresentador nos nós.
+**Acceptance criteria:**
+- [x] Todos os testes unitários e de integração passando (29 testes em 10 suítes)
+- [x] Typecheck estrito aprovado sem erros
+- [x] Build do Next.js aprovado com todas as rotas estáticas (/ e /playground)
+- [x] Documentação do README.md atualizada com as novidades do PRD 2
+**Verification:**
+- [x] `pnpm build && pnpm test && pnpm typecheck`
+**Dependencies:** All PRD 2 tasks
+**Files likely touched:**
+- `README.md`
+**Estimated scope:** Small (1 file)
+
+
