@@ -121,4 +121,19 @@ describe('ProjectRepository with Dexie / IndexedDB', () => {
     const list = await repo.listProjects();
     expect(list.length).toBe(2);
   });
+
+  it('toggles favorite and lists extracted services', async () => {
+    const proj = createSampleProject('proj-fav', 'Projeto Favorito');
+    await repo.saveProject(proj);
+
+    expect(await repo.toggleFavorite('proj-fav')).toBe(true);
+    let summary = (await repo.listProjects()).find((p) => p.id === 'proj-fav');
+    expect(summary?.isFavorite).toBe(true);
+    expect(summary?.services).toContain('gcp-cloud-run');
+    expect(summary?.services).toContain('supabase-postgres');
+
+    expect(await repo.toggleFavorite('proj-fav')).toBe(false);
+    summary = (await repo.listProjects()).find((p) => p.id === 'proj-fav');
+    expect(summary?.isFavorite).toBe(false);
+  });
 });

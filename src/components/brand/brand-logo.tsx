@@ -19,9 +19,9 @@ export function BrandLogo({
         <Image
           src="/favicon.png"
           alt="MultiCloud Studio"
-          width={36}
-          height={36}
-          className="h-8 w-8 object-contain"
+          width={48}
+          height={48}
+          className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
           priority
           unoptimized
         />
@@ -30,18 +30,18 @@ export function BrandLogo({
   }
 
   const sizeClasses = {
-    sm: 'h-8 sm:h-9 max-w-[180px]',
-    default: 'h-10 sm:h-11 max-w-[220px]',
-    lg: 'h-11 sm:h-12 max-w-[250px]',
+    sm: 'h-9 sm:h-10 max-w-[200px]',
+    default: 'h-11 sm:h-12 max-w-[260px]',
+    lg: 'h-12 sm:h-14 md:h-16 max-w-[340px]',
   };
 
   return (
-    <div className={cn('relative flex items-center gap-2 shrink-0 py-0.5', className)}>
+    <div className={cn('relative flex items-center gap-2.5 shrink-0 py-0.5', className)}>
       <Image
         src="/logo.png"
         alt="MultiCloud Solution Studio"
-        width={220}
-        height={50}
+        width={300}
+        height={75}
         className={cn('w-auto object-contain transition-all', sizeClasses[size])}
         priority
         unoptimized

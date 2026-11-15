@@ -111,6 +111,45 @@ Pressione **P** ou clique no botão **Apresentar** para entrar no modo limpo par
 
 ---
 
+## 🎨 PRD 3 — Home Page de Alta Fidelidade Visual
+
+O **PRD 3** implementa o redesign integral do Dashboard/Home em uma estrutura fluida de até **1600px de largura**, reproduzindo a composição visual profissional solicitada em cinco faixas complementares:
+
+1. **Navbar Global:** Logomarca oficial à esquerda (`BrandLogo size="lg"`), abas de navegação ativas (`Início`, `Projetos`, `Templates`) e botão primário `Novo Projeto`.
+2. **Hero & Indicadores:** Eyebrow `BEM-VINDO(A) AO`, H1 `MultiCloud Solution Studio`, subtítulo curto e 3 tiles de métricas reativas derivadas dos dados reais (`Projetos`, `Templates`, `Componentes`).
+3. **Trio de Ações Rápidas:** Cards horizontais de `Modo Playground` (destaque lavanda/índigo), `Novo Projeto` e `Explorar Templates`.
+4. **Seus Projetos:** Título, filtros com contadores reais por provedor (`Todos`, `GCP`, `AWS`, `Azure` etc.), busca em tempo real com escape, alternância Grade/Lista (`LayoutGrid`/`List`), cards com chips de serviços reais (`ServiceIcon`), alternância funcional de favoritos e menu contextual (`Abrir`, `Renomear`, `Duplicar`, `Excluir`).
+5. **Zona Inferior Contextual:** Mini-cards de templates arquiteturais de referência com ação direta de uso (`Usar template`) sem duplicar projetos.
+
+### Matriz de Aceite do PRD 3 (CA3-01 a CA3-22)
+
+| ID | Critério | Status | Evidência de Implementação |
+|---|---|:---:|---|
+| **CA3-01** | Composição em cinco faixas da referência | ✅ OK | Navbar, Hero, Quick Actions, Projetos, Zona Inferior em `src/app/page.tsx` |
+| **CA3-02** | Layout fluido em 1672×941 sem coluna estreita central | ✅ OK | Container `max-w-[1600px]`, grid de 4 colunas em telas largas |
+| **CA3-03** | Navbar com logo oficial e abas reais sem botões fictícios | ✅ OK | `BrandLogo`, abas Início, Projetos, Templates |
+| **CA3-04** | Hero com textos e três indicadores reais | ✅ OK | Tiles Projetos (`length`), Templates (`5`), Componentes (`sum(nodes)`) |
+| **CA3-05** | Quick actions acionam fluxos reais na primeira dobra | ✅ OK | Cards Playground (`/playground`), Novo Projeto (`/editor`), Templates (`/templates`) |
+| **CA3-06** | Playground não persiste nem afeta contadores | ✅ OK | `playground.test.ts`, isolamento de autosave |
+| **CA3-07** | Busca em tempo real e combinação com filtro de provedor | ✅ OK | Filtro composto memoizado em `src/app/page.tsx` |
+| **CA3-08** | Chips de provedores com contagens reais | ✅ OK | `providerCounts` derivado dinamicamente dos projetos |
+| **CA3-09** | Alternância Grid/Lista funcional | ✅ OK | Toggle `viewMode` com suporte completo a dados e ações |
+| **CA3-10** | Card com providers, chips de serviços reais e conexões | ✅ OK | `ServiceIcon`, `p.services`, `formatRelativeDate`, `p.edgeCount` |
+| **CA3-11** | Cards abríveis por inteiro com menu contextual separado | ✅ OK | `router.push(/editor?project=...)`, menu `...` isolado |
+| **CA3-12** | Favoritar funcional com persistência no IndexedDB | ✅ OK | `projectRepository.toggleFavorite`, campo `isFavorite` |
+| **CA3-13** | Templates reais funcionais na zona inferior | ✅ OK | `ARCHITECTURE_TEMPLATES`, criação de cópia independente |
+| **CA3-14** | Recentes / Templates adaptativo sem duplicidade | ✅ OK | Zona inferior adaptada sem duplicar projetos |
+| **CA3-15** | Layout estável de 0 a 30 projetos | ✅ OK | Grid responsivo com auto-wrap e alinhamento consistente |
+| **CA3-16** | Sem overflow horizontal em 1366×768, 768×1024 e 390×844 | ✅ OK | Screenshots e responsividade validados via `agent-browser` |
+| **CA3-17** | Logos, favicons e ícones locais carregando no build | ✅ OK | `public/logo.png`, `public/favicon.png`, `ServiceIcon.tsx` |
+| **CA3-18** | Compatibilidade de projetos, editor, cenas e exportações | ✅ OK | 31 testes unitários passando em 11 suítes |
+| **CA3-19** | Evidências e screenshots em navegador real | ✅ OK | Screenshots capturados em `docs/references/` |
+| **CA3-20** | Verificação de types, tests e build via pnpm | ✅ OK | `pnpm typecheck`, `pnpm test`, `pnpm build` com 100% de sucesso |
+| **CA3-21** | Sem avatares, notificações ou links fictícios | ✅ OK | Apenas controles reais e funcionais |
+| **CA3-22** | Dashboard 100% local-first | ✅ OK | Armazenamento exclusivamente local no navegador |
+
+---
+
 ## 🔒 Licença e Isenção de Responsabilidade
 
 Os nomes, marcas e logotipos de provedores de nuvem (Google Cloud, AWS, Microsoft Azure, OCI, Cloudflare, Hostinger, Supabase) pertencem aos seus respectivos proprietários e são utilizados para fins estritamente ilustrativos de arquitetura e compatibilidade técnica.

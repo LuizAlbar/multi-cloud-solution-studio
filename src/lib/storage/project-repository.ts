@@ -9,6 +9,8 @@ export interface ProjectSummary {
   nodeCount: number;
   edgeCount: number;
   providers: ProviderId[];
+  services: string[];
+  isFavorite: boolean;
 }
 
 export class StorageQuotaError extends Error {
@@ -51,9 +53,14 @@ export class ProjectRepository {
 
     return all.map((proj) => {
       const providerSet = new Set<ProviderId>();
+      const serviceSet = new Set<string>();
+
       proj.nodes.forEach((n) => {
         if (n.providerId) {
           providerSet.add(n.providerId);
+        }
+        if (n.serviceId) {
+          serviceSet.add(n.serviceId);
         }
       });
 
@@ -65,8 +72,22 @@ export class ProjectRepository {
         nodeCount: proj.nodes.length,
         edgeCount: proj.edges.length,
         providers: Array.from(providerSet),
+        services: Array.from(serviceSet),
+        isFavorite: Boolean(proj.isFavorite),
       };
     });
+  }
+
+  async toggleFavorite(id: string): Promise<boolean> {
+    const project = await this.getProject(id);
+    if (!project) return false;
+
+    const nextState = !project.isFavorite;
+    await this.saveProject({
+      ...project,
+      isFavorite: nextState,
+    });
+    return nextState;
   }
 
   async deleteProject(id: string): Promise<void> {

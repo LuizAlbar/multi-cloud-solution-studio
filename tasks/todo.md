@@ -688,4 +688,61 @@
 - `README.md`
 **Estimated scope:** Small (1 file)
 
+---
+
+# PRD 3 — Home Page de Alta Fidelidade Visual
+
+## Phase 14: Fatia A & B — Layout Base, Hero e Quick Actions
+### Task 14.1: Navbar com abas reais, Hero responsivo com 3 métricas e Trio de Ações Rápidas
+**Description:** Implementar a nova composição em faixas fluidas (max-w 1600px): Navbar com logo oficial ampliada e abas funcionais (Início, Projetos, Templates); Hero em duas colunas com 3 métricas derivadas de dados reais; e Trio de Quick Actions (Modo Playground destacado, Novo Projeto, Explorar Templates).
+**Acceptance criteria:**
+- [x] Navbar sem ações fictícias, com abas Início, Projetos e Templates
+- [x] Hero com eyebrow, H1 e 3 indicadores reais (Projetos, Templates, Componentes)
+- [x] Quick actions com destaque no Playground e navegação para fluxos reais
+**Verification:**
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** None
+**Files likely touched:**
+- `src/app/page.tsx`
+**Estimated scope:** Medium (2 files)
+
+---
+
+## Phase 15: Fatia C & D — Projetos, Filtros, Cards e Templates
+### Task 15.1: Seção Seus Projetos com filtros de provedores, busca, toggle grid/lista e cards de alta fidelidade
+**Description:** Desenvolver a toolbar de projetos com filtros calculados dinamicamente pelos provedores presentes, busca em tempo real com escape, alternância grade/lista, cards com chips de serviços reais (ServiceIcon), estrela funcional de favoritos e menu contextual.
+**Acceptance criteria:**
+- [x] Toolbar com filtros por provedores e contagens reais
+- [x] Alternância Grid e Lista funcional
+- [x] Project card com providers, chips de serviços reais, data e conexões
+- [x] Favoritos persistidos de forma retrocompatível no IndexedDB
+- [x] Zona inferior com templates de referência funcionais
+**Verification:**
+- [x] Tests pass: `pnpm test src/lib/storage/`
+- [x] Build succeeds: `pnpm build`
+**Dependencies:** Task 14.1
+**Files likely touched:**
+- `src/app/page.tsx`
+- `src/lib/storage/project-repository.ts`
+- `src/lib/schemas/project.ts`
+**Estimated scope:** Medium (3 files)
+
+---
+
+## Phase 16: Fatia E — QA e Validação Visual em Navegador Real (CA3-01 a CA3-22)
+### Task 16.1: Validação com agent-browser em múltiplas resoluções e conformidade de DoD
+**Description:** Executar verificação visual automatizada no navegador em 1672x941, 1920x1080, 1440x900, 1366x768, 768x1024 e 390x844, capturando evidências de 0 projetos, 1 projeto, múltiplos projetos, busca, favoritos e modo lista.
+**Acceptance criteria:**
+- [x] Screenshots capturados e validados em docs/references/
+- [x] Todos os 31 testes unitários e de integração passando
+- [x] Typecheck e build do Next.js sem erros
+**Verification:**
+- [x] `pnpm build && pnpm test && pnpm typecheck`
+**Dependencies:** All PRD 3 tasks
+**Files likely touched:**
+- `docs/references/`
+- `README.md`
+**Estimated scope:** Small (1 file)
+
+
 

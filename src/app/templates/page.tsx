@@ -12,6 +12,7 @@ import {
   Info,
   Clock,
   ArrowUpRight,
+  Plus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
@@ -57,29 +58,44 @@ export default function TemplatesPage() {
   return (
     <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col">
       {/* Top Header */}
-      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6">
-        <div className="flex items-center gap-4">
+      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6 sm:px-10 z-20">
+        <div className="flex items-center gap-6">
           <Link
             href="/"
-            className="flex items-center gap-2 hover:opacity-90 transition-opacity"
+            className="hover:opacity-95 transition-opacity"
           >
             <BrandLogo size="lg" />
           </Link>
 
-          <div className="h-4 w-px bg-studio-border mx-1" />
+          <div className="h-5 w-px bg-studio-border hidden sm:block" />
 
-          <Link
-            href="/"
-            className="flex items-center gap-1 text-xs text-studio-secondary hover:text-studio-text"
-          >
-            <ChevronLeft size={14} />
-            <span>Voltar aos Projetos</span>
-          </Link>
+          {/* Navigation Tabs */}
+          <nav className="flex items-center gap-1">
+            <Link
+              href="/"
+              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
+            >
+              <span>Início</span>
+            </Link>
+            <Link
+              href="/projects"
+              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
+            >
+              <span>Projetos</span>
+            </Link>
+            <Link
+              href="/templates"
+              className="bg-indigo-50/80 text-indigo-900 font-semibold px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs transition-colors"
+            >
+              <span>Templates</span>
+            </Link>
+          </nav>
         </div>
 
         <Link href="/editor">
-          <Button size="sm" variant="default" className="text-xs">
-            Novo Projeto em Branco
+          <Button size="sm" variant="default" className="text-xs font-semibold h-8 px-3.5 shadow-2xs">
+            <Plus size={14} className="mr-1" />
+            <span>Novo Projeto</span>
           </Button>
         </Link>
       </header>

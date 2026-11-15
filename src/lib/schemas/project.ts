@@ -134,6 +134,7 @@ export const ProjectSchema = z.object({
   drawings: z.array(DrawingSchema).default([]),
   scenes: z.array(SceneSchema).default([]),
   settings: ProjectSettingsSchema.default(DEFAULT_PROJECT_SETTINGS),
+  isFavorite: z.boolean().optional(),
 });
 export type Project = z.infer<typeof ProjectSchema>;
 
