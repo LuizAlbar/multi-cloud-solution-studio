@@ -157,4 +157,47 @@ describe('Editor Store & Vertical Slice 1', () => {
     expect(useEditorStore.getState().nodes.length).toBe(1);
     expect(useEditorStore.getState().edges.length).toBe(0);
   });
+
+  it('correctly loads template project with all its nodes and edges without creating duplicate empty projects', async () => {
+    const { getTemplateById } = await import('@/data/templates');
+    const template = getTemplateById('template-serverless-web')!;
+    expect(template).toBeDefined();
+
+    const initialProjects = await projectRepository.listProjects();
+    const initialCount = initialProjects.length;
+
+    // Simulate clicking "Usar template"
+    const newId = `proj-template-test-${Date.now()}`;
+    const newProject = {
+      ...template.projectData,
+      id: newId,
+      title: `${template.title} (Cópia)`,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      isFavorite: false,
+    };
+    await projectRepository.saveProject(newProject);
+
+    // Verify exactly 1 project was created
+    const projectsAfterSave = await projectRepository.listProjects();
+    expect(projectsAfterSave.length).toBe(initialCount + 1);
+
+    // Simulate EditorShell loading the project via loadProject(newId)
+    const store = useEditorStore.getState();
+    const loaded = await store.loadProject(newId);
+    expect(loaded).toBe(true);
+
+    // Verify all template nodes and edges were loaded into store state
+    const state = useEditorStore.getState();
+    expect(state.project?.id).toBe(newId);
+    expect(state.project?.title).toBe(`${template.title} (Cópia)`);
+    expect(state.nodes.length).toBe(template.projectData.nodes.length);
+    expect(state.edges.length).toBe(template.projectData.edges.length);
+    expect(state.nodes.length).toBeGreaterThanOrEqual(3);
+    expect(state.edges.length).toBeGreaterThanOrEqual(2);
+
+    // Verify no extra projects were created during load
+    const finalProjects = await projectRepository.listProjects();
+    expect(finalProjects.length).toBe(initialCount + 1);
+  });
 });

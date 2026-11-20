@@ -20,6 +20,7 @@ import {
   type ValidationReport,
 } from '../validation/validator';
 import { DiagramPreview } from './diagram-preview';
+import { AppAlertModal } from '@/components/ui/app-alert-modal';
 import type { MCSSDiagramDocument } from '../domain/diagram-format';
 import { cn } from '@/lib/utils';
 
@@ -43,6 +44,8 @@ export function ImportModal({
   const [report, setReport] = useState<ValidationReport | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [dragOver, setDragOver] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -80,7 +83,7 @@ export function ImportModal({
       await onConfirmImport(report.document);
       onClose();
     } catch (err: unknown) {
-      alert(`Falha ao importar: ${err instanceof Error ? err.message : 'Erro desconhecido'}`);
+      setErrorMessage(`Falha ao importar: ${err instanceof Error ? err.message : 'Erro desconhecido'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -285,6 +288,15 @@ export function ImportModal({
           </Button>
         </div>
       </div>
+
+      {/* Custom Application Alert Modal */}
+      <AppAlertModal
+        isOpen={Boolean(errorMessage)}
+        onClose={() => setErrorMessage(null)}
+        title="Falha na Importação"
+        message={errorMessage || ''}
+        type="error"
+      />
     </div>
   );
 }

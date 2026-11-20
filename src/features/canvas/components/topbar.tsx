@@ -13,6 +13,7 @@ import {
   BookmarkPlus,
   Sparkles,
   Bot,
+  Keyboard,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BrandLogo } from '@/components/brand/brand-logo';
@@ -25,6 +26,7 @@ interface TopbarProps {
   isPresentation: boolean;
   onOpenExportDialog: () => void;
   onOpenImportDialog?: () => void;
+  onOpenShortcuts?: () => void;
   isPlayground?: boolean;
   onSaveAsProject?: () => void;
 }
@@ -35,6 +37,7 @@ export function Topbar({
   isPresentation,
   onOpenExportDialog,
   onOpenImportDialog,
+  onOpenShortcuts,
   isPlayground = false,
   onSaveAsProject,
 }: TopbarProps) {
@@ -145,6 +148,20 @@ export function Topbar({
             <Redo2 size={14} />
           </Button>
         </div>
+
+        {/* Shortcuts Button */}
+        {onOpenShortcuts && (
+          <Button
+            variant="ghost"
+            size="iconSm"
+            onClick={onOpenShortcuts}
+            title="Atalhos de Teclado (?)"
+            aria-label="Atalhos de Teclado"
+            className="h-8 w-8 text-slate-600 hover:text-slate-900 border border-studio-border rounded-btn bg-white shadow-2xs"
+          >
+            <Keyboard size={15} />
+          </Button>
+        )}
 
         {/* Save as Project button when in playground */}
         {isPlayground && onSaveAsProject && (

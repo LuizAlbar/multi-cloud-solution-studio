@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -7,15 +7,17 @@ import {
   type NodeMouseHandler,
   type EdgeMouseHandler,
 } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+
+import { useEditorStore } from '../store/editor-store';
+import { Toolbar } from './toolbar';
+import { DrawingOverlay } from '@/features/annotations/components/drawing-overlay';
 import { ServiceNode } from '../nodes/service-node';
 import { GenericShapeNode } from '../nodes/generic-shape-node';
 import { StickyNoteNode } from '../nodes/sticky-note-node';
 import { TextNode } from '../nodes/text-node';
 import { GroupNode } from '../nodes/group-node';
 import { LabeledConnectionEdge } from '../edges/labeled-connection-edge';
-import { Toolbar } from './toolbar';
-import { DrawingOverlay } from '@/features/annotations/components/drawing-overlay';
-import { useEditorStore } from '../store/editor-store';
 import type { CatalogService } from '@/lib/schemas';
 
 const nodeTypes = {
@@ -33,7 +35,11 @@ const edgeTypes = {
   labeled: LabeledConnectionEdge,
 };
 
-export function Canvas() {
+interface CanvasProps {
+  isPresentation?: boolean;
+}
+
+export function Canvas({ isPresentation = false }: CanvasProps) {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { screenToFlowPosition } = useReactFlow();
 
@@ -101,7 +107,41 @@ export function Canvas() {
     selectEdge(null);
   }, [selectNode, selectEdge]);
 
-  // Global editor shortcuts
+  // Global window diagram shortcuts listener (e.g. 'D' to delete selected element)
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        !target ||
+        target.tagName === 'INPUT' ||
+        target.tagName === 'TEXTAREA' ||
+        target.isContentEditable ||
+        target.closest('input') ||
+        target.closest('textarea')
+      ) {
+        return;
+      }
+
+      // 'D' or 'Delete' or 'Backspace' deletes selected object (Request 3)
+      if (
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !e.altKey &&
+        (e.key === 'd' || e.key === 'D' || e.key === 'Delete' || e.key === 'Backspace')
+      ) {
+        const { selectedNodeId, selectedEdgeId, deleteSelected: del } = useEditorStore.getState();
+        if (selectedNodeId || selectedEdgeId) {
+          e.preventDefault();
+          del();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
+
+  // Focused element shortcuts
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       const target = e.target as HTMLElement;
@@ -113,7 +153,7 @@ export function Canvas() {
         return;
       }
 
-      if (e.key === 'Delete' || e.key === 'Backspace') {
+      if (e.key === 'Delete' || e.key === 'Backspace' || e.key === 'd' || e.key === 'D') {
         e.preventDefault();
         deleteSelected();
       } else if (e.key === 'z' && (e.ctrlKey || e.metaKey)) {
@@ -172,8 +212,8 @@ export function Canvas() {
         <DrawingOverlay />
       </ReactFlow>
 
-      {/* Floating Toolbar */}
-      <Toolbar />
+      {/* Floating Toolbar (hidden in presentation mode) */}
+      {!isPresentation && <Toolbar />}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ReactFlowProvider } from '@xyflow/react';
 import { Canvas } from './canvas';
 import { Topbar } from './topbar';
@@ -11,6 +11,7 @@ import { SceneDrawer } from '@/features/presentation/components/scene-drawer';
 import { PresentationView } from '@/features/presentation/components/presentation-view';
 import { ExportDialog } from '@/features/import-export/components/export-dialog';
 import { ImportModal } from '@/features/diagram-format/components/import-modal';
+import { ShortcutsModal } from './shortcuts-modal';
 import { useEditorStore } from '../store/editor-store';
 import { deserializeFromMCSS } from '@/features/diagram-format/serialization/serializer';
 import { projectRepository } from '@/lib/storage/project-repository';
@@ -24,13 +25,20 @@ interface EditorShellProps {
 
 export function EditorShell({ projectId, isPlayground = false }: EditorShellProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryProjectId = searchParams.get('project') || searchParams.get('projectId');
+  const effectiveProjectId = projectId || queryProjectId || undefined;
+
   const [isCatalogOpen, setIsCatalogOpen] = useState(true);
   const [isInspectorOpen, setIsInspectorOpen] = useState(true);
   const [isSceneDrawerOpen, setIsSceneDrawerOpen] = useState(false);
   const [isPresentation, setIsPresentation] = useState(false);
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isCreatingProjectRef = useRef(false);
 
   const {
     loadProject,
@@ -42,30 +50,48 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
     edges,
   } = useEditorStore();
 
-  // Load project or initialize playground on mount
+  // Load project or initialize playground on mount (with strict deduplication against StrictMode)
   useEffect(() => {
-    let isMounted = true;
+    let cancelled = false;
 
     async function setup() {
       setIsLoading(true);
+
       if (isPlayground) {
         initPlayground();
-      } else if (projectId) {
-        await loadProject(projectId);
-      } else {
-        await initNewProject();
+        if (!cancelled) setIsLoading(false);
+        return;
       }
-      if (isMounted) {
-        setIsLoading(false);
+
+      if (effectiveProjectId) {
+        const loaded = await loadProject(effectiveProjectId);
+        if (loaded) {
+          if (!cancelled) setIsLoading(false);
+          return;
+        }
+      }
+
+      // Only create a new project if not already creating one (prevents duplicate projects in StrictMode)
+      if (isCreatingProjectRef.current) return;
+      isCreatingProjectRef.current = true;
+
+      try {
+        const newProj = await initNewProject();
+        if (!cancelled) {
+          router.replace(`/editor?project=${newProj.id}`);
+          setIsLoading(false);
+        }
+      } finally {
+        isCreatingProjectRef.current = false;
       }
     }
 
     setup();
 
     return () => {
-      isMounted = false;
+      cancelled = true;
     };
-  }, [projectId, isPlayground, loadProject, initPlayground]);
+  }, [effectiveProjectId, isPlayground, loadProject, initNewProject, initPlayground, router]);
 
   // Warning before unload if playground has work
   useEffect(() => {
@@ -82,7 +108,7 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [isPlayground, nodes.length, edges.length]);
 
-  // Global 'P' shortcut for presentation mode
+  // Global 'P' shortcut for presentation mode and '?' for shortcuts help
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement;
@@ -97,6 +123,9 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
       if (e.key === 'p' || e.key === 'P') {
         e.preventDefault();
         setIsPresentation((prev) => !prev);
+      } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
+        e.preventDefault();
+        setIsShortcutsOpen((prev) => !prev);
       }
     }
 
@@ -186,6 +215,7 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
           isPresentation={isPresentation}
           onOpenExportDialog={() => setIsExportDialogOpen(true)}
           onOpenImportDialog={() => setIsImportModalOpen(true)}
+          onOpenShortcuts={() => setIsShortcutsOpen(true)}
           isPlayground={isPlayground}
           onSaveAsProject={handleSaveAsProject}
         />
@@ -214,6 +244,12 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
           isPlayground={isPlayground}
         />
 
+        {/* Keyboard Shortcuts Modal */}
+        <ShortcutsModal
+          isOpen={isShortcutsOpen}
+          onClose={() => setIsShortcutsOpen(false)}
+        />
+
         {/* Presentation Overlay if active */}
         {isPresentation && (
           <PresentationView onExit={() => setIsPresentation(false)} />
@@ -230,9 +266,9 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
             />
           )}
 
-          {/* Central Canvas */}
+          {/* Central Canvas (toolbar hidden in presentation) */}
           <main className="relative flex-1 overflow-hidden">
-            <Canvas />
+            <Canvas isPresentation={isPresentation} />
           </main>
 
           {/* Inspector Right Sidebar (hidden in presentation) */}

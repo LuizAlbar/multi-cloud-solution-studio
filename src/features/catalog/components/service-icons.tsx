@@ -69,6 +69,7 @@ export const OFFICIAL_SVG_MAP: Record<string, string> = {
   'gcp-dataproc': '/cloud-icons/gcp-icons/Dataproc.svg',
   'gcp-memorystore': '/cloud-icons/gcp-icons/Memorystore.svg',
   'gcp-looker': '/cloud-icons/gcp-icons/Looker.svg',
+  'gcp-alloydb': '/cloud-icons/gcp-icons/AlloyDB.svg',
 
   // AWS Official SVGs
   'aws-ec2': '/cloud-icons/aws-icons/Compute/EC2.svg',

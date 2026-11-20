@@ -1,3 +1,4 @@
+import { toPng } from 'html-to-image';
 import type { Project } from '@/lib/schemas';
 
 export interface PngExportOptions {
@@ -14,11 +15,40 @@ export async function exportProjectToPng(
   const edges = project.edges || [];
 
   if (nodes.length === 0) {
-    alert('O projeto não possui elementos para exportar.');
-    return;
+    throw new Error('O projeto não possui elementos para exportar.');
   }
 
-  // Calculate bounding box of all nodes with 80px margin
+  const sanitizedTitle = project.title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+  const fileName = options.fileName || `${sanitizedTitle || 'diagrama'}.png`;
+
+  // 1. Exact high-fidelity print of the live diagram via html-to-image
+  if (typeof document !== 'undefined') {
+    const viewportEl = document.querySelector('.react-flow__viewport') as HTMLElement | null;
+    if (viewportEl) {
+      try {
+        const dataUrl = await toPng(viewportEl, {
+          backgroundColor: '#FFFFFF',
+          pixelRatio: scale,
+          cacheBust: true,
+        });
+
+        const link = document.createElement('a');
+        link.download = fileName;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return;
+      } catch (err) {
+        console.warn('Falha na captura DOM do viewport, usando fallback para canvas:', err);
+      }
+    }
+  }
+
+  // 2. Headless/Test Fallback using HTML5 canvas
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -50,7 +80,7 @@ export async function exportProjectToPng(
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, contentWidth, contentHeight);
 
-  // Draw Dotted Grid
+  // Dotted Grid
   ctx.fillStyle = '#E9EDF3';
   for (let x = 10; x < contentWidth; x += 18) {
     for (let y = 10; y < contentHeight; y += 18) {
@@ -63,7 +93,6 @@ export async function exportProjectToPng(
   const offsetX = margin - minX;
   const offsetY = margin - minY;
 
-  // Map nodes by id for edge drawing
   const nodeMap = new Map(nodes.map((n) => [n.id, n]));
 
   // Draw Edges
@@ -82,14 +111,13 @@ export async function exportProjectToPng(
     const endX = targetNode.position.x + tWidth / 2 + offsetX;
     const endY = targetNode.position.y + tHeight / 2 + offsetY;
 
-    ctx.strokeStyle = '#2563EB';
+    ctx.strokeStyle = '#6366F1';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(startX, startY);
     ctx.lineTo(endX, endY);
     ctx.stroke();
 
-    // Draw Edge Label if present
     if (edge.label) {
       const midX = (startX + endX) / 2;
       const midY = (startY + endY) / 2;
@@ -98,14 +126,14 @@ export async function exportProjectToPng(
       const textWidth = ctx.measureText(edge.label).width;
 
       ctx.fillStyle = '#FFFFFF';
-      ctx.strokeStyle = '#E5E7EB';
+      ctx.strokeStyle = '#E2E8F0';
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.roundRect(midX - textWidth / 2 - 8, midY - 10, textWidth + 16, 20, 10);
       ctx.fill();
       ctx.stroke();
 
-      ctx.fillStyle = '#111827';
+      ctx.fillStyle = '#1E293B';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(edge.label, midX, midY);
@@ -119,16 +147,14 @@ export async function exportProjectToPng(
     const x = n.position.x + offsetX;
     const y = n.position.y + offsetY;
 
-    // Node Box Shadow & Background
     ctx.fillStyle = '#FFFFFF';
-    ctx.strokeStyle = '#E5E7EB';
+    ctx.strokeStyle = '#E2E8F0';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.roundRect(x, y, width, height, 12);
     ctx.fill();
     ctx.stroke();
 
-    // Provider Badge
     if (n.providerId) {
       ctx.fillStyle = '#64748B';
       ctx.font = 'bold 10px system-ui, sans-serif';
@@ -137,43 +163,22 @@ export async function exportProjectToPng(
       ctx.fillText(n.providerId.toUpperCase(), x + 12, y + 12);
     }
 
-    // Node Label
-    ctx.fillStyle = '#111827';
+    ctx.fillStyle = '#0F172A';
     ctx.font = 'bold 13px system-ui, sans-serif';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'top';
-    ctx.fillText(n.label, x + 12, y + 32);
-
-    // Node Notes snippet
-    if (n.notes) {
-      ctx.fillStyle = '#64748B';
-      ctx.font = '10px system-ui, sans-serif';
-      ctx.fillText(n.notes.substring(0, 24) + '...', x + 12, y + 56);
-    }
+    ctx.fillText(n.label, x + 12, y + 30);
   });
 
-  // Mandatory footer
-  ctx.fillStyle = '#64748B';
-  ctx.font = '10px system-ui, sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText(
-    'MultiCloud Solution Studio — Arquitetura de Referência',
-    contentWidth - 20,
-    contentHeight - 20
-  );
+  const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) return;
 
-  // Trigger Download
-  const dataUrl = canvas.toDataURL('image/png');
-  const sanitizedTitle = project.title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-  const fileName = options.fileName || `${sanitizedTitle || 'arquitetura'}.png`;
-
+  const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
-  link.href = dataUrl;
+  link.href = url;
   link.download = fileName;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }

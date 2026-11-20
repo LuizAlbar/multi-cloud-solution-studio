@@ -68,6 +68,9 @@ export default function DashboardPage() {
   // Import modal state
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
+  // Template creation guard
+  const [isCreatingTemplate, setIsCreatingTemplate] = useState(false);
+
   const handleConfirmImport = async (doc: MCSSDiagramDocument) => {
     const p = deserializeFromMCSS(doc, { titlePrefix: 'Importado' });
     await projectRepository.saveProject(p);
@@ -176,6 +179,8 @@ export default function DashboardPage() {
   };
 
   const handleUseTemplate = async (template: ArchitectureTemplate) => {
+    if (isCreatingTemplate) return;
+    setIsCreatingTemplate(true);
     try {
       const newId = `proj-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
       const now = new Date().toISOString();
@@ -193,6 +198,7 @@ export default function DashboardPage() {
       router.push(`/editor?project=${newId}`);
     } catch (err) {
       console.error('Falha ao criar projeto a partir do template:', err);
+      setIsCreatingTemplate(false);
     }
   };
 
