@@ -98,8 +98,8 @@ export const LabeledConnectionEdge = memo(function LabeledConnectionEdge({
             className={cn(
               'rounded-full border px-2 py-0.5 text-[11px] font-semibold shadow-2xs select-none transition-all cursor-pointer',
               selected
-                ? 'border-indigo-600 bg-indigo-50 text-indigo-900 ring-2 ring-indigo-500/20'
-                : 'border-slate-200 bg-white text-slate-800 hover:border-slate-300'
+                ? 'border-primary bg-primary-soft text-primary ring-2 ring-primary/20'
+                : 'border-border bg-surface text-foreground hover:border-border/80'
             )}
           >
             {label}

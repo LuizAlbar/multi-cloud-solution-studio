@@ -1,35 +1,34 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Search,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
-  X,
-  Cpu,
-  Box,
-  HardDrive,
-  Database,
-  Network,
-  BarChart2,
-  Sparkles,
-  Shield,
-  Share2,
-  Activity,
-  Wrench,
   Layers,
+  Cpu,
+  Boxes,
+  Database,
+  Globe,
+  HardDrive,
+  Shield,
+  BarChart3,
+  Bot,
+  Cog,
+  Wrench,
+  X,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ProviderIcon } from './provider-icons';
 import { ServiceIcon } from './service-icons';
+import { ProviderIcon } from './provider-icons';
 import {
   searchCatalog,
   getCatalogServices,
   PROVIDERS,
   CATEGORIES,
 } from '../catalog-service';
-import type { CatalogService, ProviderId, ServiceCategory } from '@/lib/schemas';
+import type { CatalogService, ProviderId } from '@/lib/schemas';
 import { cn } from '@/lib/utils';
 
 interface CatalogSidebarProps {
@@ -39,18 +38,18 @@ interface CatalogSidebarProps {
 }
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  compute: <Cpu size={14} className="text-slate-500" />,
-  containers: <Box size={14} className="text-slate-500" />,
-  storage: <HardDrive size={14} className="text-slate-500" />,
-  databases: <Database size={14} className="text-slate-500" />,
-  networking: <Network size={14} className="text-slate-500" />,
-  analytics: <BarChart2 size={14} className="text-slate-500" />,
-  'ai-ml': <Sparkles size={14} className="text-slate-500" />,
-  security: <Shield size={14} className="text-slate-500" />,
-  integration: <Share2 size={14} className="text-slate-500" />,
-  observability: <Activity size={14} className="text-slate-500" />,
-  'dev-tools': <Wrench size={14} className="text-slate-500" />,
-  custom: <Layers size={14} className="text-slate-500" />,
+  compute: <Cpu size={14} className="text-foreground-secondary" />,
+  containers: <Boxes size={14} className="text-foreground-secondary" />,
+  storage: <HardDrive size={14} className="text-foreground-secondary" />,
+  databases: <Database size={14} className="text-foreground-secondary" />,
+  networking: <Globe size={14} className="text-foreground-secondary" />,
+  analytics: <BarChart3 size={14} className="text-foreground-secondary" />,
+  'ai-ml': <Bot size={14} className="text-foreground-secondary" />,
+  security: <Shield size={14} className="text-foreground-secondary" />,
+  integration: <Layers size={14} className="text-foreground-secondary" />,
+  observability: <Cog size={14} className="text-foreground-secondary" />,
+  'dev-tools': <Wrench size={14} className="text-foreground-secondary" />,
+  custom: <Layers size={14} className="text-foreground-secondary" />,
 };
 
 export function CatalogSidebar({
@@ -58,17 +57,20 @@ export function CatalogSidebar({
   onToggle,
   onAddService,
 }: CatalogSidebarProps) {
-  const searchInputRef = useRef<HTMLInputElement>(null);
+  const allServices = useMemo(() => getCatalogServices(), []);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedProvider, setSelectedProvider] = useState<ProviderId | undefined>();
+  const [selectedProvider, setSelectedProvider] = useState<ProviderId | undefined>(
+    undefined
+  );
 
-  // State of open/closed categories (accordion)
-  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
+  const [expandedCategories, setExpandedCategories] = useState<
+    Record<string, boolean>
+  >({
     compute: true,
     containers: true,
     storage: false,
-    databases: false,
-    networking: false,
+    databases: true,
+    networking: true,
     analytics: false,
     'ai-ml': false,
     security: false,
@@ -77,7 +79,7 @@ export function CatalogSidebar({
     'dev-tools': false,
   });
 
-  const allServices = useMemo(() => getCatalogServices(), []);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Filtered services based on search and selected provider
   const filteredServices = useMemo(() => {
@@ -88,28 +90,20 @@ export function CatalogSidebar({
 
   // Group filtered services by category
   const servicesByCategory = useMemo(() => {
-    const grouped: Record<string, CatalogService[]> = {};
-    CATEGORIES.forEach((cat) => {
-      grouped[cat.id] = [];
-    });
-
+    const map: Record<string, CatalogService[]> = {};
     filteredServices.forEach((svc) => {
-      const cat = svc.category || 'compute';
-      if (!grouped[cat]) grouped[cat] = [];
-      grouped[cat].push(svc);
+      if (!map[svc.category]) map[svc.category] = [];
+      map[svc.category].push(svc);
     });
-
-    return grouped;
+    return map;
   }, [filteredServices]);
 
-  // If search query is typed, automatically expand categories with matches
+  // Auto-expand categories when user searches
   useEffect(() => {
     if (searchQuery.trim()) {
       const autoExpand: Record<string, boolean> = {};
-      Object.entries(servicesByCategory).forEach(([catId, svcs]) => {
-        if (svcs.length > 0) {
-          autoExpand[catId] = true;
-        }
+      Object.keys(servicesByCategory).forEach((cat) => {
+        autoExpand[cat] = true;
       });
       setExpandedCategories((prev) => ({ ...prev, ...autoExpand }));
     }
@@ -146,7 +140,7 @@ export function CatalogSidebar({
     <aside
       aria-label="Catálogo multicloud de componentes"
       className={cn(
-        'relative flex flex-col border-r border-studio-border bg-white transition-all duration-200 z-10 select-none shrink-0 h-full',
+        'relative flex flex-col border-r border-border bg-surface transition-all duration-standard z-10 select-none shrink-0 h-full',
         isOpen ? 'w-[355px]' : 'w-0'
       )}
     >
@@ -156,7 +150,7 @@ export function CatalogSidebar({
         size="iconSm"
         onClick={onToggle}
         aria-label={isOpen ? 'Recolher catálogo' : 'Expandir catálogo'}
-        className="absolute -right-3 top-3.5 z-20 h-6 w-6 rounded-full border border-studio-border bg-white shadow-sm hover:bg-slate-50 text-slate-600"
+        className="absolute -right-3 top-3.5 z-20 h-6 w-6 rounded-full border border-border bg-surface shadow-2xs hover:bg-surface-muted text-foreground-secondary hover:text-foreground"
       >
         {isOpen ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
       </Button>
@@ -164,30 +158,30 @@ export function CatalogSidebar({
       {isOpen && (
         <div className="flex h-full flex-col overflow-hidden">
           {/* Header */}
-          <div className="border-b border-studio-border p-3.5 space-y-2.5 bg-slate-50/40">
+          <div className="border-b border-border p-3.5 space-y-2.5 bg-surface-muted/50">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
+              <span className="text-xs font-bold uppercase tracking-wider text-foreground">
                 Catálogo Multicloud
               </span>
-              <span className="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full border border-slate-200">
+              <span className="text-[11px] font-semibold text-foreground-secondary bg-surface px-2 py-0.5 rounded-full border border-border">
                 {filteredServices.length} de {allServices.length} serviços
               </span>
             </div>
 
             {/* Search Input (Ctrl+K) */}
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none" />
+              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-foreground-secondary/60 pointer-events-none" />
               <Input
                 ref={searchInputRef}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar serviços... (Ctrl+K)"
-                className="pl-8 pr-7 text-xs h-8 bg-white border-slate-200 focus-visible:ring-indigo-500"
+                className="pl-8 pr-7 text-xs h-8 bg-surface border-border focus-visible:ring-ring"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2 top-2 text-slate-400 hover:text-slate-700"
+                  className="absolute right-2 top-2 text-foreground-secondary hover:text-foreground"
                   aria-label="Limpar busca"
                 >
                   <X size={13} />
@@ -202,8 +196,8 @@ export function CatalogSidebar({
                 className={cn(
                   'text-[11px] px-2.5 py-1 rounded-full border transition-colors',
                   !selectedProvider
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-900 font-bold'
-                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                    ? 'border-primary bg-primary-soft text-primary font-bold shadow-2xs'
+                    : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
                 )}
               >
                 Todos
@@ -217,8 +211,8 @@ export function CatalogSidebar({
                   className={cn(
                     'text-[11px] px-2 py-1 rounded-full border transition-colors flex items-center gap-1.5',
                     selectedProvider === p.id
-                      ? 'border-indigo-600 bg-indigo-50 text-indigo-900 font-bold'
-                      : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                      ? 'border-primary bg-primary-soft text-primary font-bold shadow-2xs'
+                      : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
                   )}
                 >
                   <ProviderIcon providerId={p.id} size={12} />
@@ -231,7 +225,7 @@ export function CatalogSidebar({
           {/* Expandable Categories Accordion */}
           <div className="flex-1 overflow-y-auto p-2.5 space-y-1.5">
             {filteredServices.length === 0 ? (
-              <div className="p-8 text-center text-xs text-slate-500 space-y-2">
+              <div className="p-8 text-center text-xs text-foreground-secondary space-y-2">
                 <p>Nenhum serviço encontrado para &quot;{searchQuery}&quot;.</p>
                 <Button
                   size="sm"
@@ -255,27 +249,27 @@ export function CatalogSidebar({
                 return (
                   <div
                     key={cat.id}
-                    className="rounded-btn border border-slate-200/80 bg-white overflow-hidden transition-all shadow-2xs"
+                    className="rounded-btn border border-border bg-surface overflow-hidden transition-all shadow-2xs"
                   >
                     {/* Category Accordion Header */}
                     <button
                       onClick={() => toggleCategory(cat.id)}
-                      className="w-full flex items-center justify-between p-2.5 bg-slate-50/70 hover:bg-slate-100/70 transition-colors text-left"
+                      className="w-full flex items-center justify-between p-2.5 bg-surface-muted/60 hover:bg-surface-muted transition-colors text-left"
                     >
                       <div className="flex items-center gap-2">
-                        {CATEGORY_ICONS[cat.id] || <Layers size={14} className="text-slate-500" />}
-                        <span className="text-xs font-bold text-slate-800">
+                        {CATEGORY_ICONS[cat.id] || <Layers size={14} className="text-foreground-secondary" />}
+                        <span className="text-xs font-bold text-foreground">
                           {cat.name}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-semibold text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+                        <span className="text-[10px] font-semibold text-foreground-secondary bg-surface px-1.5 py-0.5 rounded border border-border">
                           {svcs.length}
                         </span>
                         <ChevronDown
                           size={14}
                           className={cn(
-                            'text-slate-400 transition-transform duration-200',
+                            'text-foreground-secondary transition-transform duration-standard',
                             isExpanded ? 'rotate-180' : ''
                           )}
                         />
@@ -284,7 +278,7 @@ export function CatalogSidebar({
 
                     {/* Services Items inside expanded Category */}
                     {isExpanded && (
-                      <div className="p-1.5 space-y-1 bg-white divide-y divide-slate-100">
+                      <div className="p-1.5 space-y-1 bg-surface divide-y divide-border/60">
                         {svcs.map((service) => (
                           <div
                             key={service.serviceId}
@@ -299,7 +293,7 @@ export function CatalogSidebar({
                                 onAddService(service);
                               }
                             }}
-                            className="group flex items-center justify-between gap-2.5 p-1.5 rounded-sm hover:bg-slate-50/90 cursor-grab active:cursor-grabbing transition-colors pt-2"
+                            className="group flex items-center justify-between gap-2.5 p-1.5 rounded-sm hover:bg-surface-muted/80 cursor-grab active:cursor-grabbing transition-colors pt-2"
                           >
                             <div className="flex items-center gap-2.5 overflow-hidden">
                               <ServiceIcon
@@ -310,10 +304,10 @@ export function CatalogSidebar({
                                 className="shrink-0"
                               />
                               <div className="overflow-hidden">
-                                <div className="text-xs font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors truncate">
+                                <div className="text-xs font-semibold text-foreground group-hover:text-primary transition-colors truncate">
                                   {service.displayName}
                                 </div>
-                                <div className="text-[10px] text-slate-400 truncate">
+                                <div className="text-[10px] text-foreground-secondary/70 truncate">
                                   {service.shortDescription}
                                 </div>
                               </div>
@@ -323,7 +317,7 @@ export function CatalogSidebar({
                             {!selectedProvider && (
                               <Badge
                                 variant="outline"
-                                className="text-[9px] px-1.5 py-0 h-4 uppercase shrink-0 border-slate-200 text-slate-500 font-medium"
+                                className="text-[9px] px-1.5 py-0 h-4 uppercase shrink-0 border-border text-foreground-secondary font-medium"
                               >
                                 {service.providerId}
                               </Badge>

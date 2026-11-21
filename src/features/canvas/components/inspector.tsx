@@ -7,18 +7,12 @@ import {
   ChevronLeft,
   Sliders,
   FileText,
-  Network,
-  Layers,
   ArrowRight,
-  Globe,
-  Radio,
   X,
-  Share2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ProviderIcon } from '@/features/catalog/components/provider-icons';
 import { ServiceIcon } from '@/features/catalog/components/service-icons';
 import { getCatalogServiceById } from '@/features/catalog/catalog-service';
 import { useEditorStore } from '../store/editor-store';
@@ -51,7 +45,6 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
 
   const nodeData = selectedNode?.data as Record<string, unknown> | undefined;
   const isGroup = selectedNode?.type === 'group';
-  const isShape = selectedNode?.type === 'shape' || selectedNode?.type === 'generic';
 
   const serviceId = typeof nodeData?.serviceId === 'string' ? nodeData.serviceId : undefined;
   const catalogService = serviceId ? getCatalogServiceById(serviceId) : undefined;
@@ -64,7 +57,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
     <aside
       aria-label="Painel de propriedades do elemento"
       className={cn(
-        'relative flex flex-col border-l border-studio-border bg-white transition-all duration-200 z-10 select-none shrink-0 h-full',
+        'relative flex flex-col border-l border-border bg-surface transition-all duration-standard z-10 select-none shrink-0 h-full',
         isOpen ? 'w-[355px]' : 'w-0'
       )}
     >
@@ -74,7 +67,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
         size="iconSm"
         onClick={onToggle}
         aria-label={isOpen ? 'Recolher propriedades' : 'Expandir propriedades'}
-        className="absolute -left-3 top-3.5 z-20 h-6 w-6 rounded-full border border-studio-border bg-white shadow-sm hover:bg-slate-50 text-slate-600"
+        className="absolute -left-3 top-3.5 z-20 h-6 w-6 rounded-full border border-border bg-surface shadow-2xs hover:bg-surface-muted text-foreground-secondary hover:text-foreground"
       >
         {isOpen ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
       </Button>
@@ -82,8 +75,8 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
       {isOpen && (
         <div className="flex h-full flex-col overflow-y-auto">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-studio-border p-3.5 bg-slate-50/40">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-800">
+          <div className="flex items-center justify-between border-b border-border p-3.5 bg-surface-muted/50">
+            <span className="text-xs font-bold uppercase tracking-wider text-foreground">
               {selectedNode
                 ? isGroup
                   ? 'Zona de Arquitetura'
@@ -99,7 +92,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                   selectNode(null);
                   selectEdge(null);
                 }}
-                className="text-slate-400 hover:text-slate-700 p-0.5 rounded"
+                className="text-foreground-secondary hover:text-foreground p-0.5 rounded"
                 title="Deselecionar"
                 aria-label="Deselecionar"
               >
@@ -114,7 +107,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
               <>
                 {/* Node Title / Label */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Rótulo da Instância
                   </label>
                   <Input
@@ -127,7 +120,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
 
                 {/* Service Metadata Card */}
                 {catalogService && (
-                  <div className="rounded-btn border border-slate-200 bg-slate-50/70 p-3 space-y-2">
+                  <div className="rounded-btn border border-border bg-surface-muted/60 p-3 space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <ServiceIcon
@@ -136,30 +129,30 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                           category={catalogService.category}
                           size={20}
                         />
-                        <span className="text-xs font-bold text-slate-900">
+                        <span className="text-xs font-bold text-foreground">
                           {catalogService.displayName}
                         </span>
                       </div>
-                      <Badge variant="outline" className="text-[10px] uppercase border-slate-200">
+                      <Badge variant="outline" className="text-[10px] uppercase border-border">
                         {catalogService.providerId}
                       </Badge>
                     </div>
 
-                    <p className="text-[11px] text-slate-600 leading-relaxed">
+                    <p className="text-[11px] text-foreground-secondary leading-relaxed">
                       {catalogService.shortDescription}
                     </p>
 
-                    <div className="pt-1 flex items-center justify-between border-t border-slate-200/60">
+                    <div className="pt-1 flex items-center justify-between border-t border-border/60">
                       <a
                         href={catalogService.officialDocsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 hover:underline"
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-primary hover:underline"
                       >
                         <span>Documentação oficial</span>
                         <ExternalLink size={11} />
                       </a>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[10px] text-foreground-secondary/70">
                         Rev. {catalogService.lastReviewedAt}
                       </span>
                     </div>
@@ -168,14 +161,14 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
 
                 {/* Configuration / Properties */}
                 <div className="space-y-2.5">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                    <Sliders size={13} className="text-slate-500" />
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                    <Sliders size={13} className="text-foreground-secondary" />
                     <span>Configurações</span>
                   </div>
 
                   <div className="space-y-2">
                     <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-600">Ambiente</label>
+                      <label className="text-[11px] font-medium text-foreground-secondary">Ambiente</label>
                       <Input
                         value={((nodeData?.properties as Record<string, unknown>)?.environment as string) || ''}
                         onChange={(e) =>
@@ -190,7 +183,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-600">Capacidade / SKU</label>
+                      <label className="text-[11px] font-medium text-foreground-secondary">Capacidade / SKU</label>
                       <Input
                         value={((nodeData?.properties as Record<string, unknown>)?.capacity as string) || ''}
                         onChange={(e) =>
@@ -205,7 +198,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[11px] font-medium text-slate-600">Região de Execução</label>
+                      <label className="text-[11px] font-medium text-foreground-secondary">Região de Execução</label>
                       <Input
                         value={((nodeData?.properties as Record<string, unknown>)?.region as string) || ''}
                         onChange={(e) =>
@@ -221,10 +214,10 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                   </div>
                 </div>
 
-                {/* Technical Notes (No Speaker Notes on elements RF2-05 / RF4-07) */}
+                {/* Technical Notes */}
                 <div className="space-y-1.5">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800">
-                    <FileText size={13} className="text-slate-500" />
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-foreground">
+                    <FileText size={13} className="text-foreground-secondary" />
                     <span>Observações Técnicas da Solução</span>
                   </div>
                   <textarea
@@ -232,12 +225,12 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                     value={(nodeData?.notes as string) || ''}
                     onChange={(e) => updateNodeNotes(selectedNode.id, e.target.value)}
                     placeholder="Adicione premissas, requisitos ou detalhes de integração..."
-                    className="w-full rounded-btn border border-slate-200 bg-white p-2 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-y"
+                    className="w-full rounded-btn border border-border bg-surface p-2 text-xs text-foreground placeholder:text-foreground-secondary/60 focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary resize-y"
                   />
                 </div>
 
                 {/* Node Actions */}
-                <div className="pt-2 border-t border-studio-border flex items-center justify-between">
+                <div className="pt-2 border-t border-border flex items-center justify-between">
                   <Button
                     variant="outline"
                     size="sm"
@@ -264,7 +257,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
             {selectedNode && isGroup && (
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Título da Zona / Grupo
                   </label>
                   <Input
@@ -276,7 +269,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Provedor da Zona
                   </label>
                   <select
@@ -292,7 +285,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                         saveStatus: 'unsaved',
                       }));
                     }}
-                    className="w-full h-8 rounded-btn border border-slate-200 bg-white px-2 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full h-8 rounded-btn border border-border bg-surface px-2 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                   >
                     <option value="custom">Customizado / On-Premises</option>
                     <option value="aws">Amazon Web Services (AWS)</option>
@@ -306,7 +299,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Região
                   </label>
                   <Input
@@ -327,7 +320,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                   />
                 </div>
 
-                <div className="pt-2 border-t border-studio-border flex justify-end">
+                <div className="pt-2 border-t border-border flex justify-end">
                   <Button
                     variant="destructive"
                     size="sm"
@@ -345,18 +338,18 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
             {selectedEdge && (
               <div className="space-y-4">
                 {/* Connected endpoints summary */}
-                <div className="rounded-btn border border-slate-200 bg-slate-50/70 p-2.5 flex items-center justify-between text-xs text-slate-700 font-medium">
+                <div className="rounded-btn border border-border bg-surface-muted/60 p-2.5 flex items-center justify-between text-xs text-foreground font-medium">
                   <span className="truncate max-w-[120px]">
                     {(sourceNode?.data?.label as string) || 'Origem'}
                   </span>
-                  <ArrowRight size={14} className="text-slate-400 shrink-0" />
+                  <ArrowRight size={14} className="text-foreground-secondary shrink-0" />
                   <span className="truncate max-w-[120px]">
                     {(targetNode?.data?.label as string) || 'Destino'}
                   </span>
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Rótulo da Conexão
                   </label>
                   <Input
@@ -379,7 +372,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
 
                 {/* Connection Protocol / Flow Type */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Tipo de Conexão / Protocolo
                   </label>
                   <select
@@ -395,7 +388,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                         saveStatus: 'unsaved',
                       }));
                     }}
-                    className="w-full h-8 rounded-btn border border-slate-200 bg-white px-2 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full h-8 rounded-btn border border-border bg-surface px-2 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                   >
                     <option value="http">HTTPS / HTTP / REST</option>
                     <option value="data">Dados / JDBC / SQL / Replicação</option>
@@ -408,7 +401,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
 
                 {/* Connection Direction */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700">
+                  <label className="text-xs font-semibold text-foreground">
                     Direção do Fluxo
                   </label>
                   <select
@@ -424,7 +417,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                         saveStatus: 'unsaved',
                       }));
                     }}
-                    className="w-full h-8 rounded-btn border border-slate-200 bg-white px-2 text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full h-8 rounded-btn border border-border bg-surface px-2 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                   >
                     <option value="sourceToTarget">Origem → Destino (Padrão)</option>
                     <option value="bidirectional">Bidirecional (↔)</option>
@@ -433,7 +426,7 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
                   </select>
                 </div>
 
-                <div className="pt-2 border-t border-studio-border flex justify-end">
+                <div className="pt-2 border-t border-border flex justify-end">
                   <Button
                     variant="destructive"
                     size="sm"
@@ -450,18 +443,18 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
             {/* 4. No Selection: Compact Project Summary */}
             {!selectedNode && !selectedEdge && (
               <div className="space-y-3 pt-1">
-                <div className="rounded-btn border border-slate-200 bg-slate-50/60 p-3 space-y-2">
-                  <div className="text-xs font-bold text-slate-800">
+                <div className="rounded-btn border border-border bg-surface-muted/60 p-3 space-y-2">
+                  <div className="text-xs font-bold text-foreground">
                     {project?.title || 'Diagrama'}
                   </div>
-                  <div className="flex items-center gap-4 text-xs text-slate-500">
+                  <div className="flex items-center gap-4 text-xs text-foreground-secondary">
                     <span>{nodes.length} {nodes.length === 1 ? 'nó' : 'nós'}</span>
                     <span>•</span>
                     <span>{edges.length} {edges.length === 1 ? 'conexão' : 'conexões'}</span>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-400 text-center py-4">
+                <p className="text-xs text-foreground-secondary/70 text-center py-4">
                   Selecione um elemento para editar propriedades.
                 </p>
               </div>

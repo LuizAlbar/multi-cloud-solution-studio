@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useReactFlow } from '@xyflow/react';
 import {
   Film,
@@ -6,11 +6,7 @@ import {
   Trash2,
   Camera,
   Play,
-  ChevronUp,
-  ChevronDown,
   X,
-  FileText,
-  Activity,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,8 +27,6 @@ export function SceneDrawer({
   const { getViewport } = useReactFlow();
   const { project, nodes, edges } = useEditorStore();
 
-  const [activeEditingSceneId, setActiveEditingSceneId] = useState<string | null>(null);
-
   if (!isOpen || !project) return null;
 
   const scenes = project.scenes || [];
@@ -46,7 +40,7 @@ export function SceneDrawer({
       description: 'Enquadramento e nós destacados para apresentação.',
       speakerNotes: '',
       viewport: { x: vp.x, y: vp.y, zoom: vp.zoom },
-      highlightNodeIds: nodes.map((n) => n.id), // by default highlight all or selected
+      highlightNodeIds: nodes.map((n) => n.id),
       highlightEdgeIds: edges.map((e) => e.id),
       animatedEdgeIds: edges.slice(0, 1).map((e) => e.id),
     };
@@ -58,7 +52,6 @@ export function SceneDrawer({
       },
       saveStatus: 'unsaved',
     });
-    setActiveEditingSceneId(newScene.id);
   };
 
   const handleUpdateScene = (id: string, partial: Partial<Scene>) => {
@@ -85,18 +78,18 @@ export function SceneDrawer({
   };
 
   return (
-    <div className="absolute top-16 right-4 z-40 w-80 rounded-card border border-studio-border bg-white shadow-xl select-none flex flex-col max-h-[80vh]">
+    <div className="absolute top-16 right-4 z-40 w-80 rounded-card border border-border bg-surface/95 backdrop-blur-md shadow-raised select-none flex flex-col max-h-[80vh]">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-studio-border p-3">
+      <div className="flex items-center justify-between border-b border-border p-3">
         <div className="flex items-center gap-2">
-          <Film size={16} className="text-studio-accent" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-studio-text">
+          <Film size={16} className="text-primary" />
+          <span className="text-xs font-semibold uppercase tracking-wider text-foreground">
             Roteiro de Cenas
           </span>
         </div>
         <button
           onClick={onClose}
-          className="text-studio-secondary hover:text-studio-text p-1"
+          className="text-foreground-secondary hover:text-foreground p-1 rounded"
           aria-label="Fechar roteiro"
         >
           <X size={14} />
@@ -104,7 +97,7 @@ export function SceneDrawer({
       </div>
 
       {/* Action buttons */}
-      <div className="p-3 border-b border-studio-border flex items-center justify-between gap-2 bg-slate-50/60">
+      <div className="p-3 border-b border-border flex items-center justify-between gap-2 bg-surface-muted/50">
         <Button
           size="sm"
           variant="outline"
@@ -132,7 +125,7 @@ export function SceneDrawer({
       <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {scenes.length === 0 ? (
           <div className="p-6 text-center">
-            <p className="text-xs text-studio-secondary">
+            <p className="text-xs text-foreground-secondary">
               Nenhuma cena criada.
             </p>
           </div>
@@ -140,10 +133,10 @@ export function SceneDrawer({
           scenes.map((scene, idx) => (
             <div
               key={scene.id}
-              className="rounded-btn border border-studio-border bg-white p-2.5 space-y-2 shadow-2xs"
+              className="rounded-btn border border-border bg-surface p-2.5 space-y-2 shadow-2xs"
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[10px] font-bold text-studio-accent uppercase">
+                <span className="text-[10px] font-bold text-primary uppercase">
                   #{idx + 1}
                 </span>
                 <Input
@@ -155,7 +148,7 @@ export function SceneDrawer({
                   size="iconSm"
                   variant="ghost"
                   onClick={() => handleDeleteScene(scene.id)}
-                  className="text-studio-secondary hover:text-red-600 h-6 w-6"
+                  className="text-foreground-secondary hover:text-destructive h-6 w-6"
                   title="Excluir cena"
                 >
                   <Trash2 size={12} />
@@ -163,11 +156,11 @@ export function SceneDrawer({
               </div>
 
               {/* Viewport recapture button */}
-              <div className="flex items-center justify-between text-[11px] text-studio-secondary pt-1">
+              <div className="flex items-center justify-between text-[11px] text-foreground-secondary pt-1">
                 <span>Zoom: {scene.viewport.zoom.toFixed(2)}x</span>
                 <button
                   onClick={() => handleRecaptureViewport(scene.id)}
-                  className="inline-flex items-center gap-1 text-[11px] text-studio-accent hover:underline font-medium"
+                  className="inline-flex items-center gap-1 text-[11px] text-primary hover:underline font-medium"
                   title="Atualizar coordenadas da cena para o enquadramento atual"
                 >
                   <Camera size={11} />
@@ -184,7 +177,7 @@ export function SceneDrawer({
                     handleUpdateScene(scene.id, { speakerNotes: e.target.value })
                   }
                   placeholder="Notas do apresentador para esta cena..."
-                  className="w-full rounded-btn border border-studio-border bg-amber-50/30 p-1.5 text-[11px] placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-studio-accent resize-none"
+                  className="w-full rounded-btn border border-border bg-amber-500/5 p-1.5 text-[11px] text-foreground placeholder:text-foreground-secondary/60 focus:outline-none focus:ring-1 focus:ring-ring resize-none"
                 />
               </div>
             </div>

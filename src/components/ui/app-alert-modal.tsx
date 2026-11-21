@@ -24,72 +24,73 @@ export function AppAlertModal({
 
   const config = {
     error: {
-      icon: <AlertCircle className="h-5 w-5 text-red-600 shrink-0" />,
+      icon: <AlertCircle className="h-4 w-4 text-destructive shrink-0" />,
       defaultTitle: 'Atenção',
-      headerBg: 'bg-red-50/70',
-      border: 'border-red-200',
+      headerBg: 'bg-destructive/10',
+      border: 'border-destructive/20',
     },
     warning: {
-      icon: <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0" />,
+      icon: <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0" />,
       defaultTitle: 'Aviso',
-      headerBg: 'bg-amber-50/70',
-      border: 'border-amber-200',
+      headerBg: 'bg-amber-500/10',
+      border: 'border-amber-500/20',
     },
     info: {
-      icon: <Info className="h-5 w-5 text-indigo-600 shrink-0" />,
+      icon: <Info className="h-4 w-4 text-primary shrink-0" />,
       defaultTitle: 'Informação',
-      headerBg: 'bg-indigo-50/70',
-      border: 'border-indigo-200',
+      headerBg: 'bg-primary-soft',
+      border: 'border-primary/20',
     },
     success: {
-      icon: <CheckCircle2 className="h-5 w-5 text-emerald-600 shrink-0" />,
+      icon: <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />,
       defaultTitle: 'Sucesso',
-      headerBg: 'bg-emerald-50/70',
-      border: 'border-emerald-200',
+      headerBg: 'bg-emerald-500/10',
+      border: 'border-emerald-500/20',
     },
   }[type];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-2xs animate-fade-in select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="alert-dialog-title"
-        className="relative flex flex-col w-full max-w-md rounded-2xl border border-studio-border bg-white shadow-2xl overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-md overflow-hidden"
       >
         {/* Header */}
         <div
           className={cn(
-            'flex items-center justify-between border-b border-studio-border px-5 py-3.5',
+            'flex items-center justify-between border-b border-border px-5 py-3.5',
             config.headerBg
           )}
         >
           <div className="flex items-center gap-2">
             {config.icon}
-            <h3 id="alert-dialog-title" className="text-sm font-bold text-slate-900">
+            <h3 id="alert-dialog-title" className="text-sm font-semibold text-foreground">
               {title || config.defaultTitle}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-md transition-colors"
+            className="text-foreground-secondary hover:text-foreground p-1 rounded-md transition-colors"
             aria-label="Fechar"
           >
-            <X size={16} />
+            <X size={15} />
           </button>
         </div>
 
         {/* Message Body */}
-        <div className="p-5 text-xs text-slate-700 leading-relaxed">
+        <div className="p-5 text-xs text-foreground/90 leading-relaxed">
           {message}
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end border-t border-studio-border px-5 py-3 bg-slate-50/60">
+        <div className="flex justify-end border-t border-border px-5 py-3 bg-surface-muted/50">
           <Button
             size="sm"
+            variant="default"
             onClick={onClose}
-            className="text-xs h-8 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+            className="text-xs h-8 px-4 font-semibold"
           >
             Entendi
           </Button>

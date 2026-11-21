@@ -1,27 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  Layers,
   ArrowRight,
-  ChevronLeft,
-  CheckCircle,
-  Sparkles,
-  Info,
-  Clock,
   ArrowUpRight,
-  Plus,
+  X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { StudioHeader } from '@/components/layout/studio-header';
 import { ProviderIcon } from '@/features/catalog/components/provider-icons';
-import { BrandLogo } from '@/components/brand/brand-logo';
 import {
   getTemplates,
-  getTemplateById,
   type ArchitectureTemplate,
 } from '@/data/templates';
 import { projectRepository } from '@/lib/storage/project-repository';
@@ -56,66 +48,26 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans select-none">
       {/* Top Header */}
-      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6 sm:px-10 z-20">
-        <div className="flex items-center gap-6">
-          <Link
-            href="/"
-            className="hover:opacity-95 transition-opacity"
-          >
-            <BrandLogo size="lg" />
-          </Link>
-
-          <div className="h-5 w-px bg-studio-border hidden sm:block" />
-
-          {/* Navigation Tabs */}
-          <nav className="flex items-center gap-1">
-            <Link
-              href="/"
-              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
-            >
-              <span>Início</span>
-            </Link>
-            <Link
-              href="/projects"
-              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
-            >
-              <span>Projetos</span>
-            </Link>
-            <Link
-              href="/templates"
-              className="bg-indigo-50/80 text-indigo-900 font-semibold px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs transition-colors"
-            >
-              <span>Templates</span>
-            </Link>
-          </nav>
-        </div>
-
-        <Link href="/editor">
-          <Button size="sm" variant="default" className="text-xs font-semibold h-8 px-3.5 shadow-2xs">
-            <Plus size={14} className="mr-1" />
-            <span>Novo Projeto</span>
-          </Button>
-        </Link>
-      </header>
+      <StudioHeader activeTab="templates" />
 
       {/* Hero Banner */}
-      <div className="border-b border-studio-border bg-white py-6 px-6 sm:px-12">
+      <div className="border-b border-border bg-surface py-6 px-6 sm:px-12">
         <div className="max-w-4xl">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-studio-text">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
             Templates de Arquitetura
           </h1>
         </div>
       </div>
 
       {/* Main Grid */}
-      <main className="flex-1 p-6 sm:p-12 max-w-7xl mx-auto w-full">
+      <main id="main-content" className="flex-1 p-6 sm:p-12 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {templates.map((template) => (
             <Card
               key={template.id}
-              className="flex flex-col justify-between hover:shadow-md transition-all border-studio-border"
+              className="flex flex-col justify-between hover:shadow-raised hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-standard ease-out-editorial border-border bg-surface"
             >
               <CardHeader className="space-y-2.5">
                 <div className="flex items-center justify-between">
@@ -142,14 +94,14 @@ export default function TemplatesPage() {
 
               <CardContent className="space-y-3">
                 <div className="space-y-1">
-                  <span className="text-[11px] font-semibold text-studio-secondary uppercase tracking-wider">
+                  <span className="text-[11px] font-semibold text-foreground-secondary uppercase tracking-wider">
                     Serviços Principais:
                   </span>
                   <div className="flex flex-wrap gap-1">
                     {template.keyServices.map((svc) => (
                       <span
                         key={svc}
-                        className="text-[10px] px-2 py-0.5 rounded-btn bg-slate-100 text-slate-700 border border-slate-200"
+                        className="text-[10px] px-2 py-0.5 rounded-btn bg-surface-muted text-foreground-secondary border border-border"
                       >
                         {svc}
                       </span>
@@ -158,10 +110,10 @@ export default function TemplatesPage() {
                 </div>
               </CardContent>
 
-              <CardFooter className="pt-2 border-t border-studio-border flex items-center justify-between">
+              <CardFooter className="pt-2 border-t border-border/60 flex items-center justify-between">
                 <button
                   onClick={() => setSelectedTemplate(template)}
-                  className="text-xs text-studio-secondary hover:text-studio-accent font-medium inline-flex items-center gap-1"
+                  className="text-xs text-foreground-secondary hover:text-primary font-medium inline-flex items-center gap-1 transition-colors"
                 >
                   <span>Ver prévia</span>
                   <ArrowUpRight size={12} />
@@ -185,44 +137,45 @@ export default function TemplatesPage() {
 
       {/* Preview Modal */}
       {selectedTemplate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="w-full max-w-xl rounded-card border border-studio-border bg-white p-6 shadow-xl space-y-4">
+        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="feedback-surface w-full max-w-xl p-6 space-y-4">
             <div className="flex items-start justify-between">
               <div>
-                <h3 className="text-lg font-bold text-studio-text">
+                <h3 className="text-lg font-bold text-foreground">
                   {selectedTemplate.title}
                 </h3>
-                <p className="text-xs text-studio-secondary mt-1">
+                <p className="text-xs text-foreground-secondary mt-1">
                   {selectedTemplate.useCase}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedTemplate(null)}
-                className="text-studio-secondary hover:text-studio-text text-sm font-semibold p-1"
+                className="text-foreground-secondary hover:text-foreground text-sm font-semibold p-1 rounded-md"
+                aria-label="Fechar"
               >
-                ✕
+                <X size={16} />
               </button>
             </div>
 
-            <p className="text-xs text-slate-700 leading-relaxed">
+            <p className="text-xs text-foreground/90 leading-relaxed">
               {selectedTemplate.description}
             </p>
 
             <div className="space-y-1.5">
-              <span className="text-xs font-semibold text-studio-text">
+              <span className="text-xs font-semibold text-foreground">
                 Nós configurados no diagrama ({selectedTemplate.projectData.nodes.length}):
               </span>
-              <ul className="text-xs text-studio-secondary space-y-1 list-disc pl-5">
+              <ul className="text-xs text-foreground-secondary space-y-1 list-disc pl-5">
                 {selectedTemplate.projectData.nodes.map((n) => (
                   <li key={n.id}>
-                    <span className="font-medium text-studio-text">{n.label}</span> —{' '}
+                    <span className="font-medium text-foreground">{n.label}</span> —{' '}
                     {n.notes}
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="pt-3 border-t border-studio-border flex justify-end gap-2">
+            <div className="pt-3 border-t border-border flex justify-end gap-2">
               <Button
                 variant="outline"
                 size="sm"

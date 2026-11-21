@@ -8,9 +8,7 @@ import {
   CheckCircle2,
   AlertCircle,
   AlertTriangle,
-  FileText,
   Sparkles,
-  Layers,
   ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -90,26 +88,26 @@ export function ImportModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-2xs animate-fade-in select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="import-dialog-title"
-        className="relative flex flex-col w-full max-w-2xl max-h-[90vh] rounded-2xl border border-studio-border bg-white shadow-2xl overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-studio-border px-6 py-4 bg-slate-50/60">
+        <div className="flex items-center justify-between border-b border-border px-6 py-4 bg-surface-muted/50">
           <div>
-            <h2 id="import-dialog-title" className="text-sm font-bold text-slate-900">
+            <h2 id="import-dialog-title" className="text-sm font-bold text-foreground">
               Importar Diagrama
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-foreground-secondary">
               Cole o JSON gerado por IA ou selecione um arquivo compatível (.mcss.json).
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-md"
+            className="text-foreground-secondary hover:text-foreground p-1 rounded-md"
             aria-label="Fechar"
           >
             <X size={18} />
@@ -117,14 +115,14 @@ export function ImportModal({
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-2 border-b border-studio-border px-6 pt-3 bg-white">
+        <div className="flex items-center gap-2 border-b border-border px-6 pt-3 bg-surface">
           <button
             onClick={() => setActiveTab('paste')}
             className={cn(
               'flex items-center gap-2 pb-2.5 text-xs font-semibold border-b-2 transition-colors',
               activeTab === 'paste'
-                ? 'border-indigo-600 text-indigo-900'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-foreground-secondary hover:text-foreground'
             )}
           >
             <FileCode size={14} />
@@ -136,8 +134,8 @@ export function ImportModal({
             className={cn(
               'flex items-center gap-2 pb-2.5 text-xs font-semibold border-b-2 transition-colors',
               activeTab === 'file'
-                ? 'border-indigo-600 text-indigo-900'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-foreground-secondary hover:text-foreground'
             )}
           >
             <Upload size={14} />
@@ -150,7 +148,7 @@ export function ImportModal({
           {activeTab === 'paste' ? (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-700">JSON do Diagrama</span>
+                <span className="font-semibold text-foreground">JSON do Diagrama</span>
                 {hasSanitizedFence && (
                   <span className="text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                     Cercas Markdown removidas
@@ -162,14 +160,15 @@ export function ImportModal({
                 onChange={(e) => setJsonText(e.target.value)}
                 placeholder='{\n  "format": "mcss.diagram",\n  "schemaVersion": "1.0.0",\n  "metadata": { "title": "Minha Solução" },\n  "diagram": { "nodes": [], "edges": [] }\n}'
                 rows={7}
-                className="w-full rounded-btn border border-slate-200 bg-slate-50/50 p-3 font-mono text-xs text-slate-800 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full rounded-btn border border-border bg-surface-muted/40 p-3 font-mono text-xs text-foreground placeholder:text-foreground-secondary/60 focus:bg-surface focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
               />
               <div className="flex justify-end">
                 <Button
                   size="sm"
+                  variant="default"
                   onClick={() => handleValidate(jsonText)}
                   disabled={!jsonText.trim()}
-                  className="gap-1.5 text-xs h-8 bg-indigo-600 hover:bg-indigo-700 text-white"
+                  className="gap-1.5 text-xs h-8"
                 >
                   <Sparkles size={13} />
                   <span>Validar JSON</span>
@@ -193,8 +192,8 @@ export function ImportModal({
               className={cn(
                 'flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-2xl cursor-pointer transition-colors text-center',
                 dragOver
-                  ? 'border-indigo-600 bg-indigo-50/50'
-                  : 'border-slate-200 hover:border-slate-300 bg-slate-50/40'
+                  ? 'border-primary bg-primary-soft/50'
+                  : 'border-border hover:border-primary/40 bg-surface-muted/30'
               )}
             >
               <input
@@ -207,11 +206,11 @@ export function ImportModal({
                   if (file) handleFileSelected(file);
                 }}
               />
-              <Upload size={28} className="text-slate-400 mb-2" />
-              <p className="text-xs font-semibold text-slate-800">
+              <Upload size={28} className="text-foreground-secondary/70 mb-2" />
+              <p className="text-xs font-semibold text-foreground">
                 {selectedFileName || 'Clique para selecionar ou arraste o arquivo (.mcss.json)'}
               </p>
-              <p className="text-[11px] text-slate-400 mt-1">
+              <p className="text-[11px] text-foreground-secondary mt-1">
                 Leitura local no navegador sem envio a servidores externos
               </p>
             </div>
@@ -219,7 +218,7 @@ export function ImportModal({
 
           {/* Validation Feedback & Preview */}
           {report && (
-            <div className="space-y-3 pt-2 border-t border-studio-border">
+            <div className="space-y-3 pt-2 border-t border-border">
               {/* Summary / Status Chip */}
               {report.isValid ? (
                 <div className="flex items-center gap-2 p-3 rounded-btn bg-emerald-50 text-emerald-900 border border-emerald-200 text-xs">
@@ -231,25 +230,25 @@ export function ImportModal({
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 p-3 rounded-btn bg-red-50 text-red-900 border border-red-200 text-xs">
-                  <AlertCircle size={16} className="text-red-600 shrink-0" />
+                <div className="flex items-center gap-2 p-3 rounded-btn bg-destructive/10 text-destructive border border-destructive/20 text-xs">
+                  <AlertCircle size={16} className="text-destructive shrink-0" />
                   <div className="font-semibold">Corrija os erros antes de importar</div>
                 </div>
               )}
 
               {/* Issues List (Errors & Warnings) */}
               {report.issues.length > 0 && (
-                <div className="space-y-1.5 max-h-36 overflow-y-auto rounded-btn border border-slate-200 p-2.5 bg-slate-50/70 text-xs divide-y divide-slate-200/60">
+                <div className="space-y-1.5 max-h-36 overflow-y-auto rounded-btn border border-border p-2.5 bg-surface-muted/70 text-xs divide-y divide-border/60">
                   {report.issues.map((issue, idx) => (
                     <div key={idx} className="pt-1.5 first:pt-0 flex items-start gap-2">
                       {issue.severity === 'error' ? (
-                        <AlertCircle size={14} className="text-red-600 shrink-0 mt-0.5" />
+                        <AlertCircle size={14} className="text-destructive shrink-0 mt-0.5" />
                       ) : (
                         <AlertTriangle size={14} className="text-amber-600 shrink-0 mt-0.5" />
                       )}
                       <div>
-                        <div className="font-semibold text-slate-900">{issue.message}</div>
-                        <div className="text-[11px] text-slate-500 font-mono">
+                        <div className="font-semibold text-foreground">{issue.message}</div>
+                        <div className="text-[11px] text-foreground-secondary font-mono">
                           {issue.path} {issue.hint && `• ${issue.hint}`}
                         </div>
                       </div>
@@ -261,7 +260,7 @@ export function ImportModal({
               {/* Isolated Visual Preview */}
               {report.isValid && report.document && (
                 <div className="space-y-1.5">
-                  <span className="text-xs font-semibold text-slate-700">
+                  <span className="text-xs font-semibold text-foreground">
                     Pré-visualização da Arquitetura
                   </span>
                   <DiagramPreview document={report.document} />
@@ -272,16 +271,17 @@ export function ImportModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between border-t border-studio-border px-6 py-4 bg-slate-50/60">
+        <div className="flex items-center justify-between border-t border-border px-6 py-4 bg-surface-muted/50">
           <Button variant="outline" size="sm" onClick={onClose} className="text-xs h-8">
             Cancelar
           </Button>
 
           <Button
             size="sm"
+            variant="default"
             onClick={handleConfirm}
             disabled={!report?.isValid || isSubmitting}
-            className="gap-1.5 text-xs h-8 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+            className="gap-1.5 text-xs h-8 font-semibold"
           >
             <span>{isPlayground ? 'Abrir no Playground' : 'Criar novo projeto'}</span>
             <ArrowRight size={13} />

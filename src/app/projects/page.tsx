@@ -8,8 +8,6 @@ import {
   Search,
   Trash2,
   Copy,
-  Edit2,
-  Calendar,
   Check,
   AlertTriangle,
   LayoutGrid,
@@ -24,9 +22,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { StudioHeader } from '@/components/layout/studio-header';
 import { ProviderIcon } from '@/features/catalog/components/provider-icons';
 import { ServiceIcon } from '@/features/catalog/components/service-icons';
-import { BrandLogo } from '@/components/brand/brand-logo';
 import { projectRepository, type ProjectSummary } from '@/lib/storage/project-repository';
 import { getCatalogServiceById } from '@/features/catalog/catalog-service';
 import { ImportModal } from '@/features/diagram-format/components/import-modal';
@@ -173,82 +171,55 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-studio-bg text-studio-text flex flex-col font-sans select-none">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans select-none">
       {/* Global Navbar */}
-      <header className="flex h-16 w-full items-center justify-between border-b border-studio-border bg-white px-6 sm:px-10 z-20">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="hover:opacity-95 transition-opacity">
-            <BrandLogo size="lg" />
-          </Link>
-
-          <div className="h-5 w-px bg-studio-border hidden sm:block" />
-
-          {/* Navigation Tabs */}
-          <nav className="flex items-center gap-1">
-            <Link
-              href="/"
-              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
-            >
-              <span>Início</span>
+      <StudioHeader
+        activeTab="projects"
+        actions={
+          <>
+            <Link href="/playground">
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-1.5 text-xs font-medium border-primary/20 bg-primary-soft/60 text-primary hover:bg-primary-soft"
+                title="Abrir editor rápido em memória sem salvar"
+              >
+                <Sparkles size={13} className="text-primary" />
+                <span>Playground</span>
+              </Button>
             </Link>
-            <Link
-              href="/projects"
-              className="bg-indigo-50/80 text-indigo-900 font-semibold px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs transition-colors"
-            >
-              <span>Projetos</span>
-            </Link>
-            <Link
-              href="/templates"
-              className="text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-btn flex items-center gap-1.5 text-xs font-medium transition-colors"
-            >
-              <span>Templates</span>
-            </Link>
-          </nav>
-        </div>
 
-        {/* Right Actions */}
-        <div className="flex items-center gap-2">
-          <Link href="/playground">
             <Button
               variant="outline"
               size="sm"
-              className="gap-1.5 text-xs font-medium border-amber-300 bg-amber-50/60 text-amber-900 hover:bg-amber-100/80"
-              title="Abrir editor rápido em memória sem salvar"
+              onClick={() => setIsImportModalOpen(true)}
+              className="gap-1.5 text-xs font-semibold h-8"
+              title="Importar diagrama MCSS (.json)"
             >
-              <Sparkles size={13} className="text-amber-600" />
-              <span>Playground</span>
+              <Upload size={14} className="text-foreground-secondary" />
+              <span>Importar</span>
             </Button>
-          </Link>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setIsImportModalOpen(true)}
-            className="gap-1.5 text-xs font-semibold h-8 border-studio-border shadow-2xs"
-            title="Importar diagrama gerado por IA ou arquivo .mcss.json"
-          >
-            <Upload size={14} className="text-slate-600" />
-            <span>Importar</span>
-          </Button>
-
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => router.push('/editor')}
-            className="gap-1.5 text-xs font-semibold h-8 px-3.5 shadow-2xs"
-          >
-            <Plus size={14} />
-            <span>Novo Projeto</span>
-          </Button>
-        </div>
-      </header>
+            <Link href="/editor">
+              <Button
+                variant="default"
+                size="sm"
+                className="gap-1.5 text-xs font-semibold h-8 px-3.5"
+              >
+                <Plus size={14} />
+                <span>Novo Projeto</span>
+              </Button>
+            </Link>
+          </>
+        }
+      />
 
       {/* Main Container */}
-      <main className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-10 py-8 space-y-6">
+      <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-10 py-8 space-y-6">
         {/* Projects Toolbar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-studio-border pb-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-border pb-4">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-xl font-bold text-slate-900 mr-2">
+            <h1 className="text-xl font-bold text-foreground mr-2">
               Projetos
             </h1>
 
@@ -259,8 +230,8 @@ export default function ProjectsPage() {
                 className={cn(
                   'text-xs px-2.5 py-1 rounded-full border transition-colors',
                   selectedProviderFilter === 'todos'
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold'
-                    : 'border-studio-border bg-white text-slate-600 hover:bg-slate-50'
+                    ? 'border-primary bg-primary-soft text-primary font-semibold shadow-2xs'
+                    : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
                 )}
               >
                 Todos ({projects.length})
@@ -279,8 +250,8 @@ export default function ProjectsPage() {
                     className={cn(
                       'text-xs px-2.5 py-1 rounded-full border transition-colors flex items-center gap-1.5',
                       selectedProviderFilter === prov
-                        ? 'border-indigo-600 bg-indigo-50 text-indigo-900 font-semibold'
-                        : 'border-studio-border bg-white text-slate-600 hover:bg-slate-50'
+                        ? 'border-primary bg-primary-soft text-primary font-semibold shadow-2xs'
+                        : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
                     )}
                   >
                     <ProviderIcon providerId={prov} size={13} />
@@ -294,17 +265,17 @@ export default function ProjectsPage() {
           {/* Search and Grid/List Toggle */}
           <div className="flex items-center gap-2 self-end lg:self-center">
             <div className="relative w-64 sm:w-72">
-              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400 pointer-events-none" />
+              <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-foreground-secondary/60 pointer-events-none" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar projetos..."
-                className="pl-8 pr-7 text-xs h-8 bg-white"
+                className="pl-8 pr-7 text-xs h-8 bg-surface"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2 top-2 text-slate-400 hover:text-slate-700"
+                  className="absolute right-2 top-2 text-foreground-secondary hover:text-foreground"
                   aria-label="Limpar busca"
                 >
                   <X size={13} />
@@ -313,12 +284,12 @@ export default function ProjectsPage() {
             </div>
 
             {/* View Toggle */}
-            <div className="flex items-center border border-studio-border rounded-btn bg-white overflow-hidden p-0.5">
+            <div className="flex items-center border border-border rounded-btn bg-surface overflow-hidden p-0.5">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="iconSm"
                 onClick={() => setViewMode('grid')}
-                className={cn('h-7 w-7 rounded-sm', viewMode === 'grid' ? 'bg-slate-900 text-white' : 'text-slate-500')}
+                className={cn('h-7 w-7 rounded-sm', viewMode === 'grid' ? 'bg-primary text-white' : 'text-foreground-secondary')}
                 title="Visualização em Grade"
                 aria-label="Grade"
               >
@@ -328,7 +299,7 @@ export default function ProjectsPage() {
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 size="iconSm"
                 onClick={() => setViewMode('list')}
-                className={cn('h-7 w-7 rounded-sm', viewMode === 'list' ? 'bg-slate-900 text-white' : 'text-slate-500')}
+                className={cn('h-7 w-7 rounded-sm', viewMode === 'list' ? 'bg-primary text-white' : 'text-foreground-secondary')}
                 title="Visualização em Lista"
                 aria-label="Lista"
               >
@@ -340,8 +311,8 @@ export default function ProjectsPage() {
 
         {/* Empty state when 0 projects */}
         {!isLoading && projects.length === 0 && (
-          <div className="rounded-card border border-dashed border-studio-border bg-white p-12 text-center space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900">
+          <div className="rounded-card border border-dashed border-border bg-surface p-12 text-center space-y-3">
+            <h3 className="text-sm font-semibold text-foreground">
               Nenhum projeto salvo
             </h3>
             <div className="flex items-center justify-center gap-2 pt-1">
@@ -349,7 +320,7 @@ export default function ProjectsPage() {
                 size="sm"
                 variant="outline"
                 onClick={() => router.push('/playground')}
-                className="text-xs border-indigo-200 text-indigo-900 bg-indigo-50/50"
+                className="text-xs border-primary/20 text-primary bg-primary-soft/50 hover:bg-primary-soft"
               >
                 Abrir Playground
               </Button>
@@ -367,8 +338,8 @@ export default function ProjectsPage() {
 
         {/* Empty state when search/filter returns nothing */}
         {!isLoading && projects.length > 0 && filteredProjects.length === 0 && (
-          <div className="rounded-card border border-studio-border bg-white p-8 text-center space-y-2">
-            <p className="text-xs text-slate-500">
+          <div className="rounded-card border border-border bg-surface p-8 text-center space-y-2">
+            <p className="text-xs text-foreground-secondary">
               Nenhum projeto corresponde ao filtro ou busca.
             </p>
             <Button
@@ -392,7 +363,7 @@ export default function ProjectsPage() {
               <div
                 key={p.id}
                 onClick={() => router.push(`/editor?project=${p.id}`)}
-                className="group relative flex flex-col justify-between rounded-card border border-studio-border bg-white hover:border-slate-300 hover:shadow-xs transition-all cursor-pointer p-4 min-h-[190px]"
+                className="group relative flex flex-col justify-between rounded-card border border-border bg-surface hover:border-primary/40 hover:shadow-raised hover:-translate-y-0.5 transition-all duration-standard ease-out-editorial cursor-pointer p-4 min-h-[190px]"
               >
                 {/* Top Bar: Providers & Actions */}
                 <div>
@@ -405,7 +376,7 @@ export default function ProjectsPage() {
                           </span>
                         ))
                       ) : (
-                        <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-slate-200 text-slate-400">
+                        <Badge variant="outline" className="text-[9px] px-1.5 py-0 h-4 border-border text-foreground-secondary">
                           Vazio
                         </Badge>
                       )}
@@ -419,7 +390,7 @@ export default function ProjectsPage() {
                           'p-1 rounded-sm transition-colors',
                           p.isFavorite
                             ? 'text-amber-500 hover:text-amber-600'
-                            : 'text-slate-300 hover:text-slate-500'
+                            : 'text-foreground-secondary/40 hover:text-foreground-secondary'
                         )}
                         title={p.isFavorite ? 'Remover dos favoritos' : 'Favoritar'}
                         aria-label="Favoritar"
@@ -434,7 +405,7 @@ export default function ProjectsPage() {
                             e.stopPropagation();
                             setActiveMenuId(activeMenuId === p.id ? null : p.id);
                           }}
-                          className="p-1 rounded-sm text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                          className="p-1 rounded-sm text-foreground-secondary hover:text-foreground hover:bg-surface-muted"
                           title="Opções"
                           aria-label="Opções"
                         >
@@ -444,11 +415,11 @@ export default function ProjectsPage() {
                         {activeMenuId === p.id && (
                           <div
                             onClick={(e) => e.stopPropagation()}
-                            className="absolute right-0 top-6 z-30 w-36 rounded-btn border border-studio-border bg-white p-1 shadow-lg text-xs space-y-0.5"
+                            className="feedback-surface absolute right-0 top-6 z-30 w-36 p-1 text-xs space-y-0.5"
                           >
                             <button
                               onClick={() => router.push(`/editor?project=${p.id}`)}
-                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-slate-100 text-slate-700"
+                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-surface-muted text-foreground"
                             >
                               Abrir
                             </button>
@@ -458,13 +429,13 @@ export default function ProjectsPage() {
                                 setRenamingId(p.id);
                                 setRenamingTitle(p.title);
                               }}
-                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-slate-100 text-slate-700"
+                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-surface-muted text-foreground"
                             >
                               Renomear
                             </button>
                             <button
                               onClick={(e) => handleDuplicate(e, p)}
-                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-slate-100 text-slate-700"
+                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-surface-muted text-foreground"
                             >
                               Duplicar
                             </button>
@@ -473,7 +444,7 @@ export default function ProjectsPage() {
                                 setActiveMenuId(null);
                                 setDeletingProject(p);
                               }}
-                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-red-50 text-red-600"
+                              className="w-full text-left px-2 py-1.5 rounded-sm hover:bg-destructive/10 text-destructive"
                             >
                               Excluir
                             </button>
@@ -505,7 +476,7 @@ export default function ProjectsPage() {
                       </Button>
                     </div>
                   ) : (
-                    <h3 className="text-sm font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                       {p.title}
                     </h3>
                   )}
@@ -520,7 +491,7 @@ export default function ProjectsPage() {
                           return (
                             <span
                               key={svcId}
-                              className="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-50 border border-slate-200 text-slate-700 max-w-[120px] truncate"
+                              className="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded bg-surface-muted border border-border text-foreground-secondary max-w-[120px] truncate"
                             >
                               {svc && (
                                 <ServiceIcon
@@ -536,13 +507,13 @@ export default function ProjectsPage() {
                           );
                         })}
                         {p.services.length > 3 && (
-                          <span className="text-[10px] font-medium px-1 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200">
+                          <span className="text-[10px] font-medium px-1 py-0.5 rounded bg-surface-muted text-foreground-secondary border border-border">
                             +{p.services.length - 3}
                           </span>
                         )}
                       </>
                     ) : (
-                      <span className="text-[11px] text-slate-400 italic">
+                      <span className="text-[11px] text-foreground-secondary/60 italic">
                         Diagrama vazio
                       </span>
                     )}
@@ -550,10 +521,10 @@ export default function ProjectsPage() {
                 </div>
 
                 {/* Footer: Date & Connections */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 mt-3">
+                <div className="pt-3 border-t border-border/60 flex items-center justify-between text-[11px] text-foreground-secondary mt-3">
                   <span>{formatRelativeDate(p.updatedAt)}</span>
-                  <span className="flex items-center gap-1 font-medium text-slate-600">
-                    <Share2 size={11} className="text-slate-400" />
+                  <span className="flex items-center gap-1 font-medium text-foreground">
+                    <Share2 size={11} className="text-foreground-secondary" />
                     <span>{p.edgeCount} {p.edgeCount === 1 ? 'conexão' : 'conexões'}</span>
                   </span>
                 </div>
@@ -564,19 +535,19 @@ export default function ProjectsPage() {
 
         {/* List View Mode */}
         {viewMode === 'list' && filteredProjects.length > 0 && (
-          <div className="rounded-card border border-studio-border bg-white overflow-hidden divide-y divide-slate-100">
+          <div className="rounded-card border border-border bg-surface overflow-hidden divide-y divide-border/60 shadow-surface">
             {filteredProjects.map((p) => (
               <div
                 key={p.id}
                 onClick={() => router.push(`/editor?project=${p.id}`)}
-                className="flex items-center justify-between p-3.5 hover:bg-slate-50/70 transition-colors cursor-pointer gap-4"
+                className="flex items-center justify-between p-3.5 hover:bg-surface-muted/50 transition-colors cursor-pointer gap-4"
               >
                 <div className="flex items-center gap-3 overflow-hidden flex-1">
                   <button
                     onClick={(e) => handleToggleFavorite(e, p)}
                     className={cn(
                       'p-1 shrink-0',
-                      p.isFavorite ? 'text-amber-500' : 'text-slate-300 hover:text-slate-500'
+                      p.isFavorite ? 'text-amber-500' : 'text-foreground-secondary/40 hover:text-foreground-secondary'
                     )}
                     aria-label="Favoritar"
                   >
@@ -591,7 +562,7 @@ export default function ProjectsPage() {
                     ))}
                   </div>
 
-                  <div className="text-xs font-semibold text-slate-900 truncate max-w-xs sm:max-w-md">
+                  <div className="text-xs font-semibold text-foreground truncate max-w-xs sm:max-w-md">
                     {p.title}
                   </div>
 
@@ -601,7 +572,7 @@ export default function ProjectsPage() {
                       return (
                         <span
                           key={svcId}
-                          className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200 truncate max-w-[100px]"
+                          className="text-[10px] px-1.5 py-0.5 rounded bg-surface-muted text-foreground-secondary border border-border truncate max-w-[100px]"
                         >
                           {svc?.displayName || svcId}
                         </span>
@@ -610,7 +581,7 @@ export default function ProjectsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 shrink-0 text-xs text-slate-500">
+                <div className="flex items-center gap-6 shrink-0 text-xs text-foreground-secondary">
                   <span className="hidden sm:inline">{p.nodeCount} nós • {p.edgeCount} conexões</span>
                   <span className="text-[11px]">{formatRelativeDate(p.updatedAt)}</span>
 
@@ -620,7 +591,7 @@ export default function ProjectsPage() {
                       size="iconSm"
                       onClick={(e) => handleDuplicate(e, p)}
                       title="Duplicar"
-                      className="h-7 w-7 text-slate-400 hover:text-slate-700"
+                      className="h-7 w-7 text-foreground-secondary hover:text-foreground"
                     >
                       <Copy size={13} />
                     </Button>
@@ -629,7 +600,7 @@ export default function ProjectsPage() {
                       size="iconSm"
                       onClick={() => setDeletingProject(p)}
                       title="Excluir"
-                      className="h-7 w-7 text-slate-400 hover:text-red-600"
+                      className="h-7 w-7 text-foreground-secondary hover:text-destructive"
                     >
                       <Trash2 size={13} />
                     </Button>
@@ -643,19 +614,19 @@ export default function ProjectsPage() {
 
       {/* Delete Confirmation Modal */}
       {deletingProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="w-full max-w-sm rounded-card border border-studio-border bg-white p-5 shadow-xl space-y-4">
-            <div className="flex items-center gap-2 text-red-600 font-semibold text-sm">
+        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="feedback-surface w-full max-w-sm p-5 space-y-4">
+            <div className="flex items-center gap-2 text-destructive font-semibold text-sm">
               <AlertTriangle size={18} />
               <span>Confirmar Exclusão</span>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-foreground-secondary leading-relaxed">
               Tem certeza que deseja excluir{' '}
-              <strong className="text-slate-900">&quot;{deletingProject.title}&quot;</strong>?
+              <strong className="text-foreground">&quot;{deletingProject.title}&quot;</strong>?
             </p>
 
-            <div className="flex justify-end gap-2 pt-2 border-t border-studio-border">
+            <div className="flex justify-end gap-2 pt-2 border-t border-border">
               <Button
                 variant="outline"
                 size="sm"

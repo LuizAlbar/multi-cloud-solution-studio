@@ -5,23 +5,104 @@
 @tailwind utilities;
 
 :root {
-  --studio-bg: #F8FAFC;
-  --studio-canvas: #FFFFFF;
-  --studio-surface: #FFFFFF;
-  --studio-text: #0F172A;
-  --studio-secondary: #64748B;
-  --studio-border: #E2E8F0;
-  --studio-accent: #6366F1;
-  --studio-highlight: #EEF2FF;
-  --studio-grid: #E2E8F0;
+  /* Cores Base - Warm Editorial / Technical Engineering */
+  --background: #f7f5f0;           /* Fundo da página (calor editorial de papel) */
+  --surface: #fffefb;              /* Cards, navbar, inputs, modais e painéis */
+  --surface-muted: #f0eee8;        /* Estados secundários, tags neutras e rodapé */
+  --foreground: #22282c;           /* Títulos, parágrafos e corpo principal */
+  --foreground-secondary: #626d6d; /* Subtítulos, resumos e metadados */
+  --foreground-muted: #77817e;     /* Textos terciários e legendas */
+
+  /* Cores de Ação e Acento (Deep Forest / Teal) */
+  --primary: #176c62;              /* Links, botões primários, foco e destaques */
+  --primary-hover: #11574f;        /* Estado hover de ações primárias */
+  --primary-soft: #e8f1ec;         /* Chips selecionados, backgrounds sutis */
+  --destructive: #a22d2d;          /* Alertas de perigo e exclusão */
+  --destructive-hover: #8a2424;    /* Hover de ações destrutivas */
+
+  /* Estrutura, Bordas e Foco */
+  --border: #e3ded5;               /* Divisores, contornos de cards e tabelas */
+  --input: #e3ded5;                /* Bordas de campos de formulário */
+  --ring: #176c62;                 /* Anel de foco visível */
+
+  /* Blocos de Código e Canvas */
+  --code-background: #20272a;      /* Fundo carvão escuro para blocos de código */
+  --code-foreground: #e9f0eb;      /* Texto de código */
+
+  /* Tokens Mapeados Studio */
+  --studio-bg: var(--background);
+  --studio-canvas: #ffffff;
+  --studio-surface: var(--surface);
+  --studio-surface-muted: var(--surface-muted);
+  --studio-text: var(--foreground);
+  --studio-secondary: var(--foreground-secondary);
+  --studio-muted: var(--foreground-muted);
+  --studio-border: var(--border);
+  --studio-accent: var(--primary);
+  --studio-accent-hover: var(--primary-hover);
+  --studio-highlight: var(--primary-soft);
+  --studio-grid: #e2e8f0;
+
+  /* Raios de Borda (border-radius) */
+  --radius: 0.75rem;               /* 12px - Cartões e painéis */
+  --radius-control: 0.625rem;      /* 10px - Botões, inputs, selects e chips */
+  --radius-sm: 0.45rem;            /* ~7px - Badges, micro-elementos */
+  --radius-md: 0.6rem;             /* ~9.6px - Elementos intermediários */
+  --radius-xl: 1.0625rem;          /* ~17px - Modais e diálogos */
+
+  /* Sombras Sutis */
+  --shadow-surface: 0 4px 14px color-mix(in srgb, var(--foreground) 4%, transparent);
+  --shadow-raised: 0 8px 24px color-mix(in srgb, var(--foreground) 9%, transparent);
+
+  /* Tokens de Movimento */
+  --motion-fast: 160ms;
+  --motion-standard: 210ms;
+  --motion-slow: 320ms;
+  --motion-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body {
-  color: var(--studio-text);
-  background: var(--studio-bg);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', Oxygen, Ubuntu, Cantarell, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Skip link acessível (WCAG AA) */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1.5rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-surface);
+  transition: top var(--motion-fast) var(--motion-ease-out);
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Modais e Diálogos de Feedback Padronizados */
+.feedback-overlay {
+  background: color-mix(in srgb, var(--foreground) 40%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+.feedback-surface {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-raised);
 }
 
 /* Reduced motion support */

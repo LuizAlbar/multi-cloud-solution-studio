@@ -12,7 +12,6 @@ import {
   Layers,
   Pen,
   Eraser,
-  Server,
   Database,
 } from 'lucide-react';
 import { useReactFlow } from '@xyflow/react';
@@ -90,7 +89,7 @@ export function Toolbar() {
     <div
       role="toolbar"
       aria-label="Ferramentas do canvas"
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 rounded-card border border-studio-border bg-white p-1.5 shadow-md select-none"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 rounded-card border border-border bg-surface/95 backdrop-blur-md p-1.5 shadow-raised select-none"
     >
       {/* Navigation Tools */}
       <Button
@@ -99,7 +98,7 @@ export function Toolbar() {
         onClick={() => setActiveTool('select')}
         title="Seleção (V / Esc)"
         aria-label="Seleção"
-        className={activeTool === 'select' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
+        className={activeTool === 'select' ? 'bg-primary text-white hover:bg-primary-hover' : 'text-foreground-secondary hover:text-foreground'}
       >
         <MousePointer size={15} />
       </Button>
@@ -110,12 +109,12 @@ export function Toolbar() {
         onClick={() => setActiveTool('pan')}
         title="Pan / Navegar (H / Space)"
         aria-label="Pan"
-        className={activeTool === 'pan' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
+        className={activeTool === 'pan' ? 'bg-primary text-white hover:bg-primary-hover' : 'text-foreground-secondary hover:text-foreground'}
       >
         <Hand size={15} />
       </Button>
 
-      <div className="h-4 w-px bg-studio-border mx-0.5" />
+      <div className="h-4 w-px bg-border mx-0.5" />
 
       {/* Freehand Drawing Tools */}
       <Button
@@ -124,7 +123,7 @@ export function Toolbar() {
         onClick={() => setActiveTool(activeTool === 'pen' ? 'select' : 'pen')}
         title="Caneta livre"
         aria-label="Caneta"
-        className={activeTool === 'pen' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
+        className={activeTool === 'pen' ? 'bg-primary text-white hover:bg-primary-hover' : 'text-foreground-secondary hover:text-foreground'}
       >
         <Pen size={15} />
       </Button>
@@ -135,12 +134,12 @@ export function Toolbar() {
         onClick={() => setActiveTool(activeTool === 'eraser' ? 'select' : 'eraser')}
         title="Borracha de traços"
         aria-label="Borracha"
-        className={activeTool === 'eraser' ? 'bg-indigo-600 text-white' : 'text-slate-600'}
+        className={activeTool === 'eraser' ? 'bg-primary text-white hover:bg-primary-hover' : 'text-foreground-secondary hover:text-foreground'}
       >
         <Eraser size={15} />
       </Button>
 
-      <div className="h-4 w-px bg-studio-border mx-0.5" />
+      <div className="h-4 w-px bg-border mx-0.5" />
 
       {/* Generic Shapes & Notes */}
       <Button
@@ -149,7 +148,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'rectangle', 'Retângulo')}
         title="Adicionar Retângulo"
         aria-label="Retângulo"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Square size={15} />
       </Button>
@@ -160,7 +159,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'circle', 'Círculo')}
         title="Adicionar Círculo"
         aria-label="Círculo"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Circle size={15} />
       </Button>
@@ -171,7 +170,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('note', undefined, 'Nota explicativa')}
         title="Adicionar Post-it"
         aria-label="Nota"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <StickyNote size={15} />
       </Button>
@@ -182,7 +181,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('text', undefined, 'Texto da Arquitetura')}
         title="Adicionar Texto"
         aria-label="Texto"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Type size={15} />
       </Button>
@@ -193,7 +192,7 @@ export function Toolbar() {
         onClick={() => handleAddGeneric('shape', 'generic-db', 'Banco de Dados')}
         title="Banco de Dados"
         aria-label="Banco de Dados"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Database size={15} />
       </Button>
@@ -204,12 +203,12 @@ export function Toolbar() {
         onClick={() => handleAddZone('aws', 'Zona AWS - us-east-1', 'us-east-1')}
         title="Adicionar Zona / Região"
         aria-label="Adicionar Zona"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Layers size={15} />
       </Button>
 
-      <div className="h-4 w-px bg-studio-border mx-0.5" />
+      <div className="h-4 w-px bg-border mx-0.5" />
 
       {/* Viewport controls */}
       <Button
@@ -218,7 +217,7 @@ export function Toolbar() {
         onClick={() => fitView({ duration: 300, padding: 0.2 })}
         title="Ajustar tela (F)"
         aria-label="Ajustar tela"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <Maximize2 size={15} />
       </Button>
@@ -229,7 +228,7 @@ export function Toolbar() {
         onClick={() => zoomIn({ duration: 200 })}
         title="Aproximar (+)"
         aria-label="Aproximar"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <ZoomIn size={15} />
       </Button>
@@ -240,7 +239,7 @@ export function Toolbar() {
         onClick={() => zoomOut({ duration: 200 })}
         title="Afastar (-)"
         aria-label="Afastar"
-        className="text-slate-600"
+        className="text-foreground-secondary hover:text-foreground"
       >
         <ZoomOut size={15} />
       </Button>

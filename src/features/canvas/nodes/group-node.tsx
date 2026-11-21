@@ -77,7 +77,7 @@ export const GroupNode = memo(function GroupNode({
         'relative min-w-[360px] min-h-[220px] rounded-2xl border-2 border-dashed p-4 select-none transition-all',
         theme.bg,
         selected
-          ? 'border-indigo-600 ring-2 ring-indigo-500/20 shadow-sm'
+          ? 'border-primary ring-2 ring-primary/20 shadow-sm'
           : theme.border
       )}
     >

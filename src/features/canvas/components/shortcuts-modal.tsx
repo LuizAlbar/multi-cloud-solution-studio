@@ -31,24 +31,24 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-2xs animate-fade-in select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="shortcuts-dialog-title"
-        className="relative flex flex-col w-full max-w-lg rounded-2xl border border-studio-border bg-white shadow-2xl overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-lg overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-studio-border px-5 py-3.5 bg-slate-50/70">
+        <div className="flex items-center justify-between border-b border-border px-5 py-3.5 bg-surface-muted/50">
           <div className="flex items-center gap-2">
-            <Keyboard className="h-5 w-5 text-indigo-600 shrink-0" />
-            <h3 id="shortcuts-dialog-title" className="text-sm font-bold text-slate-900">
+            <Keyboard className="h-5 w-5 text-primary shrink-0" />
+            <h3 id="shortcuts-dialog-title" className="text-sm font-bold text-foreground">
               Atalhos de Teclado
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 p-1 rounded-md transition-colors"
+            className="text-foreground-secondary hover:text-foreground p-1 rounded-md transition-colors"
             aria-label="Fechar"
           >
             <X size={16} />
@@ -56,20 +56,20 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
         </div>
 
         {/* Shortcuts List */}
-        <div className="p-5 max-h-[60vh] overflow-y-auto divide-y divide-slate-100">
+        <div className="p-5 max-h-[60vh] overflow-y-auto divide-y divide-border/60">
           {SHORTCUTS.map((item, index) => (
             <div key={index} className="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
-              <span className="text-xs text-slate-700 font-medium">
+              <span className="text-xs text-foreground font-medium">
                 {item.description}
               </span>
               <div className="flex items-center gap-1 shrink-0">
                 {item.keys.map((k, kIdx) => (
                   <React.Fragment key={kIdx}>
-                    <kbd className="inline-flex items-center justify-center px-2 py-0.5 min-w-[24px] h-6 rounded-md bg-slate-100 border border-slate-300 text-[11px] font-mono font-bold text-slate-800 shadow-2xs">
+                    <kbd className="inline-flex items-center justify-center px-2 py-0.5 min-w-[24px] h-6 rounded-md bg-surface-muted border border-border text-[11px] font-mono font-bold text-foreground shadow-2xs">
                       {k}
                     </kbd>
                     {kIdx < item.keys.length - 1 && (
-                      <span className="text-[10px] text-slate-400 font-bold">+</span>
+                      <span className="text-[10px] text-foreground-secondary font-bold">+</span>
                     )}
                   </React.Fragment>
                 ))}
@@ -79,11 +79,12 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end border-t border-studio-border px-5 py-3 bg-slate-50/60">
+        <div className="flex justify-end border-t border-border px-5 py-3 bg-surface-muted/50">
           <Button
             size="sm"
+            variant="default"
             onClick={onClose}
-            className="text-xs h-8 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold"
+            className="text-xs h-8 px-4 font-semibold"
           >
             Fechar
           </Button>

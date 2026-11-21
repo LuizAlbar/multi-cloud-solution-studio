@@ -1,4 +1,6 @@
-import React, { useState, useRef, useMemo } from 'react';
+'use client';
+
+import React, { useRef, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Download,
@@ -9,15 +11,15 @@ import {
   X,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { exportProjectToJson } from '../export-project';
-import { importProjectFromJson } from '../import-project';
-import { exportProjectToPng } from '../export-png';
 import {
   useEditorStore,
   flowNodeToStudioNode,
   flowEdgeToStudioEdge,
 } from '@/features/canvas/store/editor-store';
-import { AppAlertModal } from '@/components/ui/app-alert-modal';
+import { exportProjectToJson } from '../export-project';
+import { exportProjectToPng } from '../export-png';
+import { importProjectFromJson } from '../import-project';
+import { AppAlertModal, type AppAlertModalProps } from '@/components/ui/app-alert-modal';
 import type { Project } from '@/lib/schemas';
 
 interface ExportDialogProps {
@@ -27,9 +29,7 @@ interface ExportDialogProps {
 
 export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
   const router = useRouter();
-  const { project, setProject, nodes, edges } = useEditorStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const [importError, setImportError] = useState<string | null>(null);
   const [isExportingPng, setIsExportingPng] = useState(false);
 
@@ -37,13 +37,15 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
     isOpen: boolean;
     title: string;
     message: string;
-    type: 'error' | 'warning' | 'info' | 'success';
+    type: AppAlertModalProps['type'];
   }>({
     isOpen: false,
     title: '',
     message: '',
-    type: 'error',
+    type: 'warning',
   });
+
+  const { project, nodes, edges, setProject } = useEditorStore();
 
   // Construct active project snapshot including live canvas nodes/edges (even in playground mode)
   const activeProjectSnapshot = useMemo<Project | null>(() => {
@@ -76,7 +78,7 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
       setAlertModalState({
         isOpen: true,
         title: 'Diagrama Vazio',
-        message: 'O projeto não possui elementos para exportar. Adicione componentes antes de exportar.',
+        message: 'O projeto não possui elementos para exportar. Adicione componentes antes de baixar o JSON.',
         type: 'warning',
       });
       return;
@@ -136,19 +138,20 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4 select-none">
-        <div className="w-full max-w-md rounded-card border border-studio-border bg-white p-6 shadow-xl space-y-5">
+      <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
+        <div className="feedback-surface w-full max-w-md p-6 space-y-5">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-studio-border pb-3">
+          <div className="flex items-center justify-between border-b border-border pb-3">
             <div className="flex items-center gap-2">
-              <Download size={18} className="text-studio-accent" />
-              <h3 className="text-base font-bold text-studio-text">
+              <Download size={18} className="text-primary" />
+              <h3 className="text-base font-bold text-foreground">
                 Exportar & Importar Projeto
               </h3>
             </div>
             <button
               onClick={onClose}
-              className="text-studio-secondary hover:text-studio-text p-1 text-sm font-semibold"
+              className="text-foreground-secondary hover:text-foreground p-1 text-sm font-semibold rounded-md"
+              aria-label="Fechar"
             >
               <X size={16} />
             </button>
@@ -157,12 +160,12 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
           {/* Options */}
           <div className="space-y-3">
             {/* Export JSON */}
-            <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
+            <div className="rounded-btn border border-border p-3 flex items-center justify-between hover:bg-surface-muted transition-colors">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-blue-50 text-blue-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-primary-soft text-primary">
                   <FileCode size={18} />
                 </div>
-                <div className="text-xs font-semibold text-studio-text">
+                <div className="text-xs font-semibold text-foreground">
                   Arquivo do Projeto (.mcss.json)
                 </div>
               </div>
@@ -172,12 +175,12 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
             </div>
 
             {/* Export PNG */}
-            <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
+            <div className="rounded-btn border border-border p-3 flex items-center justify-between hover:bg-surface-muted transition-colors">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-emerald-50 text-emerald-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-emerald-500/10 text-emerald-700">
                   <ImageIcon size={18} />
                 </div>
-                <div className="text-xs font-semibold text-studio-text">
+                <div className="text-xs font-semibold text-foreground">
                   Imagem PNG (2x)
                 </div>
               </div>
@@ -193,12 +196,12 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
             </div>
 
             {/* Import JSON */}
-            <div className="rounded-btn border border-studio-border p-3 flex items-center justify-between hover:bg-slate-50 transition-colors">
+            <div className="rounded-btn border border-border p-3 flex items-center justify-between hover:bg-surface-muted transition-colors">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-amber-50 text-amber-600">
+                <div className="flex h-8 w-8 items-center justify-center rounded-btn bg-amber-500/10 text-amber-700">
                   <Upload size={18} />
                 </div>
-                <div className="text-xs font-semibold text-studio-text">
+                <div className="text-xs font-semibold text-foreground">
                   Importar Arquivo (.mcss.json)
                 </div>
               </div>
@@ -225,13 +228,13 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
 
           {/* Error message if import fails */}
           {importError && (
-            <div className="rounded-btn bg-red-50 border border-red-200 p-3 text-xs text-red-700 flex items-start gap-2">
+            <div className="rounded-btn bg-destructive/10 border border-destructive/20 p-3 text-xs text-destructive flex items-start gap-2">
               <AlertCircle size={16} className="shrink-0 mt-0.5" />
               <span>{importError}</span>
             </div>
           )}
 
-          <div className="pt-2 border-t border-studio-border flex justify-end">
+          <div className="pt-2 border-t border-border flex justify-end">
             <Button variant="outline" size="sm" onClick={onClose} className="text-xs">
               Fechar
             </Button>
