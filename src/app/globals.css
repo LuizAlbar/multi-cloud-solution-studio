@@ -105,6 +105,15 @@ body {
   box-shadow: var(--shadow-raised);
 }
 
+/* Ocultar barra de rolagem mantendo rolagem por toque em dispositivos móveis */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {

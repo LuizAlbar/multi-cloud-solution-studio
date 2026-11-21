@@ -78,7 +78,7 @@ export function SceneDrawer({
   };
 
   return (
-    <div className="absolute top-16 right-4 z-40 w-80 rounded-card border border-border bg-surface/95 backdrop-blur-md shadow-raised select-none flex flex-col max-h-[80vh]">
+    <div className="absolute top-14 sm:top-16 right-2 sm:right-4 left-2 sm:left-auto w-auto sm:w-80 z-40 rounded-card border border-border bg-surface/95 backdrop-blur-md shadow-raised select-none flex flex-col max-h-[80vh]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border p-3">
         <div className="flex items-center gap-2">

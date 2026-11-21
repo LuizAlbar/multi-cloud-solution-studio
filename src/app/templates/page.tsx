@@ -53,23 +53,23 @@ export default function TemplatesPage() {
       <StudioHeader activeTab="templates" />
 
       {/* Hero Banner */}
-      <div className="border-b border-border bg-surface py-6 px-6 sm:px-12">
+      <div className="border-b border-border bg-surface py-4 sm:py-6 px-4 sm:px-6 lg:px-12">
         <div className="max-w-4xl">
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold tracking-tight text-foreground">
             Templates de Arquitetura
           </h1>
         </div>
       </div>
 
       {/* Main Grid */}
-      <main id="main-content" className="flex-1 p-6 sm:p-12 max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main id="main-content" className="flex-1 p-3.5 sm:p-6 lg:p-12 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {templates.map((template) => (
             <Card
               key={template.id}
               className="flex flex-col justify-between hover:shadow-raised hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-standard ease-out-editorial border-border bg-surface"
             >
-              <CardHeader className="space-y-2.5">
+              <CardHeader className="space-y-2 sm:space-y-2.5 p-4 sm:p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     {template.providers.map((p) => (
@@ -83,7 +83,7 @@ export default function TemplatesPage() {
                   </Badge>
                 </div>
 
-                <CardTitle className="text-base leading-snug">
+                <CardTitle className="text-sm sm:text-base leading-snug">
                   {template.title}
                 </CardTitle>
 
@@ -92,9 +92,9 @@ export default function TemplatesPage() {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-3 p-4 sm:p-5 pt-0 sm:pt-0">
                 <div className="space-y-1">
-                  <span className="text-[11px] font-semibold text-foreground-secondary uppercase tracking-wider">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-foreground-secondary uppercase tracking-wider">
                     Serviços Principais:
                   </span>
                   <div className="flex flex-wrap gap-1">
@@ -110,7 +110,7 @@ export default function TemplatesPage() {
                 </div>
               </CardContent>
 
-              <CardFooter className="pt-2 border-t border-border/60 flex items-center justify-between">
+              <CardFooter className="p-4 sm:p-5 pt-2 sm:pt-2 border-t border-border/60 flex items-center justify-between">
                 <button
                   onClick={() => setSelectedTemplate(template)}
                   className="text-xs text-foreground-secondary hover:text-primary font-medium inline-flex items-center gap-1 transition-colors"
@@ -124,7 +124,7 @@ export default function TemplatesPage() {
                   variant="default"
                   disabled={isCreating}
                   onClick={() => handleUseTemplate(template)}
-                  className="gap-1.5 text-xs"
+                  className="gap-1.5 text-xs h-8"
                 >
                   <span>Usar Template</span>
                   <ArrowRight size={13} />
@@ -137,11 +137,11 @@ export default function TemplatesPage() {
 
       {/* Preview Modal */}
       {selectedTemplate && (
-        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="feedback-surface w-full max-w-xl p-6 space-y-4">
-            <div className="flex items-start justify-between">
+        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+          <div className="feedback-surface w-full max-w-xl p-4 sm:p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between gap-3">
               <div>
-                <h3 className="text-lg font-bold text-foreground">
+                <h3 className="text-base sm:text-lg font-bold text-foreground">
                   {selectedTemplate.title}
                 </h3>
                 <p className="text-xs text-foreground-secondary mt-1">
@@ -150,7 +150,7 @@ export default function TemplatesPage() {
               </div>
               <button
                 onClick={() => setSelectedTemplate(null)}
-                className="text-foreground-secondary hover:text-foreground text-sm font-semibold p-1 rounded-md"
+                className="text-foreground-secondary hover:text-foreground text-sm font-semibold p-1 rounded-md shrink-0"
                 aria-label="Fechar"
               >
                 <X size={16} />

@@ -88,20 +88,20 @@ export function ImportModal({
   };
 
   return (
-    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="import-dialog-title"
-        className="feedback-surface relative flex flex-col w-full max-w-2xl max-h-[90vh] overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-2xl max-h-[92vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-6 py-4 bg-surface-muted/50">
+        <div className="flex items-center justify-between border-b border-border px-4 sm:px-6 py-3 sm:py-4 bg-surface-muted/50">
           <div>
-            <h2 id="import-dialog-title" className="text-sm font-bold text-foreground">
+            <h2 id="import-dialog-title" className="text-xs sm:text-sm font-bold text-foreground">
               Importar Diagrama
             </h2>
-            <p className="text-xs text-foreground-secondary">
+            <p className="text-[11px] sm:text-xs text-foreground-secondary">
               Cole o JSON gerado por IA ou selecione um arquivo compatível (.mcss.json).
             </p>
           </div>
@@ -115,11 +115,11 @@ export function ImportModal({
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-2 border-b border-border px-6 pt-3 bg-surface">
+        <div className="flex items-center gap-2 border-b border-border px-4 sm:px-6 pt-2.5 sm:pt-3 bg-surface">
           <button
             onClick={() => setActiveTab('paste')}
             className={cn(
-              'flex items-center gap-2 pb-2.5 text-xs font-semibold border-b-2 transition-colors',
+              'flex items-center gap-1.5 sm:gap-2 pb-2 text-[11px] sm:text-xs font-semibold border-b-2 transition-colors',
               activeTab === 'paste'
                 ? 'border-primary text-primary'
                 : 'border-transparent text-foreground-secondary hover:text-foreground'
@@ -132,7 +132,7 @@ export function ImportModal({
           <button
             onClick={() => setActiveTab('file')}
             className={cn(
-              'flex items-center gap-2 pb-2.5 text-xs font-semibold border-b-2 transition-colors',
+              'flex items-center gap-1.5 sm:gap-2 pb-2 text-[11px] sm:text-xs font-semibold border-b-2 transition-colors',
               activeTab === 'file'
                 ? 'border-primary text-primary'
                 : 'border-transparent text-foreground-secondary hover:text-foreground'
@@ -144,7 +144,7 @@ export function ImportModal({
         </div>
 
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3 sm:space-y-4">
           {activeTab === 'paste' ? (
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs">
@@ -271,7 +271,7 @@ export function ImportModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between border-t border-border px-6 py-4 bg-surface-muted/50">
+        <div className="flex items-center justify-between border-t border-border px-4 sm:px-6 py-3 sm:py-4 bg-surface-muted/50">
           <Button variant="outline" size="sm" onClick={onClose} className="text-xs h-8">
             Cancelar
           </Button>

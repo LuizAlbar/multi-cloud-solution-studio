@@ -138,8 +138,8 @@ export function ExportDialog({ isOpen, onClose }: ExportDialogProps) {
 
   return (
     <>
-      <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
-        <div className="feedback-surface w-full max-w-md p-6 space-y-5">
+      <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
+        <div className="feedback-surface w-full max-w-md p-4 sm:p-6 space-y-4 sm:space-y-5 max-h-[92vh] overflow-y-auto">
           {/* Header */}
           <div className="flex items-center justify-between border-b border-border pb-3">
             <div className="flex items-center gap-2">

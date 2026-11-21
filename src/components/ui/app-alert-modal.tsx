@@ -50,23 +50,23 @@ export function AppAlertModal({
   }[type];
 
   return (
-    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="alert-dialog-title"
-        className="feedback-surface relative flex flex-col w-full max-w-md overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-md max-h-[92vh] overflow-hidden"
       >
         {/* Header */}
         <div
           className={cn(
-            'flex items-center justify-between border-b border-border px-5 py-3.5',
+            'flex items-center justify-between border-b border-border px-4 sm:px-5 py-3 sm:py-3.5',
             config.headerBg
           )}
         >
           <div className="flex items-center gap-2">
             {config.icon}
-            <h3 id="alert-dialog-title" className="text-sm font-semibold text-foreground">
+            <h3 id="alert-dialog-title" className="text-xs sm:text-sm font-semibold text-foreground">
               {title || config.defaultTitle}
             </h3>
           </div>
@@ -80,12 +80,12 @@ export function AppAlertModal({
         </div>
 
         {/* Message Body */}
-        <div className="p-5 text-xs text-foreground/90 leading-relaxed">
+        <div className="p-4 sm:p-5 text-xs text-foreground/90 leading-relaxed overflow-y-auto">
           {message}
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end border-t border-border px-5 py-3 bg-surface-muted/50">
+        <div className="flex justify-end border-t border-border px-4 sm:px-5 py-2.5 sm:py-3 bg-surface-muted/50">
           <Button
             size="sm"
             variant="default"

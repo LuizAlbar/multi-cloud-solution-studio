@@ -136,19 +136,19 @@ export function PresentationView({ onExit }: PresentationViewProps) {
   return (
     <>
       {/* Top Floating Banner: Mandatory Conceptual Flow Disclaimer (CA-13) */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/90 backdrop-blur-xs px-4 py-1 text-xs text-slate-300 shadow-lg select-none">
-        <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
-        <span className="font-medium text-white">
+      <div className="absolute top-2 sm:top-4 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-700 bg-slate-900/90 backdrop-blur-xs px-3 sm:px-4 py-1 text-[11px] sm:text-xs text-slate-300 shadow-lg select-none max-w-[94vw] truncate">
+        <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse shrink-0" />
+        <span className="font-medium text-white truncate">
           {activeScene ? activeScene.title : project?.title}
         </span>
-        <span className="text-slate-500">|</span>
-        <span className="text-[11px] text-amber-400 font-medium">
+        <span className="text-slate-500 hidden sm:inline">|</span>
+        <span className="text-[10px] sm:text-[11px] text-amber-400 font-medium hidden sm:inline truncate">
           Fluxo ilustrativo — não representa tráfego real
         </span>
       </div>
 
       {/* Floating Bottom Navigation Bar (16:9 meeting mode) */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 rounded-card border border-slate-700 bg-slate-900/95 backdrop-blur-md px-3 py-2 text-white shadow-2xl select-none">
+      <div className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1 sm:gap-2 rounded-card border border-slate-700 bg-slate-900/95 backdrop-blur-md px-2 sm:px-3 py-1.5 sm:py-2 text-white shadow-2xl select-none max-w-[96vw]">
         <Button
           variant="ghost"
           size="iconSm"
@@ -161,7 +161,7 @@ export function PresentationView({ onExit }: PresentationViewProps) {
           <ChevronLeft size={16} />
         </Button>
 
-        <span className="text-xs font-semibold px-2 text-slate-200 min-w-[80px] text-center">
+        <span className="text-[11px] sm:text-xs font-semibold px-1 sm:px-2 text-slate-200 min-w-[70px] sm:min-w-[80px] text-center whitespace-nowrap">
           {scenes.length > 0 ? (
             <>
               Cena {currentSceneIndex + 1} de {scenes.length}
@@ -185,7 +185,7 @@ export function PresentationView({ onExit }: PresentationViewProps) {
           <ChevronRight size={16} />
         </Button>
 
-        <div className="h-4 w-px bg-slate-700 mx-1" />
+        <div className="h-4 w-px bg-slate-700 mx-0.5 sm:mx-1" />
 
         {/* Presenter Notes Button */}
         <Button
@@ -208,30 +208,30 @@ export function PresentationView({ onExit }: PresentationViewProps) {
           variant="ghost"
           size="iconSm"
           onClick={toggleFullscreen}
-          className="text-slate-300 hover:text-white hover:bg-slate-800"
+          className="hidden sm:inline-flex text-slate-300 hover:text-white hover:bg-slate-800"
           title="Tela Cheia (F)"
           aria-label="Tela Cheia"
         >
           {isFullscreen ? <Minimize size={14} /> : <Maximize size={14} />}
         </Button>
 
-        <div className="h-4 w-px bg-slate-700 mx-1" />
+        <div className="h-4 w-px bg-slate-700 mx-0.5 sm:mx-1" />
 
         {/* Exit Presentation */}
         <Button
           variant="destructive"
           size="sm"
           onClick={onExit}
-          className="h-7 text-xs px-2.5 font-medium"
+          className="h-7 text-xs px-2 sm:px-2.5 font-medium shrink-0"
         >
-          <X size={13} className="mr-1" />
-          <span>Sair (Esc)</span>
+          <X size={13} className="mr-0.5 sm:mr-1" />
+          <span>Sair</span>
         </Button>
       </div>
 
       {/* Presenter Private Notes Drawer (CA-14) */}
       {showPresenterNotes && (
-        <div className="absolute top-16 right-6 z-40 w-80 rounded-card border border-amber-300 bg-amber-50/95 backdrop-blur-md p-4 text-amber-950 shadow-2xl select-none space-y-2">
+        <div className="absolute top-12 sm:top-16 right-2 sm:right-6 left-2 sm:left-auto w-auto sm:w-80 z-40 rounded-card border border-amber-300 bg-amber-50/95 backdrop-blur-md p-3 sm:p-4 text-amber-950 shadow-2xl select-none space-y-2">
           <div className="flex items-center justify-between border-b border-amber-200 pb-2">
             <span className="text-xs font-bold uppercase tracking-wider text-amber-900">
               Notas do Apresentador (Privadas)

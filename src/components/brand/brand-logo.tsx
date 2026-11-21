@@ -21,7 +21,7 @@ export function BrandLogo({
           alt="MultiCloud Studio"
           width={48}
           height={48}
-          className="h-10 w-10 sm:h-12 sm:w-12 object-contain"
+          className="h-8 w-8 sm:h-10 sm:w-10 object-contain"
           priority
           unoptimized
         />
@@ -30,13 +30,13 @@ export function BrandLogo({
   }
 
   const sizeClasses = {
-    sm: 'h-9 sm:h-10 max-w-[200px]',
-    default: 'h-11 sm:h-12 max-w-[260px]',
-    lg: 'h-12 sm:h-14 md:h-16 max-w-[340px]',
+    sm: 'h-7 sm:h-9 max-w-[130px] sm:max-w-[200px]',
+    default: 'h-8 sm:h-11 max-w-[150px] sm:max-w-[240px]',
+    lg: 'h-8 sm:h-10 md:h-12 max-w-[160px] sm:max-w-[240px] md:max-w-[300px]',
   };
 
   return (
-    <div className={cn('relative flex items-center gap-2.5 shrink-0 py-0.5', className)}>
+    <div className={cn('relative flex items-center gap-2 shrink-0 py-0.5', className)}>
       <Image
         src="/logo.png"
         alt="MultiCloud Solution Studio"

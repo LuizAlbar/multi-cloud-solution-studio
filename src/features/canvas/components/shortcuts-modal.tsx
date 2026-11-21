@@ -31,15 +31,15 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4 select-none">
+    <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 select-none">
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="shortcuts-dialog-title"
-        className="feedback-surface relative flex flex-col w-full max-w-lg overflow-hidden"
+        className="feedback-surface relative flex flex-col w-full max-w-lg max-h-[92vh] overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-5 py-3.5 bg-surface-muted/50">
+        <div className="flex items-center justify-between border-b border-border px-4 sm:px-5 py-3 sm:py-3.5 bg-surface-muted/50">
           <div className="flex items-center gap-2">
             <Keyboard className="h-5 w-5 text-primary shrink-0" />
             <h3 id="shortcuts-dialog-title" className="text-sm font-bold text-foreground">
@@ -56,7 +56,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
         </div>
 
         {/* Shortcuts List */}
-        <div className="p-5 max-h-[60vh] overflow-y-auto divide-y divide-border/60">
+        <div className="p-4 sm:p-5 max-h-[60vh] overflow-y-auto divide-y divide-border/60">
           {SHORTCUTS.map((item, index) => (
             <div key={index} className="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
               <span className="text-xs text-foreground font-medium">
@@ -65,7 +65,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
               <div className="flex items-center gap-1 shrink-0">
                 {item.keys.map((k, kIdx) => (
                   <React.Fragment key={kIdx}>
-                    <kbd className="inline-flex items-center justify-center px-2 py-0.5 min-w-[24px] h-6 rounded-md bg-surface-muted border border-border text-[11px] font-mono font-bold text-foreground shadow-2xs">
+                    <kbd className="inline-flex items-center justify-center px-1.5 sm:px-2 py-0.5 min-w-[22px] sm:min-w-[24px] h-5 sm:h-6 rounded-md bg-surface-muted border border-border text-[10px] sm:text-[11px] font-mono font-bold text-foreground shadow-2xs">
                       {k}
                     </kbd>
                     {kIdx < item.keys.length - 1 && (
@@ -79,7 +79,7 @@ export function ShortcutsModal({ isOpen, onClose }: ShortcutsModalProps) {
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end border-t border-border px-5 py-3 bg-surface-muted/50">
+        <div className="flex justify-end border-t border-border px-4 sm:px-5 py-2.5 sm:py-3 bg-surface-muted/50">
           <Button
             size="sm"
             variant="default"

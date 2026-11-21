@@ -89,7 +89,7 @@ export function Toolbar() {
     <div
       role="toolbar"
       aria-label="Ferramentas do canvas"
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1 rounded-card border border-border bg-surface/95 backdrop-blur-md p-1.5 shadow-raised select-none"
+      className="absolute bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-0.5 sm:gap-1 rounded-card border border-border bg-surface/95 backdrop-blur-md p-1 sm:p-1.5 shadow-raised select-none max-w-[calc(100vw-1.5rem)] overflow-x-auto no-scrollbar"
     >
       {/* Navigation Tools */}
       <Button

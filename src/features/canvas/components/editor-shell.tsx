@@ -29,14 +29,42 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
   const queryProjectId = searchParams.get('project') || searchParams.get('projectId');
   const effectiveProjectId = projectId || queryProjectId || undefined;
 
-  const [isCatalogOpen, setIsCatalogOpen] = useState(true);
-  const [isInspectorOpen, setIsInspectorOpen] = useState(true);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const [isInspectorOpen, setIsInspectorOpen] = useState(false);
   const [isSceneDrawerOpen, setIsSceneDrawerOpen] = useState(false);
   const [isPresentation, setIsPresentation] = useState(false);
   const [isExportDialogOpen, setIsExportDialogOpen] = useState(false);
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Open sidebars automatically on desktop (>= 1024px)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      setIsCatalogOpen(true);
+      setIsInspectorOpen(true);
+    }
+  }, []);
+
+  const handleToggleCatalog = () => {
+    setIsCatalogOpen((prev) => {
+      const next = !prev;
+      if (next && typeof window !== 'undefined' && window.innerWidth < 1024) {
+        setIsInspectorOpen(false);
+      }
+      return next;
+    });
+  };
+
+  const handleToggleInspector = () => {
+    setIsInspectorOpen((prev) => {
+      const next = !prev;
+      if (next && typeof window !== 'undefined' && window.innerWidth < 1024) {
+        setIsCatalogOpen(false);
+      }
+      return next;
+    });
+  };
 
   const isCreatingProjectRef = useRef(false);
 
@@ -139,6 +167,9 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
         x: 250 + Math.random() * 80,
         y: 150 + Math.random() * 80,
       });
+      if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+        setIsCatalogOpen(false);
+      }
     },
     [addServiceNode]
   );
@@ -257,11 +288,23 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
 
         {/* Main Work Area */}
         <div className="relative flex flex-1 overflow-hidden">
+          {/* Mobile Backdrop when catalog or inspector is open */}
+          {!isPresentation && (isCatalogOpen || isInspectorOpen) && (
+            <div
+              className="lg:hidden fixed inset-0 top-14 sm:top-16 z-20 bg-foreground/20 backdrop-blur-2xs transition-opacity"
+              onClick={() => {
+                setIsCatalogOpen(false);
+                setIsInspectorOpen(false);
+              }}
+              aria-label="Fechar painéis"
+            />
+          )}
+
           {/* Catalog Left Sidebar (hidden in presentation) */}
           {!isPresentation && (
             <CatalogSidebar
               isOpen={isCatalogOpen}
-              onToggle={() => setIsCatalogOpen(!isCatalogOpen)}
+              onToggle={handleToggleCatalog}
               onAddService={handleAddService}
             />
           )}
@@ -275,7 +318,7 @@ export function EditorShell({ projectId, isPlayground = false }: EditorShellProp
           {!isPresentation && (
             <Inspector
               isOpen={isInspectorOpen}
-              onToggle={() => setIsInspectorOpen(!isInspectorOpen)}
+              onToggle={handleToggleInspector}
             />
           )}
         </div>

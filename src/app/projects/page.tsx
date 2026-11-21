@@ -164,10 +164,10 @@ export default function ProjectsPage() {
     const diffDays = Math.floor(diffHours / 24);
 
     if (diffMins < 5) return 'Atualizado agora';
-    if (diffMins < 60) return `Atualizado há ${diffMins} min`;
-    if (diffHours < 24 && d.getDate() === now.getDate()) return `Atualizado hoje às ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
-    if (diffDays === 1) return 'Atualizado ontem';
-    return `Atualizado em ${d.toLocaleDateString('pt-BR')}`;
+    if (diffMins < 60) return `Há ${diffMins} min`;
+    if (diffHours < 24 && d.getDate() === now.getDate()) return `Hoje às ${d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+    if (diffDays === 1) return 'Ontem';
+    return d.toLocaleDateString('pt-BR');
   };
 
   return (
@@ -181,11 +181,11 @@ export default function ProjectsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="gap-1.5 text-xs font-medium border-primary/20 bg-primary-soft/60 text-primary hover:bg-primary-soft"
+                className="gap-1 sm:gap-1.5 text-xs font-medium border-primary/20 bg-primary-soft/60 text-primary hover:bg-primary-soft h-8 px-2 sm:px-3"
                 title="Abrir editor rápido em memória sem salvar"
               >
                 <Sparkles size={13} className="text-primary" />
-                <span>Playground</span>
+                <span className="hidden sm:inline">Playground</span>
               </Button>
             </Link>
 
@@ -193,21 +193,21 @@ export default function ProjectsPage() {
               variant="outline"
               size="sm"
               onClick={() => setIsImportModalOpen(true)}
-              className="gap-1.5 text-xs font-semibold h-8"
+              className="gap-1 sm:gap-1.5 text-xs font-semibold h-8 px-2 sm:px-3"
               title="Importar diagrama MCSS (.json)"
             >
               <Upload size={14} className="text-foreground-secondary" />
-              <span>Importar</span>
+              <span className="hidden sm:inline">Importar</span>
             </Button>
 
             <Link href="/editor">
               <Button
                 variant="default"
                 size="sm"
-                className="gap-1.5 text-xs font-semibold h-8 px-3.5"
+                className="gap-1 sm:gap-1.5 text-xs font-semibold h-8 px-2.5 sm:px-3.5"
               >
                 <Plus size={14} />
-                <span>Novo Projeto</span>
+                <span className="hidden sm:inline">Novo Projeto</span>
               </Button>
             </Link>
           </>
@@ -215,20 +215,20 @@ export default function ProjectsPage() {
       />
 
       {/* Main Container */}
-      <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto px-6 sm:px-10 py-8 space-y-6">
+      <main id="main-content" className="flex-1 w-full max-w-[1600px] mx-auto px-3.5 sm:px-6 lg:px-10 py-5 sm:py-8 space-y-6">
         {/* Projects Toolbar */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-border pb-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-xl font-bold text-foreground mr-2">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-border pb-3 sm:pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 min-w-0">
+            <h1 className="text-lg sm:text-xl font-bold text-foreground shrink-0">
               Projetos
             </h1>
 
-            {/* Provider Filter Chips */}
-            <div className="flex flex-wrap items-center gap-1.5">
+            {/* Provider Filter Chips (Horizontal scrollable on mobile) */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1 max-w-full">
               <button
                 onClick={() => setSelectedProviderFilter('todos')}
                 className={cn(
-                  'text-xs px-2.5 py-1 rounded-full border transition-colors',
+                  'text-[11px] sm:text-xs px-2.5 py-1 rounded-full border transition-colors whitespace-nowrap shrink-0',
                   selectedProviderFilter === 'todos'
                     ? 'border-primary bg-primary-soft text-primary font-semibold shadow-2xs'
                     : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
@@ -248,7 +248,7 @@ export default function ProjectsPage() {
                       setSelectedProviderFilter(selectedProviderFilter === prov ? 'todos' : prov)
                     }
                     className={cn(
-                      'text-xs px-2.5 py-1 rounded-full border transition-colors flex items-center gap-1.5',
+                      'text-[11px] sm:text-xs px-2.5 py-1 rounded-full border transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0',
                       selectedProviderFilter === prov
                         ? 'border-primary bg-primary-soft text-primary font-semibold shadow-2xs'
                         : 'border-border bg-surface text-foreground-secondary hover:bg-surface-muted'
@@ -263,14 +263,14 @@ export default function ProjectsPage() {
           </div>
 
           {/* Search and Grid/List Toggle */}
-          <div className="flex items-center gap-2 self-end lg:self-center">
-            <div className="relative w-64 sm:w-72">
+          <div className="flex items-center gap-2 w-full lg:w-auto">
+            <div className="relative flex-1 sm:w-64 md:w-72">
               <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-foreground-secondary/60 pointer-events-none" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Buscar projetos..."
-                className="pl-8 pr-7 text-xs h-8 bg-surface"
+                className="pl-8 pr-7 text-xs h-8 bg-surface w-full"
               />
               {searchQuery && (
                 <button
@@ -284,7 +284,7 @@ export default function ProjectsPage() {
             </div>
 
             {/* View Toggle */}
-            <div className="flex items-center border border-border rounded-btn bg-surface overflow-hidden p-0.5">
+            <div className="flex items-center border border-border rounded-btn bg-surface overflow-hidden p-0.5 shrink-0">
               <Button
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 size="iconSm"
@@ -311,7 +311,7 @@ export default function ProjectsPage() {
 
         {/* Empty state when 0 projects */}
         {!isLoading && projects.length === 0 && (
-          <div className="rounded-card border border-dashed border-border bg-surface p-12 text-center space-y-3">
+          <div className="rounded-card border border-dashed border-border bg-surface p-8 sm:p-12 text-center space-y-3">
             <h3 className="text-sm font-semibold text-foreground">
               Nenhum projeto salvo
             </h3>
@@ -358,12 +358,12 @@ export default function ProjectsPage() {
 
         {/* Grid View Mode */}
         {viewMode === 'grid' && filteredProjects.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4">
             {filteredProjects.map((p) => (
               <div
                 key={p.id}
                 onClick={() => router.push(`/editor?project=${p.id}`)}
-                className="group relative flex flex-col justify-between rounded-card border border-border bg-surface hover:border-primary/40 hover:shadow-raised hover:-translate-y-0.5 transition-all duration-standard ease-out-editorial cursor-pointer p-4 min-h-[190px]"
+                className="group relative flex flex-col justify-between rounded-card border border-border bg-surface hover:border-primary/40 hover:shadow-raised hover:-translate-y-0.5 transition-all duration-standard ease-out-editorial cursor-pointer p-3.5 sm:p-4 min-h-[175px] sm:min-h-[190px]"
               >
                 {/* Top Bar: Providers & Actions */}
                 <div>
@@ -387,7 +387,7 @@ export default function ProjectsPage() {
                       <button
                         onClick={(e) => handleToggleFavorite(e, p)}
                         className={cn(
-                          'p-1 rounded-sm transition-colors',
+                          'p-1.5 rounded-sm transition-colors',
                           p.isFavorite
                             ? 'text-amber-500 hover:text-amber-600'
                             : 'text-foreground-secondary/40 hover:text-foreground-secondary'
@@ -405,7 +405,7 @@ export default function ProjectsPage() {
                             e.stopPropagation();
                             setActiveMenuId(activeMenuId === p.id ? null : p.id);
                           }}
-                          className="p-1 rounded-sm text-foreground-secondary hover:text-foreground hover:bg-surface-muted"
+                          className="p-1.5 rounded-sm text-foreground-secondary hover:text-foreground hover:bg-surface-muted"
                           title="Opções"
                           aria-label="Opções"
                         >
@@ -415,7 +415,7 @@ export default function ProjectsPage() {
                         {activeMenuId === p.id && (
                           <div
                             onClick={(e) => e.stopPropagation()}
-                            className="feedback-surface absolute right-0 top-6 z-30 w-36 p-1 text-xs space-y-0.5"
+                            className="feedback-surface absolute right-0 top-7 z-30 w-36 p-1 text-xs space-y-0.5"
                           >
                             <button
                               onClick={() => router.push(`/editor?project=${p.id}`)}
@@ -476,13 +476,13 @@ export default function ProjectsPage() {
                       </Button>
                     </div>
                   ) : (
-                    <h3 className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                       {p.title}
                     </h3>
                   )}
 
                   {/* Chips of Representative Services */}
-                  <div className="flex flex-wrap gap-1 mt-2.5">
+                  <div className="flex flex-wrap gap-1 mt-2 sm:mt-2.5">
                     {p.services.length > 0 ? (
                       <>
                         {p.services.slice(0, 3).map((svcId) => {
@@ -513,7 +513,7 @@ export default function ProjectsPage() {
                         )}
                       </>
                     ) : (
-                      <span className="text-[11px] text-foreground-secondary/60 italic">
+                      <span className="text-[10px] sm:text-[11px] text-foreground-secondary/60 italic">
                         Diagrama vazio
                       </span>
                     )}
@@ -521,9 +521,9 @@ export default function ProjectsPage() {
                 </div>
 
                 {/* Footer: Date & Connections */}
-                <div className="pt-3 border-t border-border/60 flex items-center justify-between text-[11px] text-foreground-secondary mt-3">
-                  <span>{formatRelativeDate(p.updatedAt)}</span>
-                  <span className="flex items-center gap-1 font-medium text-foreground">
+                <div className="pt-2.5 sm:pt-3 border-t border-border/60 flex items-center justify-between text-[10px] sm:text-[11px] text-foreground-secondary mt-2.5 sm:mt-3">
+                  <span className="truncate">{formatRelativeDate(p.updatedAt)}</span>
+                  <span className="flex items-center gap-1 font-medium text-foreground shrink-0 ml-1">
                     <Share2 size={11} className="text-foreground-secondary" />
                     <span>{p.edgeCount} {p.edgeCount === 1 ? 'conexão' : 'conexões'}</span>
                   </span>
@@ -540,9 +540,9 @@ export default function ProjectsPage() {
               <div
                 key={p.id}
                 onClick={() => router.push(`/editor?project=${p.id}`)}
-                className="flex items-center justify-between p-3.5 hover:bg-surface-muted/50 transition-colors cursor-pointer gap-4"
+                className="flex items-center justify-between p-2.5 sm:p-3.5 hover:bg-surface-muted/50 transition-colors cursor-pointer gap-2 sm:gap-4"
               >
-                <div className="flex items-center gap-3 overflow-hidden flex-1">
+                <div className="flex items-center gap-2 sm:gap-3 overflow-hidden flex-1 min-w-0">
                   <button
                     onClick={(e) => handleToggleFavorite(e, p)}
                     className={cn(
@@ -554,7 +554,7 @@ export default function ProjectsPage() {
                     <Star size={14} className={p.isFavorite ? 'fill-amber-400' : ''} />
                   </button>
 
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-1 shrink-0">
                     {p.providers.map((prov) => (
                       <span key={prov} className="inline-flex">
                         <ProviderIcon providerId={prov} size={15} />
@@ -562,11 +562,11 @@ export default function ProjectsPage() {
                     ))}
                   </div>
 
-                  <div className="text-xs font-semibold text-foreground truncate max-w-xs sm:max-w-md">
+                  <div className="text-xs font-semibold text-foreground truncate min-w-0 flex-1">
                     {p.title}
                   </div>
 
-                  <div className="hidden md:flex items-center gap-1 overflow-hidden">
+                  <div className="hidden lg:flex items-center gap-1 overflow-hidden">
                     {p.services.slice(0, 2).map((svcId) => {
                       const svc = getCatalogServiceById(svcId);
                       return (
@@ -581,11 +581,11 @@ export default function ProjectsPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 shrink-0 text-xs text-foreground-secondary">
-                  <span className="hidden sm:inline">{p.nodeCount} nós • {p.edgeCount} conexões</span>
-                  <span className="text-[11px]">{formatRelativeDate(p.updatedAt)}</span>
+                <div className="flex items-center gap-2 sm:gap-6 shrink-0 text-xs text-foreground-secondary">
+                  <span className="hidden sm:inline text-[11px]">{p.nodeCount} nós • {p.edgeCount} conexões</span>
+                  <span className="text-[10px] sm:text-[11px] whitespace-nowrap">{formatRelativeDate(p.updatedAt)}</span>
 
-                  <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center gap-0.5" onClick={(e) => e.stopPropagation()}>
                     <Button
                       variant="ghost"
                       size="iconSm"
@@ -614,8 +614,8 @@ export default function ProjectsPage() {
 
       {/* Delete Confirmation Modal */}
       {deletingProject && (
-        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="feedback-surface w-full max-w-sm p-5 space-y-4">
+        <div className="feedback-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
+          <div className="feedback-surface w-full max-w-sm p-4 sm:p-5 space-y-4">
             <div className="flex items-center gap-2 text-destructive font-semibold text-sm">
               <AlertTriangle size={18} />
               <span>Confirmar Exclusão</span>

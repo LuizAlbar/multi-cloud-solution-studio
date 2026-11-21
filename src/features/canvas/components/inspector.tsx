@@ -57,8 +57,8 @@ export function Inspector({ isOpen, onToggle }: InspectorProps) {
     <aside
       aria-label="Painel de propriedades do elemento"
       className={cn(
-        'relative flex flex-col border-l border-border bg-surface transition-all duration-standard z-10 select-none shrink-0 h-full',
-        isOpen ? 'w-[355px]' : 'w-0'
+        'fixed lg:relative top-14 sm:top-16 lg:top-0 bottom-0 right-0 z-30 flex flex-col border-l border-border bg-surface transition-all duration-standard select-none shrink-0 h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] lg:h-full shadow-raised lg:shadow-none',
+        isOpen ? 'w-[310px] sm:w-[355px] max-w-[88vw]' : 'w-0'
       )}
     >
       {/* Toggle Button */}
